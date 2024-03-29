@@ -1,18 +1,19 @@
-.page {
+/* _content/Grooming_Scheduler/Components/Layout/MainLayout.razor.rz.scp.css */
+.page[b-q4dla4uv7a] {
     position: relative;
     display: flex;
     flex-direction: column;
 }
 
-main {
+main[b-q4dla4uv7a] {
     flex: 1;
 }
 
-.sidebar {
+.sidebar[b-q4dla4uv7a] {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
 
-.top-row {
+.top-row[b-q4dla4uv7a] {
     background-color: #f7f7f7;
     border-bottom: 1px solid #d6d5d5;
     justify-content: flex-end;
@@ -21,62 +22,62 @@ main {
     align-items: center;
 }
 
-    .top-row ::deep a, .top-row ::deep .btn-link {
+    .top-row[b-q4dla4uv7a]  a, .top-row[b-q4dla4uv7a]  .btn-link {
         white-space: nowrap;
         margin-left: 1.5rem;
         text-decoration: none;
     }
 
-    .top-row ::deep a:hover, .top-row ::deep .btn-link:hover {
+    .top-row[b-q4dla4uv7a]  a:hover, .top-row[b-q4dla4uv7a]  .btn-link:hover {
         text-decoration: underline;
     }
 
-    .top-row ::deep a:first-child {
+    .top-row[b-q4dla4uv7a]  a:first-child {
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
 @media (max-width: 640.98px) {
-    .top-row {
+    .top-row[b-q4dla4uv7a] {
         justify-content: space-between;
     }
 
-    .top-row ::deep a, .top-row ::deep .btn-link {
+    .top-row[b-q4dla4uv7a]  a, .top-row[b-q4dla4uv7a]  .btn-link {
         margin-left: 0;
     }
 }
 
 @media (min-width: 641px) {
-    .page {
+    .page[b-q4dla4uv7a] {
         flex-direction: row;
     }
 
-    .sidebar {
+    .sidebar[b-q4dla4uv7a] {
         width: 250px;
         height: 100vh;
         position: sticky;
         top: 0;
     }
 
-    .top-row {
+    .top-row[b-q4dla4uv7a] {
         position: sticky;
         top: 0;
         z-index: 1;
     }
 
-    .top-row.auth ::deep a:first-child {
+    .top-row.auth[b-q4dla4uv7a]  a:first-child {
         flex: 1;
         text-align: right;
         width: 0;
     }
 
-    .top-row, article {
+    .top-row[b-q4dla4uv7a], article[b-q4dla4uv7a] {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
     }
 }
 
-#blazor-error-ui {
+#blazor-error-ui[b-q4dla4uv7a] {
     background: lightyellow;
     bottom: 0;
     box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
@@ -88,7 +89,7 @@ main {
     z-index: 1000;
 }
 
-    #blazor-error-ui .dismiss {
+    #blazor-error-ui .dismiss[b-q4dla4uv7a] {
         cursor: pointer;
         position: absolute;
         right: 0.75rem;

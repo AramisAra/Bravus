@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/Grooming_Scheduler.props" />
+</Project>

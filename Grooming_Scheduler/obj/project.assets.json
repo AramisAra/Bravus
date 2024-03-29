@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/ara/Grooming_Scheduler/Grooming_Scheduler.csproj",
+      "projectUniqueName": "/home/ara/Personal_projects/Grooming_Scheduler/Grooming_Scheduler/Grooming_Scheduler.csproj",
       "projectName": "Grooming_Scheduler",
-      "projectPath": "/home/ara/Grooming_Scheduler/Grooming_Scheduler.csproj",
+      "projectPath": "/home/ara/Personal_projects/Grooming_Scheduler/Grooming_Scheduler/Grooming_Scheduler.csproj",
       "packagesPath": "/home/ara/.nuget/packages/",
-      "outputPath": "/home/ara/Grooming_Scheduler/obj/",
+      "outputPath": "/home/ara/Personal_projects/Grooming_Scheduler/Grooming_Scheduler/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/ara/.nuget/NuGet/NuGet.Config"
