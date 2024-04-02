@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "i8wPjkuWSdZwHyy2PC0ZBNB1YFyf4HZ2QVEKUjlwG5Y=",
+  "Hash": "HkLEfQn6dm7iQt7ZkAFmqDmfhsNo/q4T34o9/ACQZRY=",
   "Source": "Grooming_Scheduler",
   "BasePath": "_content/Grooming_Scheduler",
   "Mode": "Default",
@@ -10,17 +10,55 @@
     {
       "Name": "Grooming_Scheduler/wwwroot",
       "Source": "Grooming_Scheduler",
-      "ContentRoot": "/home/ara/Personal_projects/Grooming_Scheduler/Grooming_Scheduler/wwwroot/",
+      "ContentRoot": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/wwwroot/",
       "BasePath": "_content/Grooming_Scheduler",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "/home/ara/Personal_projects/Grooming_Scheduler/Grooming_Scheduler/wwwroot/app.css",
+      "Identity": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/obj/Debug/net8.0/scopedcss/bundle/Grooming_Scheduler.styles.css",
+      "SourceId": "Grooming_Scheduler",
+      "SourceType": "Computed",
+      "ContentRoot": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/obj/Debug/net8.0/scopedcss/bundle/",
+      "BasePath": "_content/Grooming_Scheduler",
+      "RelativePath": "Grooming_Scheduler.styles.css",
+      "AssetKind": "All",
+      "AssetMode": "CurrentProject",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ApplicationBundle",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/obj/Debug/net8.0/scopedcss/bundle/Grooming_Scheduler.styles.css"
+    },
+    {
+      "Identity": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/obj/Debug/net8.0/scopedcss/projectbundle/Grooming_Scheduler.bundle.scp.css",
+      "SourceId": "Grooming_Scheduler",
+      "SourceType": "Computed",
+      "ContentRoot": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/obj/Debug/net8.0/scopedcss/projectbundle/",
+      "BasePath": "_content/Grooming_Scheduler",
+      "RelativePath": "Grooming_Scheduler.bundle.scp.css",
+      "AssetKind": "All",
+      "AssetMode": "Reference",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ProjectBundle",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/obj/Debug/net8.0/scopedcss/projectbundle/Grooming_Scheduler.bundle.scp.css"
+    },
+    {
+      "Identity": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/wwwroot/app.css",
       "SourceId": "Grooming_Scheduler",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/ara/Personal_projects/Grooming_Scheduler/Grooming_Scheduler/wwwroot/",
+      "ContentRoot": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/wwwroot/",
       "BasePath": "_content/Grooming_Scheduler",
       "RelativePath": "app.css",
       "AssetKind": "All",
@@ -36,10 +74,10 @@
       "OriginalItemSpec": "wwwroot/app.css"
     },
     {
-      "Identity": "/home/ara/Personal_projects/Grooming_Scheduler/Grooming_Scheduler/wwwroot/bootstrap/bootstrap.min.css",
+      "Identity": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/wwwroot/bootstrap/bootstrap.min.css",
       "SourceId": "Grooming_Scheduler",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/ara/Personal_projects/Grooming_Scheduler/Grooming_Scheduler/wwwroot/",
+      "ContentRoot": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/wwwroot/",
       "BasePath": "_content/Grooming_Scheduler",
       "RelativePath": "bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -55,10 +93,10 @@
       "OriginalItemSpec": "wwwroot/bootstrap/bootstrap.min.css"
     },
     {
-      "Identity": "/home/ara/Personal_projects/Grooming_Scheduler/Grooming_Scheduler/wwwroot/bootstrap/bootstrap.min.css.map",
+      "Identity": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/wwwroot/bootstrap/bootstrap.min.css.map",
       "SourceId": "Grooming_Scheduler",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/ara/Personal_projects/Grooming_Scheduler/Grooming_Scheduler/wwwroot/",
+      "ContentRoot": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/wwwroot/",
       "BasePath": "_content/Grooming_Scheduler",
       "RelativePath": "bootstrap/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -74,10 +112,10 @@
       "OriginalItemSpec": "wwwroot/bootstrap/bootstrap.min.css.map"
     },
     {
-      "Identity": "/home/ara/Personal_projects/Grooming_Scheduler/Grooming_Scheduler/wwwroot/favicon.png",
+      "Identity": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/wwwroot/favicon.png",
       "SourceId": "Grooming_Scheduler",
       "SourceType": "Discovered",
-      "ContentRoot": "/home/ara/Personal_projects/Grooming_Scheduler/Grooming_Scheduler/wwwroot/",
+      "ContentRoot": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/wwwroot/",
       "BasePath": "_content/Grooming_Scheduler",
       "RelativePath": "favicon.png",
       "AssetKind": "All",

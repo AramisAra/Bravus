@@ -1,19 +1,23 @@
 {
   "Files": [
     {
-      "Id": "/home/ara/Personal_projects/Grooming_Scheduler/Grooming_Scheduler/wwwroot/app.css",
+      "Id": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/obj/Debug/net8.0/scopedcss/projectbundle/Grooming_Scheduler.bundle.scp.css",
+      "PackagePath": "staticwebassets/Grooming_Scheduler.bundle.scp.css"
+    },
+    {
+      "Id": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/wwwroot/app.css",
       "PackagePath": "staticwebassets/app.css"
     },
     {
-      "Id": "/home/ara/Personal_projects/Grooming_Scheduler/Grooming_Scheduler/wwwroot/bootstrap/bootstrap.min.css",
+      "Id": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/wwwroot/bootstrap/bootstrap.min.css",
       "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css"
     },
     {
-      "Id": "/home/ara/Personal_projects/Grooming_Scheduler/Grooming_Scheduler/wwwroot/bootstrap/bootstrap.min.css.map",
+      "Id": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/wwwroot/bootstrap/bootstrap.min.css.map",
       "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css.map"
     },
     {
-      "Id": "/home/ara/Personal_projects/Grooming_Scheduler/Grooming_Scheduler/wwwroot/favicon.png",
+      "Id": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/wwwroot/favicon.png",
       "PackagePath": "staticwebassets/favicon.png"
     },
     {
