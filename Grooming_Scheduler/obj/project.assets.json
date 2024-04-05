@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "/home/ara/.nuget/packages/": {}
+    "/home/bradley/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/Grooming_Scheduler.csproj",
+      "projectUniqueName": "/home/bradley/projects/personal/Grooming_Scheduler/Grooming_Scheduler/Grooming_Scheduler.csproj",
       "projectName": "Grooming_Scheduler",
-      "projectPath": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/Grooming_Scheduler.csproj",
-      "packagesPath": "/home/ara/.nuget/packages/",
-      "outputPath": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/obj/",
+      "projectPath": "/home/bradley/projects/personal/Grooming_Scheduler/Grooming_Scheduler/Grooming_Scheduler.csproj",
+      "packagesPath": "/home/bradley/.nuget/packages/",
+      "outputPath": "/home/bradley/projects/personal/Grooming_Scheduler/Grooming_Scheduler/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/ara/.nuget/NuGet/NuGet.Config"
+        "/home/bradley/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -38,6 +38,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -54,12 +59,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.3, 8.0.3]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -68,7 +67,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.103/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

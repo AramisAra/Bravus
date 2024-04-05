@@ -1,29 +1,23 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-
-    <header class="bg-gray-800 text-white fixed top-0 w-full z-10">
-        <div class="container mx-auto flex items-center justify-between h-16 px-4">
-            <a href="/" class="text-xl font-bold">Your App</a>
-
+<div>
+    <div class="content bg-purple-300 mx-auto flex items-center justify-between h-16 px-4">
+        <a href="/" class="text-xl font-bold hover:text-teal-300">Grooming Scheduler</a>
         <nav>
             <ul class="flex space-x-4">
-                <li><a href="/" class="hover:text-gray-300">Home</a></li>
-                <li><a href="/about" class="hover:text-gray-300">About</a></li>
-                <li><a href="/contact" class="hover:text-gray-300">Contact</a></li>
+                <li><a href="/" class="hover:text-teal-300">Home</a></li>
+                <li><a href="/about" class="hover:text-teal-300">About</a></li>
+                <li><a href="/contact" class="hover:text-teal-300">Contact</a></li>
             </ul>
-    </nav>
-  </div>
-</header>
-
-
-        <article class="content px-4">
-            @Body
-        </article>
+        </nav>
+    </div>
+    <article class="content px-20 bg-gray-200 hover:text-teal-700 h-20">
+        @Body
+    </article>
 </div>
 
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+<footer class="containers px-20 bg-purple-300 flex items-center justify-between text-black hover:text-teal-700 h-16">
+    <li><a class="hover:text-teal-300">Trademark</a></li>
+    <li><a href="/easter_egg class=" hover:text-teal-100">Made by Aramis</a></li>
+    <li><a class="hover:text-teal-300">2024</a></li>
+</footer>

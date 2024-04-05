@@ -1,10 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nWjSi8XTZ7e+lxbpmQLtH4f098omZzlk7+RD6jJMZs1laU38j1oRtNKxGliGWYYqMVc9pihTuzRqmWWBxB4GHA==",
+  "dgSpecHash": "pFkgXreQo5zWkU9cwfpBwLNWk9JKx+MHtQg401hIsvbxs8gGgTFxJxcYpt3C/lb2Fd3frtbl+y/XA0VDWyGvXQ==",
   "success": true,
-  "projectFilePath": "/home/ara/Grooming_Scheduler/Grooming_Scheduler/Grooming_Scheduler.csproj",
-  "expectedPackageFiles": [
-    "/home/ara/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.3/microsoft.aspnetcore.app.ref.8.0.3.nupkg.sha512"
-  ],
+  "projectFilePath": "/home/bradley/projects/personal/Grooming_Scheduler/Grooming_Scheduler/Grooming_Scheduler.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }
