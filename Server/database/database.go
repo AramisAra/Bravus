@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	models "github.com/AramisAra/Grooming_App/Database/Models"
+	models "github.com/AramisAra/GroomingApp/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

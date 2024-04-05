@@ -1,9 +1,8 @@
-module github.com/AramisAra/Grooming_App
+module github.com/AramisAra/GroomingApp
 
-go 1.22.1
+go 1.22.2
 
 require (
-	github.com/gofiber/fiber v1.14.6
 	github.com/gofiber/fiber/v2 v2.52.4
 	gorm.io/driver/postgres v1.5.7
 	gorm.io/gorm v1.25.9
@@ -11,9 +10,7 @@ require (
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/gofiber/utils v0.0.10 // indirect
 	github.com/google/uuid v1.5.0 // indirect
-	github.com/gorilla/schema v1.1.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
 	github.com/jackc/pgx/v5 v5.4.3 // indirect
