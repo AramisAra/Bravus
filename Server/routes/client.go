@@ -76,3 +76,22 @@ func UpdateClient(c *fiber.Ctx) error {
 	responseClient := utils.CreateClientResponse(client)
 	return c.Status(200).JSON(responseClient)
 }
+
+func DeleteClient(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+
+	if err != nil {
+		return c.Status(400).JSON("Please enter a valid ID: It must be a integer")
+	}
+	client := models.Client{}
+
+	if err := utils.FindClient(id, &client); err != nil {
+		return c.Status(400).JSON(err.Error())
+	}
+
+	if err := database.Database.Db.Delete(&client).Error; err != nil {
+		return c.Status(404).JSON(err.Error())
+	}
+
+	return c.Status(200).JSON("Client deleted successfully")
+}

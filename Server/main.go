@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"os"
+
 	database "github.com/AramisAra/GroomingApp/database"
 	routes "github.com/AramisAra/GroomingApp/routes"
 	"github.com/gofiber/fiber/v2"
@@ -18,10 +21,15 @@ func setupRoutes(app *fiber.App) {
 	app.Get("/tests/listClients", routes.ListClients)
 	app.Get("/tests/getClient/:id", routes.GetClient)
 	app.Put("tests/updateClient/:id", routes.UpdateClient)
+	app.Delete("tests/deleteClient/:id", routes.DeleteClient)
+	// Service's dataRoutes
+
 }
 
 func main() {
-	database.ConnectDb()
+	dsn := os.Getenv("dsn")
+	fmt.Println(dsn)
+	database.ConnectDb(dsn)
 	app := fiber.New()
 
 	setupRoutes(app)

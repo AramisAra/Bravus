@@ -17,9 +17,8 @@ type DbInstance struct {
 var Database DbInstance
 
 // ConnectDb establishes a connection to the database and performs necessary migrations.
-func ConnectDb() {
-	sqlDb := "host=devdatabase.c582ws226em9.us-east-1.rds.amazonaws.com user=Ara_Bard password=DogGrooming port=5432 database=dog_grooming"
-	db, err := gorm.Open(postgres.Open(sqlDb), &gorm.Config{})
+func ConnectDb(dsn string) {
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Failed to connect: ", err.Error())
 		os.Exit(2)

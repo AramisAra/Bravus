@@ -7,6 +7,7 @@ import (
 	"github.com/AramisAra/GroomingApp/models"
 )
 
+// Client's ulits code
 type ClientSerializer struct {
 	ID       uint   `json:"id"`
 	FullName string `json:"full_name"`
@@ -37,4 +38,17 @@ func FindClient(id int, client *models.Client) error {
 		return errors.New("client not found")
 	}
 	return nil
+}
+
+// Service's ulits code
+
+type ServiceSerializer struct {
+	ID          uint   `json:"id"`
+	ServiceName string `json:"service_name"`
+	ServiceDesc string `json:"service_desc"`
+	ServiceCode string `json:"service_code"`
+}
+
+func CreateServiceResponse(service models.Service) ServiceSerializer {
+	return ServiceSerializer{ID: service.ID, ServiceName: service.NameService, ServiceDesc: service.ServiceDesc, ServiceCode: service.ServiceCode}
 }

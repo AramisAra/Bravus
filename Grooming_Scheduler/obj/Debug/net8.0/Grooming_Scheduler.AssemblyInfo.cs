@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Grooming_Scheduler")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+96d71230fe5da1210f4da9ac66a189df84966b65")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fbb3ae14c9c4be1ad9f7381f6d4a48639dbff9f2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Grooming_Scheduler")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Grooming_Scheduler")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
