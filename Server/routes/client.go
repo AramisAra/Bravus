@@ -41,10 +41,38 @@ func GetClient(c *fiber.Ctx) error {
 
 	client := models.Client{}
 
-	if err := utils.FindClient(id, &client); if err != nil {
+	if err := utils.FindClient(id, &client); err != nil {
 		return c.Status(404).JSON(err.Error())
 	}
 	responseClient := utils.CreateClientResponse(client)
 
+	return c.Status(200).JSON(responseClient)
+}
+
+func UpdateClient(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return c.Status(400).JSON("Please enter a valid ID: It must be a number")
+	}
+	client := models.Client{}
+	if err := utils.FindClient(id, &client); err != nil {
+		return c.Status(404).JSON(err.Error())
+	}
+
+	var updateClient utils.UpdateClientInput
+
+	if err := c.BodyParser(&updateClient); err != nil {
+		return c.Status(400).JSON(err.Error())
+	}
+
+	client.Full_Name = updateClient.FullName
+	client.Email = updateClient.Email
+	client.Phone = updateClient.Phone
+	client.DogBreed = updateClient.DogBreed
+	client.DogName = updateClient.DogName
+	client.DogAge = updateClient.DogAge
+	database.Database.Db.Save(&client)
+
+	responseClient := utils.CreateClientResponse(client)
 	return c.Status(200).JSON(responseClient)
 }

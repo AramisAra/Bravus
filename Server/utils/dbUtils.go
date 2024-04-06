@@ -17,6 +17,15 @@ type ClientSerializer struct {
 	DogAge   uint   `json:"dog_age"`
 }
 
+type UpdateClientInput struct {
+	FullName string `json:"full_name"`
+	Email    string `json:"email"`
+	Phone    uint   `json:"phone"`
+	DogBreed string `json:"dog_breed"`
+	DogName  string `json:"dog_name"`
+	DogAge   uint   `json:"dog_age"`
+}
+
 func CreateClientResponse(client models.Client) ClientSerializer {
 	return ClientSerializer{ID: client.ID, FullName: client.Full_Name, Email: client.Email, Phone: client.Phone, DogBreed: client.DogBreed, DogName: client.DogName, DogAge: client.DogAge}
 }
@@ -24,8 +33,8 @@ func CreateClientResponse(client models.Client) ClientSerializer {
 func FindClient(id int, client *models.Client) error {
 	database.Database.Db.Find(&client, "id = ?", id)
 
-	if err != nil {
-		return errors.New("Client not found")
+	if client.ID == 0 {
+		return errors.New("client not found")
 	}
 	return nil
 }

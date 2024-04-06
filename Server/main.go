@@ -10,15 +10,16 @@ func HealthCheck(c *fiber.Ctx) error {
 	return c.SendString("OK")
 }
 
-// Import the missing package
-
 func setupRoutes(app *fiber.App) {
 	// HealthCheck
 	app.Get("/health", HealthCheck)
 	// Client's dataRoutes
 	app.Post("/tests/createClients", routes.CreateClient)
 	app.Get("/tests/listClients", routes.ListClients)
+	app.Get("/tests/getClient/:id", routes.GetClient)
+	app.Put("tests/updateClient/:id", routes.UpdateClient)
 }
+
 func main() {
 	database.ConnectDb()
 	app := fiber.New()
