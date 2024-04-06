@@ -36,7 +36,7 @@ func ListClients(c *fiber.Ctx) error {
 func GetClient(c *fiber.Ctx) error {
 	id, err := c.ParamsInt("id")
 	if err != nil {
-		return c.Status(400).JSON("Please enter a valid ID: It must be a number")
+		return c.Status(400).JSON("Please enter a valid id: An integer")
 	}
 
 	client := models.Client{}
@@ -52,7 +52,7 @@ func GetClient(c *fiber.Ctx) error {
 func UpdateClient(c *fiber.Ctx) error {
 	id, err := c.ParamsInt("id")
 	if err != nil {
-		return c.Status(400).JSON("Please enter a valid ID: It must be a number")
+		return c.Status(400).JSON("Please enter a valid id: An integer")
 	}
 	client := models.Client{}
 	if err := utils.FindClient(id, &client); err != nil {
@@ -81,7 +81,7 @@ func DeleteClient(c *fiber.Ctx) error {
 	id, err := c.ParamsInt("id")
 
 	if err != nil {
-		return c.Status(400).JSON("Please enter a valid ID: It must be a integer")
+		return c.Status(400).JSON("Please enter a valid id: An integer")
 	}
 	client := models.Client{}
 
@@ -93,5 +93,5 @@ func DeleteClient(c *fiber.Ctx) error {
 		return c.Status(404).JSON(err.Error())
 	}
 
-	return c.Status(200).JSON("Client deleted successfully")
+	return c.Status(200).JSON("Client was deleted")
 }
