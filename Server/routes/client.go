@@ -5,7 +5,13 @@ import (
 	models "github.com/AramisAra/GroomingApp/models"
 	"github.com/AramisAra/GroomingApp/utils"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
+
+func isValidUUID(id string) bool {
+	_, err := uuid.Parse(id)
+	return err == nil
+}
 
 func CreateClient(c *fiber.Ctx) error {
 	var client models.Client
@@ -34,14 +40,23 @@ func ListClients(c *fiber.Ctx) error {
 }
 
 func GetClient(c *fiber.Ctx) error {
-	id, err := c.ParamsInt("id")
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
+	}
+
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
+
+	parsedId, err := uuid.Parse(id)
 	if err != nil {
-		return c.Status(400).JSON("Please enter a valid id: An integer")
+		return c.Status(fiber.StatusInternalServerError).SendString("Error parsing ID: " + err.Error())
 	}
 
 	client := models.Client{}
 
-	if err := utils.FindClient(id, &client); err != nil {
+	if err := utils.FindClient(parsedId, &client); err != nil {
 		return c.Status(404).JSON(err.Error())
 	}
 	responseClient := utils.CreateClientResponse(client)
@@ -50,12 +65,22 @@ func GetClient(c *fiber.Ctx) error {
 }
 
 func UpdateClient(c *fiber.Ctx) error {
-	id, err := c.ParamsInt("id")
-	if err != nil {
-		return c.Status(400).JSON("Please enter a valid id: An integer")
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
 	}
+
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
+
+	parsedId, err := uuid.Parse(id)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("Error parsing ID: " + err.Error())
+	}
+
 	client := models.Client{}
-	if err := utils.FindClient(id, &client); err != nil {
+	if err := utils.FindClient(parsedId, &client); err != nil {
 		return c.Status(404).JSON(err.Error())
 	}
 
@@ -75,14 +100,23 @@ func UpdateClient(c *fiber.Ctx) error {
 }
 
 func DeleteClient(c *fiber.Ctx) error {
-	id, err := c.ParamsInt("id")
-
-	if err != nil {
-		return c.Status(400).JSON("Please enter a valid id: An integer")
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
 	}
+
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
+
+	parsedId, err := uuid.Parse(id)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("Error parsing ID: " + err.Error())
+	}
+
 	client := models.Client{}
 
-	if err := utils.FindClient(id, &client); err != nil {
+	if err := utils.FindClient(parsedId, &client); err != nil {
 		return c.Status(400).JSON(err.Error())
 	}
 

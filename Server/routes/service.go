@@ -5,6 +5,7 @@ import (
 	"github.com/AramisAra/GroomingApp/models"
 	"github.com/AramisAra/GroomingApp/utils"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
 
 func CreateService(c *fiber.Ctx) error {
@@ -34,15 +35,23 @@ func ListService(c *fiber.Ctx) error {
 }
 
 func GetService(c *fiber.Ctx) error {
-	id, err := c.ParamsInt("id")
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
+	}
 
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
+
+	parsedId, err := uuid.Parse(id)
 	if err != nil {
-		return c.Status(400).JSON("Please enter valid id: An integer")
+		return c.Status(fiber.StatusInternalServerError).SendString("Error parsing ID: " + err.Error())
 	}
 
 	service := models.Service{}
 
-	if err := utils.FindService(id, &service); err != nil {
+	if err := utils.FindService(parsedId, &service); err != nil {
 		return c.Status(404).JSON(err.Error())
 	}
 	responseService := utils.CreateServiceResponse(service)
@@ -51,12 +60,22 @@ func GetService(c *fiber.Ctx) error {
 }
 
 func UpdateService(c *fiber.Ctx) error {
-	id, err := c.ParamsInt("id")
-	if err != nil {
-		return c.Status(400).JSON("Please enter valid id: An integer")
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
 	}
+
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
+
+	parsedId, err := uuid.Parse(id)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("Error parsing ID: " + err.Error())
+	}
+
 	service := models.Service{}
-	if err := utils.FindService(id, &service); err != nil {
+	if err := utils.FindService(parsedId, &service); err != nil {
 		return c.Status(404).JSON(err.Error())
 	}
 
@@ -75,12 +94,22 @@ func UpdateService(c *fiber.Ctx) error {
 }
 
 func DeleteService(c *fiber.Ctx) error {
-	id, err := c.ParamsInt("id")
-	if err != nil {
-		return c.Status(400).JSON("Please enter valid id: An integer")
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
 	}
+
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
+
+	parsedId, err := uuid.Parse(id)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("Error parsing ID: " + err.Error())
+	}
+
 	service := models.Service{}
-	if err := utils.FindService(id, &service); err != nil {
+	if err := utils.FindService(parsedId, &service); err != nil {
 		return c.Status(404).JSON(err.Error())
 	}
 

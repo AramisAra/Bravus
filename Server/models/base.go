@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// Base ID model
 type Base struct {
 	ID        uuid.UUID `json:"id" gorm:"type:uuid;primaryKey;"`
 	CreatedAt time.Time

@@ -1,5 +1,6 @@
 package models
 
+// Model for animal table
 type Animals struct {
 	Base
 	Animal_Name   string `json:"animal_name"`
