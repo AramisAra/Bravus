@@ -15,8 +15,9 @@ func HealthCheck(c *fiber.Ctx) error {
 func setupRoutes(app *fiber.App) {
 	// HealthCheck
 	app.Get("/health", HealthCheck)
+	// Tests Functions
+	app.Post("/tests/createClientwithAnimal", routes.CreateClientAndAnimal)
 	// Client's dataRoutes
-	app.Post("/tests/createClients", routes.CreateClient)
 	app.Get("/tests/listClients", routes.ListClients)
 	app.Get("/tests/getClient/:uuid", routes.GetClient)
 	app.Put("tests/updateClient/:uuid", routes.UpdateClient)
