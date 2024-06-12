@@ -1,9 +1,9 @@
 package models
 
-// Model for the Client table
-type Client struct {
+type Owner struct {
 	Base
 	Full_Name string `json:"full_name"`
+	Phone     int    `json:"phone"`
 	Email     string `json:"email"`
-	Phone     uint   `json:"phone"`
+	Career    string `json:"career"`
 }

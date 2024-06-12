@@ -68,9 +68,6 @@ func UpdateClient(c *fiber.Ctx) error {
 	client.Full_Name = updateClient.FullName
 	client.Email = updateClient.Email
 	client.Phone = updateClient.Phone
-	client.DogBreed = updateClient.DogBreed
-	client.DogName = updateClient.DogName
-	client.DogAge = updateClient.DogAge
 	database.Database.Db.Save(&client)
 
 	responseClient := utils.CreateClientResponse(client)
