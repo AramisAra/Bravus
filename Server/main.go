@@ -18,16 +18,17 @@ func setupRoutes(app *fiber.App) {
 	// Tests Functions
 	app.Post("/tests/createClientwithAnimal", routes.CreateClientAndAnimal)
 	// Client's dataRoutes
+	app.Post("/tests/createAnimal/:uuid", routes.CreateAnimal)
 	app.Get("/tests/listClients", routes.ListClients)
 	app.Get("/tests/getClient/:uuid", routes.GetClient)
 	app.Put("tests/updateClient/:uuid", routes.UpdateClient)
-	//app.Delete("tests/deleteClient/:uuid", routes.DeleteClient)
+	app.Delete("tests/deleteClient/:uuid", routes.DeleteClient)
 	// Service's dataRoutes
 	app.Post("/tests/createServices", routes.CreateService)
 	app.Get("/tests/listServices", routes.ListService)
 	app.Get("/tests/getService/:uuid", routes.GetService)
 	app.Put("/tests/updateSevice/:uuid", routes.UpdateService)
-	//app.Delete("/tests/deleteService/:uuid", routes.DeleteClient)
+	app.Delete("/tests/deleteService/:uuid", routes.DeleteService)
 	// Owner's dataRoutes
 	app.Post("/tests/createOwner", routes.CreateOwner)
 	app.Get("/tests/listOwners", routes.ListOwners)
@@ -35,11 +36,9 @@ func setupRoutes(app *fiber.App) {
 	app.Put("/tests/updateOwner/:uuid", routes.UpdateOwner)
 	app.Delete("/tests/deleteOwner/:uuid", routes.DeleteOwner)
 	//Animal's dataRoutes
-	app.Post("/tests/createAnimal", routes.CreateAnimal)
 	app.Get("/tests/listAnimals", routes.ListAnimals)
 	app.Get("/tests/getAnimal/:uuid", routes.GetAnimal)
 	app.Put("/tests/updateAnimal/:uuid", routes.UpdateAnimal)
-	app.Delete("/tests/deleteAnimal/:uuid", routes.DeleteAnimal)
 	// Appointment's dataroutes --- This include the animal appointments routes too
 
 }

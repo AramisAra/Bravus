@@ -6,6 +6,6 @@ type Client struct {
 	Full_Name   string    `json:"full_name"`
 	Email       string    `json:"email"`
 	Phone       uint      `json:"phone"`
-	AnimalRefer []Animals `gorm:"foreignKey:Client_id;Preload:true"`
+	AnimalRefer []Animals `gorm:"foreignKey:Client_id;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Animals     Animals   `json:"animals"`
 }

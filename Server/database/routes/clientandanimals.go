@@ -50,6 +50,41 @@ func CreateClientAndAnimal(c *fiber.Ctx) error {
 	return c.Status(201).JSON(Response)
 }
 
+// For Creating A Second Animals
+func CreateAnimal(c *fiber.Ctx) error {
+	// Creates Client first
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
+	}
+
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
+	client := models.Client{}
+
+	database.Database.Db.Find(&client, "id = ?", id)
+
+	ClientID := client.ID
+
+	var animal models.Animals
+
+	animal.Client_id = ClientID
+	if err := c.BodyParser(&animal); err != nil {
+		return c.Status(400).JSON(err.Error())
+	}
+
+	result := database.Database.Db.Create(&animal)
+
+	if result.Error != nil {
+		return c.Status(500).JSON(result.Error)
+	}
+
+	Response := database.CreateAnimalResponse(animal)
+
+	return c.Status(201).JSON(Response)
+}
+
 // Get Clients with Animals
 func GetClient(c *fiber.Ctx) error {
 	id := c.Params("uuid")
@@ -93,7 +128,7 @@ func UpdateClient(c *fiber.Ctx) error {
 
 	client := models.Client{}
 
-	database.Database.Db.Joins("Animals").Find(&client)
+	database.Database.Db.Joins("Animals").Find(&client, "id = ?", id)
 
 	var updateClient database.UpdateClientInput
 
@@ -105,53 +140,30 @@ func UpdateClient(c *fiber.Ctx) error {
 	client.Email = updateClient.Email
 	client.Phone = updateClient.Phone
 
-	database.Database.Db.Save(&client)
+	database.Database.Db.Omit("Animals").Save(&client)
 
 	responseClient := database.CreateClientResponse(client)
 	return c.Status(200).JSON(responseClient)
 }
 
-//func DeleteClient(c *fiber.Ctx) error {
-//id := c.Params("uuid")
-//if id == "" {
-//	id = c.Query("uuid")
-//}
-
-//if !isValidUUID(id) {
-//return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
-//}
-
-//parsedId, err := uuid.Parse(id)
-//if err != nil {
-//return c.Status(fiber.StatusInternalServerError).SendString("Error parsing ID: " + err.Error())
-//}
-
-//client := models.Client{}
-
-//if err := database.FindClient(parsedId, &client); err != nil {
-//return c.Status(400).JSON(err.Error())
-//}
-
-//if err := database.Database.Db.Delete(&client).Error; err != nil {
-//return c.Status(404).JSON(err.Error())
-//}
-
-//return c.Status(200).JSON("Client was deleted")
-//}
-
-func CreateAnimal(c *fiber.Ctx) error {
-	var animal models.Animals
-	var client_id models.Client
-	animal.Client_id = client_id.ID
-
-	if err := c.BodyParser(&animal); err != nil {
-		return c.Status(400).JSON(err.Error())
+func DeleteClient(c *fiber.Ctx) error {
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
 	}
 
-	database.Database.Db.Create(&animal)
-	responseAnimal := database.CreateAnimalResponse(animal)
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
 
-	return c.Status(200).JSON(responseAnimal)
+	client := models.Client{}
+
+	database.Database.Db.Find(&client)
+	if err := database.Database.Db.Delete(&client).Error; err != nil {
+		return c.Status(404).JSON(err.Error())
+	}
+
+	return c.Status(200).JSON("Client was deleted")
 }
 
 func ListAnimals(c *fiber.Ctx) error {
@@ -177,16 +189,9 @@ func GetAnimal(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
 
-	parsedId, err := uuid.Parse(id)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString("Error parsing ID: " + err.Error())
-	}
-
 	animal := models.Animals{}
 
-	if err := database.FindAnimal(parsedId, &animal); err != nil {
-		return c.Status(404).JSON(err.Error())
-	}
+	database.Database.Db.Find(&animal)
 	responseAnimal := database.CreateAnimalResponse(animal)
 
 	return c.Status(200).JSON(responseAnimal)
@@ -202,15 +207,9 @@ func UpdateAnimal(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
 
-	parsedId, err := uuid.Parse(id)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString("Error parsing ID: " + err.Error())
-	}
-
 	animal := models.Animals{}
-	if err := database.FindAnimal(parsedId, &animal); err != nil {
-		return c.Status(404).JSON(err.Error())
-	}
+
+	database.Database.Db.Find(&animal, "id = ?", id)
 
 	var updateAnimal database.UpdateAnimalInput
 
@@ -222,33 +221,8 @@ func UpdateAnimal(c *fiber.Ctx) error {
 	animal.Animal_Specie = updateAnimal.Animal_Specie
 	animal.Animal_Age = updateAnimal.Animal_Age
 
+	database.Database.Db.Save(&animal)
+
 	responseAnimal := database.CreateAnimalResponse(animal)
 	return c.Status(200).JSON(responseAnimal)
-}
-
-func DeleteAnimal(c *fiber.Ctx) error {
-	id := c.Params("uuid")
-	if id == "" {
-		id = c.Query("uuid")
-	}
-
-	if !isValidUUID(id) {
-		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
-	}
-
-	parsedId, err := uuid.Parse(id)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString("Error parsing ID: " + err.Error())
-	}
-
-	animal := models.Animals{}
-	if err := database.FindAnimal(parsedId, &animal); err != nil {
-		return c.Status(404).JSON(err.Error())
-	}
-
-	if err := database.Database.Db.Delete(&animal).Error; err != nil {
-		return c.Status(404).JSON(err.Error())
-	}
-
-	return c.Status(200).JSON("Animal Was Deleted")
 }
