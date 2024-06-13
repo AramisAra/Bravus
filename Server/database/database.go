@@ -48,13 +48,13 @@ func CreateJoinResult(client models.Client, animal models.Animals) joinResult {
 	return joinResult{Client: client, Animal: animal}
 }
 
-// Client's ulits code
+// Client's Serializer code
 type ClientSerializer struct {
 	ID       uuid.UUID      `json:"id"`
 	FullName string         `json:"full_name"`
 	Email    string         `json:"email"`
 	Phone    uint           `json:"phone"`
-	Animal   models.Animals `json:"animal"`
+	Animals  models.Animals `json:"animals"`
 }
 
 type UpdateClientInput struct {
@@ -64,16 +64,7 @@ type UpdateClientInput struct {
 }
 
 func CreateClientResponse(client models.Client) ClientSerializer {
-	return ClientSerializer{ID: client.ID, FullName: client.Full_Name, Email: client.Email, Phone: client.Phone, Animal: client.Animal}
-}
-
-func FindClient(id uuid.UUID, client *models.Client) error {
-	Database.Db.Where("Client_id = ?", client.ID)
-	Database.Db.Preload("an")
-	if client.ID == uuid.Nil {
-		return errors.New("couldn't find client")
-	}
-	return nil
+	return ClientSerializer{ID: client.ID, FullName: client.Full_Name, Email: client.Email, Phone: client.Phone, Animals: client.Animals}
 }
 
 // Service's ulits code

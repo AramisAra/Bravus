@@ -4,7 +4,7 @@ import (
 	"os"
 
 	database "github.com/AramisAra/GroomingApp/database"
-	routes "github.com/AramisAra/GroomingApp/routes"
+	routes "github.com/AramisAra/GroomingApp/database/routes"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -21,13 +21,13 @@ func setupRoutes(app *fiber.App) {
 	app.Get("/tests/listClients", routes.ListClients)
 	app.Get("/tests/getClient/:uuid", routes.GetClient)
 	app.Put("tests/updateClient/:uuid", routes.UpdateClient)
-	app.Delete("tests/deleteClient/:uuid", routes.DeleteClient)
+	//app.Delete("tests/deleteClient/:uuid", routes.DeleteClient)
 	// Service's dataRoutes
 	app.Post("/tests/createServices", routes.CreateService)
 	app.Get("/tests/listServices", routes.ListService)
 	app.Get("/tests/getService/:uuid", routes.GetService)
 	app.Put("/tests/updateSevice/:uuid", routes.UpdateService)
-	app.Delete("/tests/deleteService/:uuid", routes.DeleteClient)
+	//app.Delete("/tests/deleteService/:uuid", routes.DeleteClient)
 	// Owner's dataRoutes
 	app.Post("/tests/createOwner", routes.CreateOwner)
 	app.Get("/tests/listOwners", routes.ListOwners)
