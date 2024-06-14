@@ -7,14 +7,12 @@ import (
 )
 
 // Models for the appointment table
-type Appointment_Human struct {
+type Appointment struct {
 	Base
-	Date              time.Time `json:"date" gorm:"DATE"`
-	Time              time.Time `json:"time" gorm:"TIME"`
-	ProfessionalRefer uuid.UUID `json:"professional_id"`
-	Professional      Owner     `gorm:"type:uuid;foreignKey:ProfessionalRefer"`
-	ClientRefer       uuid.UUID `json:"client_id"`
-	Client            Client    `gorm:"type:uuid;foreignKey:CleintRefer"`
-	ServiceRefer      uuid.UUID `json:"service_id"`
-	Service           Service   `gorm:"type:uuid;foreignKey:ServiceRefer"`
+	Date     time.Time `json:"date" gorm:"DATE"`
+	Time     time.Time `json:"time" gorm:"TIME"`
+	OwnerID  uuid.UUID `json:"ownerid"`
+	ClientID uuid.UUID `json:"clientid"`
+	AnimalID uuid.UUID `json:"animalid"`
+	Services []Service `gorm:"foreignKey:AppointmentID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"serviceid"`
 }

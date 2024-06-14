@@ -40,7 +40,7 @@ func setupRoutes(app *fiber.App) {
 	app.Get("/tests/getAnimal/:uuid", routes.GetAnimal)
 	app.Put("/tests/updateAnimal/:uuid", routes.UpdateAnimal)
 	// Appointment's dataroutes --- This include the animal appointments routes too
-
+	app.Post("/tests/createAppointment/:uuidUser/:uuidAnimal/:uuidOwner", routes.CreateAppointment)
 }
 
 func main() {

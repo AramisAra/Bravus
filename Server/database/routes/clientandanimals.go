@@ -98,15 +98,17 @@ func GetClient(c *fiber.Ctx) error {
 
 	client := models.Client{}
 
-	database.Database.Db.Joins("Animals").Find(&client)
+	database.Database.Db.Preload("Animals").Find(&client, "id = ?", id)
 
-	return c.Status(200).JSON(client)
+	response := database.CreateClientResponse(client)
+
+	return c.Status(200).JSON(response)
 }
 
 func ListClients(c *fiber.Ctx) error {
 	clients := []models.Client{}
 
-	database.Database.Db.Joins("Animals").Find(&clients)
+	database.Database.Db.Preload("Animals").Find(&clients)
 	responseClients := []database.ClientSerializer{}
 
 	for _, client := range clients {

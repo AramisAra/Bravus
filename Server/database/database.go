@@ -33,7 +33,7 @@ func ConnectDb(dsn string) {
 	log.Println("Running Migrations")
 	// migrations
 	db.AutoMigrate(&models.Client{}, &models.Owner{}, &models.Animals{},
-		&models.Service{}, &models.Appointment_Human{})
+		&models.Service{}, &models.Appointment{})
 
 	Database = DbInstance{Db: db}
 }
@@ -50,11 +50,11 @@ func CreateJoinResult(client models.Client, animal models.Animals) joinResult {
 
 // Client's Serializer code
 type ClientSerializer struct {
-	ID       uuid.UUID      `json:"id"`
-	FullName string         `json:"full_name"`
-	Email    string         `json:"email"`
-	Phone    uint           `json:"phone"`
-	Animals  models.Animals `json:"animals"`
+	ID       uuid.UUID        `json:"id"`
+	FullName string           `json:"full_name"`
+	Email    string           `json:"email"`
+	Phone    uint             `json:"phone"`
+	Animals  []models.Animals `json:"animals"`
 }
 
 type UpdateClientInput struct {
@@ -64,7 +64,8 @@ type UpdateClientInput struct {
 }
 
 func CreateClientResponse(client models.Client) ClientSerializer {
-	return ClientSerializer{ID: client.ID, FullName: client.Full_Name, Email: client.Email, Phone: client.Phone, Animals: client.Animals}
+	return ClientSerializer{ID: client.ID, FullName: client.Full_Name, Email: client.Email, Phone: client.Phone,
+		Animals: client.Animals}
 }
 
 // Service's ulits code

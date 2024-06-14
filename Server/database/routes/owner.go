@@ -10,7 +10,7 @@ import (
 func CreateOwner(c *fiber.Ctx) error {
 	var owner models.Owner
 
-	if err := c.BodyParser(owner); err != nil {
+	if err := c.BodyParser(&owner); err != nil {
 		return c.Status(400).JSON(err.Error())
 	}
 
