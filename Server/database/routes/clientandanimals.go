@@ -45,7 +45,7 @@ func CreateClientAndAnimal(c *fiber.Ctx) error {
 		return c.Status(500).JSON(result.Error)
 	}
 
-	Response := database.CreateJoinResult(client, animal)
+	Response := database.CreateJoinResultClient(client, animal)
 
 	return c.Status(201).JSON(Response)
 }
@@ -227,4 +227,23 @@ func UpdateAnimal(c *fiber.Ctx) error {
 
 	responseAnimal := database.CreateAnimalResponse(animal)
 	return c.Status(200).JSON(responseAnimal)
+}
+
+func GetAppointment(c *fiber.Ctx) error {
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
+	}
+
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
+
+	var client models.Client
+
+	database.Database.Db.Preload("Appointments").Preload("Animals").Find(&client)
+
+	response := database.CreateClientResponse(client)
+
+	return c.Status(200).JSON(response)
 }

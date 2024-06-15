@@ -39,22 +39,23 @@ func ConnectDb(dsn string) {
 }
 
 // Client's and Animal's utils.
-type joinResult struct {
+type joinResultClient struct {
 	Client models.Client  `josn:"client"`
 	Animal models.Animals `json:"animal"`
 }
 
-func CreateJoinResult(client models.Client, animal models.Animals) joinResult {
-	return joinResult{Client: client, Animal: animal}
+func CreateJoinResultClient(client models.Client, animal models.Animals) joinResultClient {
+	return joinResultClient{Client: client, Animal: animal}
 }
 
 // Client's Serializer code
 type ClientSerializer struct {
-	ID       uuid.UUID        `json:"id"`
-	FullName string           `json:"full_name"`
-	Email    string           `json:"email"`
-	Phone    uint             `json:"phone"`
-	Animals  []models.Animals `json:"animals"`
+	ID           uuid.UUID            `json:"id"`
+	FullName     string               `json:"full_name"`
+	Email        string               `json:"email"`
+	Phone        uint                 `json:"phone"`
+	Animals      []models.Animals     `json:"animals"`
+	Appointments []models.Appointment `json:"appointments"`
 }
 
 type UpdateClientInput struct {
@@ -65,7 +66,7 @@ type UpdateClientInput struct {
 
 func CreateClientResponse(client models.Client) ClientSerializer {
 	return ClientSerializer{ID: client.ID, FullName: client.Full_Name, Email: client.Email, Phone: client.Phone,
-		Animals: client.Animals}
+		Animals: client.Animals, Appointments: client.Appointments}
 }
 
 // Service's ulits code
@@ -99,11 +100,12 @@ func FindService(id uuid.UUID, service *models.Service) error {
 // Owner's ulits code
 
 type OwnerSerializer struct {
-	ID        uuid.UUID `json:"id"`
-	Full_Name string    `json:"full_name"`
-	Phone     uint      `json:"phone"`
-	Email     string    `json:"email"`
-	Career    string    `json:"career"`
+	ID           uuid.UUID            `json:"id"`
+	Full_Name    string               `json:"full_name"`
+	Phone        uint                 `json:"phone"`
+	Email        string               `json:"email"`
+	Career       string               `json:"career"`
+	Appointments []models.Appointment `json:"appointments"`
 }
 
 type UpdateOwnerInput struct {
@@ -114,7 +116,8 @@ type UpdateOwnerInput struct {
 }
 
 func CreateOwnerResponse(owner models.Owner) OwnerSerializer {
-	return OwnerSerializer{ID: owner.ID, Full_Name: owner.Full_Name, Phone: owner.Phone, Email: owner.Email, Career: owner.Career}
+	return OwnerSerializer{ID: owner.ID, Full_Name: owner.Full_Name, Phone: owner.Phone, Email: owner.Email,
+		Career: owner.Career, Appointments: owner.Appointments}
 }
 
 func FindOwner(id uuid.UUID, owner *models.Owner) error {
@@ -151,4 +154,27 @@ func FindAnimal(id uuid.UUID, animal *models.Animals) error {
 		return errors.New("couldn't find animal")
 	}
 	return nil
+}
+
+// const (
+//	layoutDate string = "2006-Jan-02"
+//	layoutTime string = "3:04pm"
+//)
+
+type AppointmentSerializer struct {
+	ClientID uuid.UUID `json:"client"`
+	OwnerID  uuid.UUID `json:"owner"`
+	AnimalID uuid.UUID `json:"animal"`
+	Date     string    `json:"date"`
+	Time     string    `json:"time"`
+}
+
+type AppointmentUpdater struct {
+	Date string `json:"date"`
+	Time string `json:"time"`
+}
+
+func CreateAppointmentResponse(appointment *models.Appointment) AppointmentSerializer {
+	return AppointmentSerializer{ClientID: appointment.ClientID, OwnerID: appointment.OwnerID, AnimalID: appointment.AnimalID,
+		Date: appointment.Date, Time: appointment.Time}
 }

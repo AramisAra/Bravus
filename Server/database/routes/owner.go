@@ -119,3 +119,22 @@ func DeleteOwner(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON("Owner Was Deleted")
 }
+
+func GetAppointmentOwner(c *fiber.Ctx) error {
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
+	}
+
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
+
+	var owner models.Owner
+
+	database.Database.Db.Preload("Appointments").Find(&owner)
+
+	response := database.CreateOwnerResponse(owner)
+
+	return c.Status(200).JSON(response)
+}

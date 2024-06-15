@@ -1,9 +1,7 @@
 package routes
 
 import (
-	"time"
-
-	"github.com/AramisAra/GroomingApp/database"
+	database "github.com/AramisAra/GroomingApp/database"
 	"github.com/AramisAra/GroomingApp/models"
 	"github.com/gofiber/fiber/v2"
 )
@@ -50,12 +48,6 @@ func CreateAppointment(c *fiber.Ctx) error {
 	appointment.OwnerID = ownerID
 	appointment.AnimalID = animalID
 
-	layoutUS := "01/01/2024"
-	var err error
-	appointment.Date, err = time.Parse(layoutUS, appointment.Date)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid appointment date format"})
-	}
 	if err := c.BodyParser(&appointment); err != nil {
 		return c.Status(400).JSON(err.Error())
 	}
@@ -66,5 +58,55 @@ func CreateAppointment(c *fiber.Ctx) error {
 		return c.Status(500).JSON(result.Error)
 	}
 
-	return c.Status(201).JSON(result)
+	response := database.CreateAppointmentResponse(&appointment)
+
+	return c.Status(201).JSON(response)
+}
+
+func DeleteAppointment(c *fiber.Ctx) error {
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
+	}
+
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
+
+	appointment := models.Appointment{}
+
+	database.Database.Db.Find(&appointment)
+	if err := database.Database.Db.Delete(&appointment).Error; err != nil {
+		return c.Status(404).JSON(err.Error())
+	}
+
+	return c.Status(200).JSON("Appointment was deleted")
+}
+
+func UpdateAppointment(c *fiber.Ctx) error {
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
+	}
+
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
+
+	var appointment models.Appointment
+	database.Database.Db.Find(&appointment, "id = ?", id)
+
+	var updateAppointment database.AppointmentUpdater
+
+	if err := c.BodyParser(&updateAppointment); err != nil {
+		return c.Status(400).JSON(err.Error())
+	}
+
+	appointment.Date = updateAppointment.Date
+	appointment.Time = updateAppointment.Time
+
+	database.Database.Db.Save(&appointment)
+
+	responseAppointment := database.CreateAppointmentResponse(&appointment)
+	return c.Status(200).JSON(responseAppointment)
 }

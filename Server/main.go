@@ -16,31 +16,35 @@ func setupRoutes(app *fiber.App) {
 	// HealthCheck
 	app.Get("/health", HealthCheck)
 	// Tests Functions
-	app.Post("/tests/createClientwithAnimal", routes.CreateClientAndAnimal)
+	app.Post("/dev/createClientwithAnimal", routes.CreateClientAndAnimal)
 	// Client's dataRoutes
-	app.Post("/tests/createAnimal/:uuid", routes.CreateAnimal)
-	app.Get("/tests/listClients", routes.ListClients)
-	app.Get("/tests/getClient/:uuid", routes.GetClient)
-	app.Put("tests/updateClient/:uuid", routes.UpdateClient)
-	app.Delete("tests/deleteClient/:uuid", routes.DeleteClient)
+	app.Post("/dev/createAnimal/:uuid", routes.CreateAnimal)
+	app.Get("/dev/listClients", routes.ListClients)
+	app.Get("/dev/getClient/:uuid", routes.GetClient)
+	app.Put("/dev/updateClient/:uuid", routes.UpdateClient)
+	app.Delete("/dev/deleteClient/:uuid", routes.DeleteClient)
+	app.Get("/dev/getAppointment/:uuid", routes.GetAppointment)
 	// Service's dataRoutes
-	app.Post("/tests/createServices", routes.CreateService)
-	app.Get("/tests/listServices", routes.ListService)
-	app.Get("/tests/getService/:uuid", routes.GetService)
-	app.Put("/tests/updateSevice/:uuid", routes.UpdateService)
-	app.Delete("/tests/deleteService/:uuid", routes.DeleteService)
+	app.Post("/dev/createServices", routes.CreateService)
+	app.Get("/dev/listServices", routes.ListService)
+	app.Get("/dev/getService/:uuid", routes.GetService)
+	app.Put("/dev/updateSevice/:uuid", routes.UpdateService)
+	app.Delete("/dev/deleteService/:uuid", routes.DeleteService)
 	// Owner's dataRoutes
-	app.Post("/tests/createOwner", routes.CreateOwner)
-	app.Get("/tests/listOwners", routes.ListOwners)
-	app.Get("/tests/getOwner/:uuid", routes.GetOwner)
-	app.Put("/tests/updateOwner/:uuid", routes.UpdateOwner)
-	app.Delete("/tests/deleteOwner/:uuid", routes.DeleteOwner)
+	app.Post("/dev/createOwner", routes.CreateOwner)
+	app.Get("/dev/listOwners", routes.ListOwners)
+	app.Get("/dev/getOwner/:uuid", routes.GetOwner)
+	app.Put("/dev/updateOwner/:uuid", routes.UpdateOwner)
+	app.Delete("/dev/deleteOwner/:uuid", routes.DeleteOwner)
+	app.Get("/dev/getAppointmentOwner/:uuid", routes.GetAppointmentOwner)
 	//Animal's dataRoutes
-	app.Get("/tests/listAnimals", routes.ListAnimals)
-	app.Get("/tests/getAnimal/:uuid", routes.GetAnimal)
-	app.Put("/tests/updateAnimal/:uuid", routes.UpdateAnimal)
+	app.Get("/dev/listAnimals", routes.ListAnimals)
+	app.Get("/dev/getAnimal/:uuid", routes.GetAnimal)
+	app.Put("/dev/updateAnimal/:uuid", routes.UpdateAnimal)
 	// Appointment's dataroutes --- This include the animal appointments routes too
-	app.Post("/tests/createAppointment/:uuidUser/:uuidAnimal/:uuidOwner", routes.CreateAppointment)
+	app.Post("/dev/createAppointment/:uuidUser/:uuidAnimal/:uuidOwner", routes.CreateAppointment)
+	app.Put("/dev/updateAppointment/:uuid", routes.UpdateAppointment)
+	app.Delete("/dev/deleteAppointment/:uuid", routes.DeleteAppointment)
 }
 
 func main() {
