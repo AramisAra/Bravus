@@ -1,59 +1,71 @@
 package main
 
 import (
+	"log"
 	"os"
 
 	database "github.com/AramisAra/GroomingApp/database"
-	routes "github.com/AramisAra/GroomingApp/database/routes"
+	handlers "github.com/AramisAra/GroomingApp/handlers"
+	"github.com/AramisAra/GroomingApp/middlewares"
 	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 )
 
 func HealthCheck(c *fiber.Ctx) error {
 	return c.SendString("OK")
 }
 
-func setupRoutes(app *fiber.App) {
+func setuphandlers(app *fiber.App) {
 	// HealthCheck
 	app.Get("/health", HealthCheck)
+	app.Post("/login", handlers.Login)
+	app.Post("/login", handlers.Login)
+
 	// Tests Functions
-	app.Post("/dev/createClientwithAnimal", routes.CreateClientAndAnimal)
-	// Client's dataRoutes
-	app.Post("/dev/createAnimal/:uuid", routes.CreateAnimal)
-	app.Get("/dev/listClients", routes.ListClients)
-	app.Get("/dev/getClient/:uuid", routes.GetClient)
-	app.Put("/dev/updateClient/:uuid", routes.UpdateClient)
-	app.Delete("/dev/deleteClient/:uuid", routes.DeleteClient)
-	app.Get("/dev/getAppointment/:uuid", routes.GetAppointment)
-	// Service's dataRoutes
-	app.Post("/dev/createServices", routes.CreateService)
-	app.Get("/dev/listServices", routes.ListService)
-	app.Get("/dev/getService/:uuid", routes.GetService)
-	app.Put("/dev/updateSevice/:uuid", routes.UpdateService)
-	app.Delete("/dev/deleteService/:uuid", routes.DeleteService)
-	// Owner's dataRoutes
-	app.Post("/dev/createOwner", routes.CreateOwner)
-	app.Get("/dev/listOwners", routes.ListOwners)
-	app.Get("/dev/getOwner/:uuid", routes.GetOwner)
-	app.Put("/dev/updateOwner/:uuid", routes.UpdateOwner)
-	app.Delete("/dev/deleteOwner/:uuid", routes.DeleteOwner)
-	app.Get("/dev/getAppointmentOwner/:uuid", routes.GetAppointmentOwner)
-	//Animal's dataRoutes
-	app.Get("/dev/listAnimals", routes.ListAnimals)
-	app.Get("/dev/getAnimal/:uuid", routes.GetAnimal)
-	app.Put("/dev/updateAnimal/:uuid", routes.UpdateAnimal)
-	// Appointment's dataroutes --- This include the animal appointments routes too
-	app.Post("/dev/createAppointment/:uuidUser/:uuidAnimal/:uuidOwner", routes.CreateAppointment)
-	app.Put("/dev/updateAppointment/:uuid", routes.UpdateAppointment)
-	app.Delete("/dev/deleteAppointment/:uuid", routes.DeleteAppointment)
+	app.Post("/dev/registerClient", handlers.Register)
+	// Client's datahandlers
+	app.Post("/dev/createAnimal/:uuid", handlers.CreateAnimal)
+	app.Get("/dev/listClients", handlers.ListClients)
+	app.Get("/dev/getClient/:uuid", handlers.GetClient)
+	app.Put("/dev/updateClient/:uuid", handlers.UpdateClient)
+	app.Delete("/dev/deleteClient/:uuid", handlers.DeleteClient)
+	app.Get("/dev/getAppointment/:uuid", handlers.GetAppointment)
+	// Service's datahandlers
+	app.Post("/dev/createServices", handlers.CreateService)
+	app.Get("/dev/listServices", handlers.ListService)
+	app.Get("/dev/getService/:uuid", handlers.GetService)
+	app.Put("/dev/updateSevice/:uuid", handlers.UpdateService)
+	app.Delete("/dev/deleteService/:uuid", handlers.DeleteService)
+	// Owner's datahandlers
+	app.Post("/dev/createOwner", handlers.CreateOwner)
+	app.Get("/dev/listOwners", handlers.ListOwners)
+	app.Get("/dev/getOwner/:uuid", handlers.GetOwner)
+	app.Put("/dev/updateOwner/:uuid", handlers.UpdateOwner)
+	app.Delete("/dev/deleteOwner/:uuid", handlers.DeleteOwner)
+	app.Get("/dev/getAppointmentOwner/:uuid", handlers.GetAppointmentOwner)
+	//Animal's datahandlers
+	app.Get("/dev/listAnimals", handlers.ListAnimals)
+	app.Get("/dev/getAnimal/:uuid", handlers.GetAnimal)
+	app.Put("/dev/updateAnimal/:uuid", handlers.UpdateAnimal)
+	// Appointment's datahandlers --- This include the animal appointments handlers too
+	app.Post("/dev/createAppointment/:uuidUser/:uuidAnimal/:uuidOwner", handlers.CreateAppointment)
+	app.Put("/dev/updateAppointment/:uuid", handlers.UpdateAppointment)
+	app.Delete("/dev/deleteAppointment/:uuid", handlers.DeleteAppointment)
 }
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading the Env: ", err)
+	}
 	// This is how the database connects
-	dsn := os.Getenv("dsn")
+	dsn := os.Getenv("DSN")
 	database.ConnectDb(dsn)
 
 	// This is the main overall the app_api
 	app := fiber.New()
-	setupRoutes(app)
+	jwt := middlewares.NewAuthMiddleware()
+	app.Get("/protected", jwt, handlers.Protected)
+	setuphandlers(app)
 	app.Listen(":8000")
 }
