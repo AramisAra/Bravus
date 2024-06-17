@@ -15,7 +15,7 @@ func HealthCheck(c *fiber.Ctx) error {
 	return c.SendString("OK")
 }
 
-func setuphandlers(app *fiber.App) {
+func dbhandlers(app *fiber.App) {
 	// HealthCheck
 	app.Get("/health", HealthCheck)
 	app.Post("/login", handlers.Login)
@@ -53,6 +53,12 @@ func setuphandlers(app *fiber.App) {
 	app.Delete("/dev/deleteAppointment/:uuid", handlers.DeleteAppointment)
 }
 
+func loghandlers(jwt fiber.Handler, app *fiber.App) {
+	app.Get("/protected", jwt, handlers.Protected)
+	app.Get("/dev/sheets", jwt, handlers.GetSheets)
+	app.Get("/dev/table/:sheet", jwt, handlers.GetTable)
+}
+
 func main() {
 	err := godotenv.Load()
 	if err != nil {
@@ -65,7 +71,7 @@ func main() {
 	// This is the main overall the app_api
 	app := fiber.New()
 	jwt := middlewares.NewAuthMiddleware()
-	app.Get("/protected", jwt, handlers.Protected)
-	setuphandlers(app)
+	loghandlers(jwt, app)
+	dbhandlers(app)
 	app.Listen(":8000")
 }
