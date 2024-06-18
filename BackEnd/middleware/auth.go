@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"github.com/AramisAra/GroomingApp/config"
+	"github.com/AramisAra/BravusBackend/config"
 	"github.com/gofiber/fiber/v2"
 	jwtware "github.com/gofiber/jwt/v3"
 )

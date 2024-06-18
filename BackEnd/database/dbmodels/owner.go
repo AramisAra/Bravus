@@ -1,4 +1,4 @@
-package models
+package dbmodels
 
 // Models for Owner table
 type Owner struct {
@@ -8,5 +8,6 @@ type Owner struct {
 	Email        string        `json:"email"`
 	Password     string        `json:"password"`
 	Career       string        `json:"career"`
+	Services     []Service     `gorm:"foreignKey:AppointmentID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"serviceid"`
 	Appointments []Appointment `gorm:"foreignKey:OwnerID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"appointments"`
 }

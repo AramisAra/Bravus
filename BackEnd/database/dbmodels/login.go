@@ -1,4 +1,4 @@
-package models
+package dbmodels
 
 type Login struct {
 	Email    string `json:"email"`

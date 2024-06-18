@@ -1,11 +1,11 @@
-package models
+package dbmodels
 
 import (
 	"github.com/google/uuid"
 )
 
 // Model for animal table
-type Animals struct {
+type Animal struct {
 	Base
 	Animal_Name   string        `json:"animal_name"`
 	Animal_Specie string        `json:"animal_specie"`

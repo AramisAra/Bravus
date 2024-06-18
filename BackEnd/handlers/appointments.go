@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	database "github.com/AramisAra/GroomingApp/database"
-	"github.com/AramisAra/GroomingApp/models"
+	database "github.com/AramisAra/BravusBackend/database"
+	"github.com/AramisAra/BravusBackend/database/dbmodels"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -31,15 +31,15 @@ func CreateAppointment(c *fiber.Ctx) error {
 	}
 
 	// Data Management
-	var client models.Client
-	var owner models.Owner
-	var animal models.Animals
+	var client dbmodels.Client
+	var owner dbmodels.Owner
+	var animal dbmodels.Animal
 
 	database.Database.Db.Find(&client, "id = ?", userid)
 	database.Database.Db.Find(&owner, "id = ?", ownerid)
 	database.Database.Db.Find(&animal, "id = ?", animalid)
 
-	var appointment models.Appointment
+	var appointment dbmodels.Appointment
 
 	appointment.ClientID = client.ID
 	appointment.OwnerID = owner.ID
@@ -55,7 +55,7 @@ func CreateAppointment(c *fiber.Ctx) error {
 		return c.Status(500).JSON(result.Error)
 	}
 	// response Handling
-	response := database.CreateAppointmentResponse(&appointment)
+	response := dbmodels.CreateAppointmentResponse(appointment)
 
 	return c.Status(201).JSON(response)
 }
@@ -70,7 +70,7 @@ func DeleteAppointment(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
 
-	appointment := models.Appointment{}
+	appointment := dbmodels.Appointment{}
 
 	database.Database.Db.Find(&appointment)
 	if err := database.Database.Db.Delete(&appointment).Error; err != nil {
@@ -90,10 +90,10 @@ func UpdateAppointment(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
 
-	var appointment models.Appointment
+	var appointment dbmodels.Appointment
 	database.Database.Db.Find(&appointment, "id = ?", id)
 
-	var updateAppointment database.AppointmentUpdater
+	var updateAppointment dbmodels.AppointmentUpdater
 
 	if err := c.BodyParser(&updateAppointment); err != nil {
 		return c.Status(400).JSON(err.Error())
@@ -104,6 +104,6 @@ func UpdateAppointment(c *fiber.Ctx) error {
 
 	database.Database.Db.Save(&appointment)
 
-	responseAppointment := database.CreateAppointmentResponse(&appointment)
+	responseAppointment := dbmodels.CreateAppointmentResponse(appointment)
 	return c.Status(200).JSON(responseAppointment)
 }

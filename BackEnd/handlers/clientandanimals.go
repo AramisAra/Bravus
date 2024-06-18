@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	database "github.com/AramisAra/GroomingApp/database"
-	models "github.com/AramisAra/GroomingApp/models"
+	database "github.com/AramisAra/BravusBackend/database"
+	dbmodels "github.com/AramisAra/BravusBackend/database/dbmodels"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -15,13 +15,13 @@ func isValidUUID(id string) bool {
 
 // handles Register and Client creation
 func RegisterClient(c *fiber.Ctx) error {
-	registration := new(models.RegisterRequestClient)
+	registration := new(dbmodels.RegisterRequestClient)
 	if err := c.BodyParser(registration); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
 	// Check if the email already exists
-	var existingUser models.Client
+	var existingUser dbmodels.Client
 	if err := database.Database.Db.Where("email = ?", registration.Email).First(&existingUser).Error; err == nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "email already registered"})
 	}
@@ -33,7 +33,7 @@ func RegisterClient(c *fiber.Ctx) error {
 	}
 
 	// Create the user
-	client := models.Client{
+	client := dbmodels.Client{
 		Full_Name: registration.Name,
 		Email:     registration.Email,
 		Phone:     registration.Phone,
@@ -60,13 +60,13 @@ func CreateAnimal(c *fiber.Ctx) error {
 	if !isValidUUID(id) {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
-	client := models.Client{}
+	client := dbmodels.Client{}
 
 	database.Database.Db.Find(&client, "id = ?", id)
 
 	ClientID := client.ID
 
-	var animal models.Animals
+	var animal dbmodels.Animal
 
 	animal.Client_id = ClientID
 	if err := c.BodyParser(&animal); err != nil {
@@ -79,7 +79,7 @@ func CreateAnimal(c *fiber.Ctx) error {
 		return c.Status(500).JSON(result.Error)
 	}
 
-	Response := database.CreateAnimalResponse(animal)
+	Response := dbmodels.CreateAnimalResponse(animal)
 
 	return c.Status(201).JSON(Response)
 }
@@ -95,23 +95,23 @@ func GetClient(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
 
-	client := models.Client{}
+	client := dbmodels.Client{}
 
 	database.Database.Db.Preload("Animals").Find(&client, "id = ?", id)
 
-	response := database.CreateClientResponse(client)
+	response := dbmodels.CreateClientResponse(client)
 
 	return c.Status(200).JSON(response)
 }
 
 func ListClients(c *fiber.Ctx) error {
-	clients := []models.Client{}
+	clients := []dbmodels.Client{}
 
 	database.Database.Db.Preload("Animals").Find(&clients)
-	responseClients := []database.ClientSerializer{}
+	responseClients := []dbmodels.ClientSerializer{}
 
 	for _, client := range clients {
-		responseClients = append(responseClients, database.CreateClientResponse(client))
+		responseClients = append(responseClients, dbmodels.CreateClientResponse(client))
 	}
 
 	return c.Status(200).JSON(responseClients)
@@ -127,11 +127,11 @@ func UpdateClient(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
 
-	client := models.Client{}
+	client := dbmodels.Client{}
 
 	database.Database.Db.Joins("Animals").Find(&client, "id = ?", id)
 
-	var updateClient database.UpdateClientInput
+	var updateClient dbmodels.UpdateClientInput
 
 	if err := c.BodyParser(&updateClient); err != nil {
 		return c.Status(400).JSON(err.Error())
@@ -143,7 +143,7 @@ func UpdateClient(c *fiber.Ctx) error {
 
 	database.Database.Db.Omit("Animals").Save(&client)
 
-	responseClient := database.CreateClientResponse(client)
+	responseClient := dbmodels.CreateClientResponse(client)
 	return c.Status(200).JSON(responseClient)
 }
 
@@ -157,7 +157,7 @@ func DeleteClient(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
 
-	client := models.Client{}
+	client := dbmodels.Client{}
 
 	database.Database.Db.Find(&client)
 	if err := database.Database.Db.Delete(&client).Error; err != nil {
@@ -168,13 +168,13 @@ func DeleteClient(c *fiber.Ctx) error {
 }
 
 func ListAnimals(c *fiber.Ctx) error {
-	animals := []models.Animals{}
+	animals := []dbmodels.Animal{}
 
 	database.Database.Db.Find(&animals)
-	responseAnimal := []database.AnimalSerializer{}
+	responseAnimal := []dbmodels.AnimalSerializer{}
 
 	for _, animal := range animals {
-		responseAnimal = append(responseAnimal, database.CreateAnimalResponse(animal))
+		responseAnimal = append(responseAnimal, dbmodels.CreateAnimalResponse(animal))
 	}
 
 	return c.Status(200).JSON(responseAnimal)
@@ -190,10 +190,10 @@ func GetAnimal(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
 
-	animal := models.Animals{}
+	animal := dbmodels.Animal{}
 
 	database.Database.Db.Find(&animal)
-	responseAnimal := database.CreateAnimalResponse(animal)
+	responseAnimal := dbmodels.CreateAnimalResponse(animal)
 
 	return c.Status(200).JSON(responseAnimal)
 }
@@ -208,11 +208,11 @@ func UpdateAnimal(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
 
-	animal := models.Animals{}
+	animal := dbmodels.Animal{}
 
 	database.Database.Db.Find(&animal, "id = ?", id)
 
-	var updateAnimal database.UpdateAnimalInput
+	var updateAnimal dbmodels.UpdateAnimalInput
 
 	if err := c.BodyParser(&updateAnimal); err != nil {
 		return c.Status(400).JSON(err.Error())
@@ -224,7 +224,7 @@ func UpdateAnimal(c *fiber.Ctx) error {
 
 	database.Database.Db.Save(&animal)
 
-	responseAnimal := database.CreateAnimalResponse(animal)
+	responseAnimal := dbmodels.CreateAnimalResponse(animal)
 	return c.Status(200).JSON(responseAnimal)
 }
 
@@ -238,11 +238,11 @@ func GetAppointment(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
 
-	var client models.Client
+	var client dbmodels.Client
 
 	database.Database.Db.Preload("Appointments").Preload("Animals").Find(&client)
 
-	response := database.CreateClientResponse(client)
+	response := dbmodels.CreateClientResponse(client)
 
 	return c.Status(200).JSON(response)
 }

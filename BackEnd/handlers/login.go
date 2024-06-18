@@ -3,9 +3,9 @@ package handlers
 import (
 	"time"
 
-	"github.com/AramisAra/GroomingApp/config"
-	"github.com/AramisAra/GroomingApp/database"
-	models "github.com/AramisAra/GroomingApp/models"
+	"github.com/AramisAra/BravusBackend/config"
+	database "github.com/AramisAra/BravusBackend/database"
+	dbmodels "github.com/AramisAra/BravusBackend/database/dbmodels"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 	jtoken "github.com/golang-jwt/jwt/v4"
@@ -13,12 +13,12 @@ import (
 )
 
 func LoginClient(c *fiber.Ctx) error {
-	login := models.Login{}
+	login := dbmodels.Login{}
 	if err := c.BodyParser(&login); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	var client models.Client
+	var client dbmodels.Client
 	result := database.Database.Db.Find(&client, "Email = ?", login.Email)
 	if result.Error != nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid email or password"})
@@ -40,16 +40,16 @@ func LoginClient(c *fiber.Ctx) error {
 	}
 
 	// Return the token
-	return c.JSON(models.LoginResponse{Token: t})
+	return c.JSON(dbmodels.LoginResponse{Token: t})
 
 }
 func LoginOwner(c *fiber.Ctx) error {
-	login := models.Login{}
+	login := dbmodels.Login{}
 	if err := c.BodyParser(&login); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	var owner models.Owner
+	var owner dbmodels.Owner
 	result := database.Database.Db.Find(&owner, "Email = ?", login.Email)
 	if result.Error != nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid email or password"})
@@ -71,7 +71,7 @@ func LoginOwner(c *fiber.Ctx) error {
 	}
 
 	// Return the token
-	return c.JSON(models.LoginResponse{Token: t})
+	return c.JSON(dbmodels.LoginResponse{Token: t})
 
 }
 

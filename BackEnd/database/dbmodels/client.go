@@ -1,4 +1,4 @@
-package models
+package dbmodels
 
 // Model for the Client table
 type Client struct {
@@ -8,5 +8,5 @@ type Client struct {
 	Password     string        `json:"password"`
 	Phone        uint          `json:"phone"`
 	Appointments []Appointment `gorm:"foreignKey:ClientID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"appointments"`
-	Animals      []Animals     `gorm:"foreignKey:Client_id;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"animals"`
+	Animals      []Animal      `gorm:"foreignKey:Client_id;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"animals"`
 }

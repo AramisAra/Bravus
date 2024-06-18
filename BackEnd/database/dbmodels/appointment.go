@@ -1,4 +1,4 @@
-package models
+package dbmodels
 
 import (
 	"github.com/google/uuid"
@@ -12,5 +12,4 @@ type Appointment struct {
 	OwnerID  uuid.UUID `json:"ownerid"`
 	ClientID uuid.UUID `json:"clientid"`
 	AnimalID uuid.UUID `json:"animalid"`
-	Services []Service `gorm:"foreignKey:AppointmentID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"serviceid"`
 }
