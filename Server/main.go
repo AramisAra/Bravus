@@ -18,8 +18,8 @@ func HealthCheck(c *fiber.Ctx) error {
 func dbhandlers(app *fiber.App) {
 	// HealthCheck
 	app.Get("/health", HealthCheck)
-	app.Post("/login", handlers.Login)
-	app.Post("/login", handlers.Login)
+	app.Post("/login", handlers.LoginClient)
+	app.Post("/loginowner", handlers.LoginOwner)
 
 	// Tests Functions
 	app.Post("/dev/registerClient", handlers.RegisterClient)

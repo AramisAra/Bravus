@@ -33,7 +33,7 @@ func ConnectDb(dsn string) {
 	log.Println("Running Migrations")
 	// migrations
 	db.AutoMigrate(&models.Client{}, &models.Owner{}, &models.Animals{},
-		&models.Service{}, &models.Appointment{}, &models.SheetStored{})
+		&models.Service{}, &models.Appointment{})
 
 	Database = DbInstance{Db: db}
 }
