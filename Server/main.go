@@ -22,7 +22,7 @@ func dbhandlers(app *fiber.App) {
 	app.Post("/login", handlers.Login)
 
 	// Tests Functions
-	app.Post("/dev/registerClient", handlers.Register)
+	app.Post("/dev/registerClient", handlers.RegisterClient)
 	// Client's datahandlers
 	app.Post("/dev/createAnimal/:uuid", handlers.CreateAnimal)
 	app.Get("/dev/listClients", handlers.ListClients)
@@ -37,7 +37,7 @@ func dbhandlers(app *fiber.App) {
 	app.Put("/dev/updateSevice/:uuid", handlers.UpdateService)
 	app.Delete("/dev/deleteService/:uuid", handlers.DeleteService)
 	// Owner's datahandlers
-	app.Post("/dev/createOwner", handlers.CreateOwner)
+	app.Post("/dev/registerOwner", handlers.RegisterOwner)
 	app.Get("/dev/listOwners", handlers.ListOwners)
 	app.Get("/dev/getOwner/:uuid", handlers.GetOwner)
 	app.Put("/dev/updateOwner/:uuid", handlers.UpdateOwner)

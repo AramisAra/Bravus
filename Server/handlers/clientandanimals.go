@@ -14,8 +14,8 @@ func isValidUUID(id string) bool {
 }
 
 // handles Register and Client creation
-func Register(c *fiber.Ctx) error {
-	registration := new(models.RegisterRequest)
+func RegisterClient(c *fiber.Ctx) error {
+	registration := new(models.RegisterRequestClient)
 	if err := c.BodyParser(registration); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}

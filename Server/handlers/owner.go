@@ -5,19 +5,43 @@ import (
 	models "github.com/AramisAra/GroomingApp/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
-func CreateOwner(c *fiber.Ctx) error {
-	var owner models.Owner
-
-	if err := c.BodyParser(&owner); err != nil {
-		return c.Status(400).JSON(err.Error())
+func RegisterOwner(c *fiber.Ctx) error {
+	registration := new(models.RegisterRequestOwner)
+	if err := c.BodyParser(registration); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	database.Database.Db.Create(&owner)
-	responseOwner := database.CreateOwnerResponse(owner)
+	// Check if the email already exists
+	var existingOwner models.Client
+	if err := database.Database.Db.Where("email = ?", registration.Email).First(&existingOwner).Error; err == nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "email already registered"})
+	}
 
-	return c.Status(200).JSON(responseOwner)
+	// Hash the password
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(registration.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "could not hash password"})
+	}
+
+	// Create the user
+	owner := models.Owner{
+		Full_Name: registration.Name,
+		Email:     registration.Email,
+		Phone:     registration.Phone,
+		Password:  string(hashedPassword),
+		Career:    registration.Career,
+	}
+
+	// Save the user in the database
+	result := database.Database.Db.Create(&owner)
+	if result.Error != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(result.Error)
+	}
+
+	return c.Status(fiber.StatusCreated).JSON(owner)
 }
 
 func ListOwners(c *fiber.Ctx) error {

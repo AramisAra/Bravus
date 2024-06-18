@@ -6,6 +6,7 @@ type Owner struct {
 	Full_Name    string        `json:"full_name"`
 	Phone        uint          `json:"phone"`
 	Email        string        `json:"email"`
+	Password     string        `json:"password"`
 	Career       string        `json:"career"`
 	Sheets       []SheetStored `gorm:"foreignKey:OwnerID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"sheets"`
 	Appointments []Appointment `gorm:"foreignKey:OwnerID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"appointments"`
