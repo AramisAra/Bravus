@@ -6,24 +6,31 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// Creates Service
 func CreateService(c *fiber.Ctx) error {
+	// Var == to link param UUID
 	id := c.Params("uuid")
 	if id == "" {
 		id = c.Query("uuid")
 	}
 
+	// Checks if its a uuid
 	if !isValidUUID(id) {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
+
+	// database query for the owner how making the service
 	var owner dbmodels.Owner
 
 	database.Database.Db.Find(&owner, "id = ?", id)
 
 	var service dbmodels.Service
 
+	// Start of creating the service
 	if err := c.BodyParser(&service); err != nil {
 		return c.Status(400).JSON(err.Error())
 	}
+	// The Creates the service with the owner id foreign key
 	service.OwnerID = owner.ID
 	database.Database.Db.Create(&service)
 	responseService := dbmodels.CreateServiceResponse(service)
@@ -31,6 +38,7 @@ func CreateService(c *fiber.Ctx) error {
 	return c.Status(200).JSON(responseService)
 }
 
+// List all the service alone
 func ListService(c *fiber.Ctx) error {
 	var services []dbmodels.Service
 
@@ -44,6 +52,7 @@ func ListService(c *fiber.Ctx) error {
 	return c.Status(200).JSON(responseService)
 }
 
+// Updates service
 func UpdateService(c *fiber.Ctx) error {
 	id := c.Params("uuid")
 	if id == "" {
@@ -75,6 +84,7 @@ func UpdateService(c *fiber.Ctx) error {
 	return c.Status(200).JSON(responseService)
 }
 
+// Delete service
 func DeleteService(c *fiber.Ctx) error {
 	id := c.Params("uuid")
 	if id == "" {
