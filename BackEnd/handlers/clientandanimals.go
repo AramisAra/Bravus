@@ -179,7 +179,7 @@ func DeleteAnimal(c *fiber.Ctx) error {
 
 	animal := dbmodels.Animal{}
 
-	database.Database.Db.Find(&animal)
+	database.Database.Db.Find(&animal, "id = ?", id)
 	if err := database.Database.Db.Delete(&animal).Error; err != nil {
 		return c.Status(404).JSON(err.Error())
 	}
