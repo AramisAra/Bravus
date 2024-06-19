@@ -46,6 +46,12 @@ func DatabaseHandlers(app *fiber.App) {
 	service.Get("/get", handlers.ListService)
 	service.Put("/update/:uuid", handlers.UpdateService)
 	service.Delete("/delete/:uuid", handlers.DeleteService)
+	// Owner Routes
+	owner := app.Group("/owner")
+	owner.Get("/get", handlers.ListOwners)
+	owner.Get("/get/:uuid", handlers.GetOwner)
+	owner.Put("/update/:uuid", handlers.UpdateOwner)
+	owner.Delete("/delete/:uuid", handlers.DeleteOwner)
 }
 
 func main() {
