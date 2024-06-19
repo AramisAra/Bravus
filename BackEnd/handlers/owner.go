@@ -149,7 +149,7 @@ func UpdateOwner(c *fiber.Ctx) error {
 }
 
 // Delete owners
-func Deleteowner(c *fiber.Ctx) error {
+func DeleteOwner(c *fiber.Ctx) error {
 	id := c.Params("uuid")
 	if id == "" {
 		id = c.Query("uuid")
