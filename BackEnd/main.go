@@ -6,6 +6,7 @@ import (
 
 	database "github.com/AramisAra/BravusBackend/database"
 	"github.com/AramisAra/BravusBackend/handlers"
+	middlewares "github.com/AramisAra/BravusBackend/middleware"
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 )
@@ -65,7 +66,9 @@ func main() {
 
 	// This is the main overall the app_api
 	app := fiber.New()
+	jwt := middlewares.NewAuthMiddleware()
 	loginSystem(app)
 	DatabaseHandlers(app)
+	app.Get("/protected", jwt, handlers.Protected)
 	app.Listen(":8000")
 }
