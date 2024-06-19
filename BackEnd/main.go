@@ -67,6 +67,5 @@ func main() {
 	app := fiber.New()
 	loginSystem(app)
 	DatabaseHandlers(app)
-
 	app.Listen(":8000")
 }
