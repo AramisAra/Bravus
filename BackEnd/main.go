@@ -40,6 +40,12 @@ func DatabaseHandlers(app *fiber.App) {
 	appointment.Get("/get/:uuid", handlers.GetAppointment)
 	appointment.Delete("/delete/:uuid", handlers.DeleteAppointment)
 	appointment.Put("/update/:uuid", handlers.UpdateAppointment)
+	// Service Routes
+	service := app.Group("/service")
+	service.Post("/create/:uuid", handlers.CreateService)
+	service.Get("/get", handlers.ListService)
+	service.Put("/update/:uuid", handlers.UpdateService)
+	service.Delete("/delete/:uuid", handlers.DeleteService)
 }
 
 func main() {
