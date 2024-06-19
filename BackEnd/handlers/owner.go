@@ -96,3 +96,75 @@ func ListOwners(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(responseOwner)
 }
+
+func GetOwner(c *fiber.Ctx) error {
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
+	}
+
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid UUID"})
+	}
+
+	owner := dbmodels.Owner{}
+
+	database.Database.Db.Preload("Appointment").Find(&owner, "id = ?", id)
+
+	response := dbmodels.CreateOwnerResponse(owner)
+
+	return c.Status(200).JSON(response)
+}
+
+// Update owner personal info
+func UpdateOwner(c *fiber.Ctx) error {
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
+	}
+
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
+
+	owner := dbmodels.Owner{}
+
+	database.Database.Db.Joins("Animals").Find(&owner, "id = ?", id)
+
+	var updateowner dbmodels.UpdateOwnerInput
+
+	if err := c.BodyParser(&updateowner); err != nil {
+		return c.Status(400).JSON(err.Error())
+	}
+
+	owner.Full_Name = updateowner.Full_Name
+	owner.Email = updateowner.Email
+	owner.Phone = updateowner.Phone
+	owner.Career = updateowner.Career
+
+	database.Database.Db.Omit("Animals").Save(&owner)
+
+	responseowner := dbmodels.CreateOwnerResponse(owner)
+	return c.Status(200).JSON(responseowner)
+}
+
+// Delete owners
+func Deleteowner(c *fiber.Ctx) error {
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
+	}
+
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
+
+	owner := dbmodels.Owner{}
+
+	database.Database.Db.Find(&owner)
+	if err := database.Database.Db.Delete(&owner).Error; err != nil {
+		return c.Status(404).JSON(err.Error())
+	}
+
+	return c.Status(200).JSON("owner was deleted")
+}
