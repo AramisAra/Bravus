@@ -167,6 +167,27 @@ func DeleteClient(c *fiber.Ctx) error {
 	return c.Status(200).JSON("Client was deleted")
 }
 
+func DeleteAnimal(c *fiber.Ctx) error {
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
+	}
+
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
+
+	animal := dbmodels.Animal{}
+
+	database.Database.Db.Find(&animal)
+	if err := database.Database.Db.Delete(&animal).Error; err != nil {
+		return c.Status(404).JSON(err.Error())
+	}
+
+	return c.Status(200).JSON("Animal was deleted")
+}
+
+/*
 func ListAnimals(c *fiber.Ctx) error {
 	animals := []dbmodels.Animal{}
 
@@ -197,6 +218,7 @@ func GetAnimal(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(responseAnimal)
 }
+*/
 
 func UpdateAnimal(c *fiber.Ctx) error {
 	id := c.Params("uuid")
