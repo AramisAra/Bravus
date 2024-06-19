@@ -74,3 +74,23 @@ func UpdateService(c *fiber.Ctx) error {
 	responseService := dbmodels.CreateServiceResponse(service)
 	return c.Status(200).JSON(responseService)
 }
+
+func DeleteService(c *fiber.Ctx) error {
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
+	}
+
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid UUID"})
+	}
+
+	var service dbmodels.Service
+
+	database.Database.Db.Find(&service, "id = ?", id)
+	if err := database.Database.Db.Delete(&service); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"Error": "unable to delete service"})
+	}
+
+	return c.Status(200).JSON("Service was deleted")
+}
