@@ -7,6 +7,7 @@ import (
 	database "github.com/AramisAra/BravusBackend/database"
 	"github.com/AramisAra/BravusBackend/handlers"
 	middlewares "github.com/AramisAra/BravusBackend/middleware"
+	"github.com/AramisAra/BravusBackend/sheetsapi"
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 )
@@ -55,6 +56,14 @@ func DatabaseHandlers(app *fiber.App) {
 	owner.Delete("/delete/:uuid", handlers.DeleteOwner)
 }
 
+func SheetsHandler(app *fiber.App) {
+	sheetapi := app.Group("/sheetapi")
+	sheetapi.Get("/auth", sheetsapi.AuthGoogle)
+	sheetapi.Get("/callback", sheetsapi.CreateSheet)
+	sheetapi.Get("/sheet/:id", sheetsapi.GetSheet)
+	sheetapi.Get("/getValues/:id", sheetsapi.GetSheetValues)
+}
+
 func main() {
 	err := godotenv.Load()
 	if err != nil {
@@ -64,11 +73,15 @@ func main() {
 	dsn := os.Getenv("DSN")
 	database.ConnectDb(dsn)
 
+	// Setting auth to google servers
+	sheetsapi.Start()
+
 	// This is the main overall the app_api
 	app := fiber.New()
 	jwt := middlewares.NewAuthMiddleware()
 	loginSystem(app)
 	DatabaseHandlers(app)
+	SheetsHandler(app)
 	app.Get("/protected", jwt, handlers.Protected)
 	app.Listen(":8000")
 }
