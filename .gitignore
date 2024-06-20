@@ -1,3 +1,4 @@
 BackEnd/.env
-BackEnd/sheetsapi/client_secret.json
+BackEnd/client_secret.json
+BackEnd/token.json
 /ReferenceBackend/
