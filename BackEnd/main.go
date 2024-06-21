@@ -9,7 +9,7 @@ import (
 	middlewares "github.com/AramisAra/BravusBackend/middleware"
 	"github.com/AramisAra/BravusBackend/sheetsapi"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/template/django/v3"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 )
 
@@ -79,16 +79,18 @@ func main() {
 
 	// Setting auth to google servers
 	sheetsapi.Start()
-	engine := django.New("./views", ".django")
 
 	// This is the main overall the app_api
-	app := fiber.New(fiber.Config{
-		Views: engine,
-	})
+	app := fiber.New()
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "http://localhost:3000",
+		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
+	}))
 	jwt := middlewares.NewAuthMiddleware()
 	LoginSystem(app)
 	DatabaseHandlers(app)
 	SheetsHandler(app)
 	app.Get("/protected", jwt, handlers.Protected)
-	app.Listen(":8000")
+	log.Fatal(app.Listen(":8000"))
 }

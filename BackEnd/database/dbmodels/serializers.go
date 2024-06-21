@@ -13,7 +13,7 @@ type ClientSerializer struct {
 	ID           uuid.UUID     `json:"id"`
 	FullName     string        `json:"full_name"`
 	Email        string        `json:"email"`
-	Phone        uint          `json:"phone"`
+	Phone        string        `json:"phone"`
 	Animals      []Animal      `json:"animals"`
 	Appointments []Appointment `json:"appointments"`
 }
@@ -21,7 +21,7 @@ type ClientSerializer struct {
 type UpdateClientInput struct {
 	FullName string `json:"full_name"`
 	Email    string `json:"email"`
-	Phone    uint   `json:"phone"`
+	Phone    string `json:"phone"`
 }
 
 type ServiceSerializer struct {
@@ -41,7 +41,7 @@ type UpdateServiceInput struct {
 type OwnerSerializer struct {
 	ID           uuid.UUID     `json:"id"`
 	Full_Name    string        `json:"full_name"`
-	Phone        uint          `json:"phone"`
+	Phone        string        `json:"phone"`
 	Email        string        `json:"email"`
 	Career       string        `json:"career"`
 	Appointments []Appointment `json:"appointments"`
@@ -49,7 +49,7 @@ type OwnerSerializer struct {
 
 type UpdateOwnerInput struct {
 	Full_Name string `json:"full_name"`
-	Phone     uint   `json:"phone"`
+	Phone     string `json:"phone"`
 	Email     string `json:"email"`
 	Career    string `json:"career"`
 }

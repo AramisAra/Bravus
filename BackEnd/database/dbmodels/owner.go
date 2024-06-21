@@ -4,7 +4,7 @@ package dbmodels
 type Owner struct {
 	Base
 	Full_Name    string        `json:"full_name"`
-	Phone        uint          `json:"phone"`
+	Phone        string        `json:"phone"`
 	Email        string        `json:"email"`
 	Password     string        `json:"password"`
 	Career       string        `json:"career"`
