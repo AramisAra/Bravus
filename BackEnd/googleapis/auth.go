@@ -1,4 +1,4 @@
-package sheetsapi
+package googleapis
 
 import (
 	"encoding/json"

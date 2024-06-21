@@ -5,6 +5,7 @@ import (
 	"os"
 
 	database "github.com/AramisAra/BravusBackend/database"
+	"github.com/AramisAra/BravusBackend/googleapis"
 	"github.com/AramisAra/BravusBackend/handlers"
 	middlewares "github.com/AramisAra/BravusBackend/middleware"
 	"github.com/AramisAra/BravusBackend/sheetsapi"
@@ -60,10 +61,10 @@ func DatabaseHandlers(app *fiber.App) {
 func SheetsHandler(app *fiber.App) {
 	//jwt := middlewares.NewAuthMiddleware()
 	sheetapi := app.Group("/sheetapi")
-	sheetapi.Get("/auth", sheetsapi.AuthGoogle)
-	sheetapi.Get("/auth/callback", sheetsapi.AuthCallback)
-	sheetapi.Post("/createSheet", sheetsapi.CreateSheet)
-	sheetapi.Get("/sheet", sheetsapi.GetSheet)
+	sheetapi.Get("/auth", googleapis.AuthGoogle)
+	sheetapi.Get("/auth/callback", googleapis.AuthCallback)
+	sheetapi.Post("/createSheet", googleapis.CreateSheet)
+	sheetapi.Get("/sheet", googleapis.GetSheet)
 	// Get Values will return  a default of 1500 Cells but it only return the filled cells
 	sheetapi.Get("/getValues", sheetsapi.GetSheetValues)
 }
