@@ -9,6 +9,7 @@ import (
 	middlewares "github.com/AramisAra/BravusBackend/middleware"
 	"github.com/AramisAra/BravusBackend/sheetsapi"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/template/django/v3"
 	"github.com/joho/godotenv"
 )
 
@@ -16,7 +17,7 @@ func HealthCheck(c *fiber.Ctx) error {
 	return c.SendString("OK")
 }
 
-func loginSystem(app *fiber.App) {
+func LoginSystem(app *fiber.App) {
 	// login system
 	login := app.Group("/login")
 	login.Post("/Rowner", handlers.RegisterOwner)
@@ -59,12 +60,12 @@ func DatabaseHandlers(app *fiber.App) {
 func SheetsHandler(app *fiber.App) {
 	//jwt := middlewares.NewAuthMiddleware()
 	sheetapi := app.Group("/sheetapi")
-	sheetapi.Get("/auth/:uuid", sheetsapi.AuthGoogle)
+	sheetapi.Get("/auth", sheetsapi.AuthGoogle)
 	sheetapi.Get("/auth/callback", sheetsapi.AuthCallback)
-	sheetapi.Post("/createSheet/:name", sheetsapi.CreateSheet)
-	sheetapi.Get("/sheet/:id", sheetsapi.GetSheet)
+	sheetapi.Post("/createSheet", sheetsapi.CreateSheet)
+	sheetapi.Get("/sheet", sheetsapi.GetSheet)
 	// Get Values will return  a default of 1500 Cells but it only return the filled cells
-	sheetapi.Get("/getValues/:id", sheetsapi.GetSheetValues)
+	sheetapi.Get("/getValues", sheetsapi.GetSheetValues)
 }
 
 func main() {
@@ -78,11 +79,14 @@ func main() {
 
 	// Setting auth to google servers
 	sheetsapi.Start()
+	engine := django.New("./views", ".django")
 
 	// This is the main overall the app_api
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		Views: engine,
+	})
 	jwt := middlewares.NewAuthMiddleware()
-	loginSystem(app)
+	LoginSystem(app)
 	DatabaseHandlers(app)
 	SheetsHandler(app)
 	app.Get("/protected", jwt, handlers.Protected)
