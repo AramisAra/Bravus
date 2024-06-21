@@ -8,7 +8,6 @@ import (
 	"github.com/AramisAra/BravusBackend/googleapis"
 	"github.com/AramisAra/BravusBackend/handlers"
 	middlewares "github.com/AramisAra/BravusBackend/middleware"
-	"github.com/AramisAra/BravusBackend/sheetsapi"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
@@ -66,7 +65,7 @@ func SheetsHandler(app *fiber.App) {
 	sheetapi.Post("/createSheet", googleapis.CreateSheet)
 	sheetapi.Get("/sheet", googleapis.GetSheet)
 	// Get Values will return  a default of 1500 Cells but it only return the filled cells
-	sheetapi.Get("/getValues", sheetsapi.GetSheetValues)
+	sheetapi.Get("/getValues", googleapis.GetSheetValues)
 }
 
 func main() {
@@ -79,7 +78,7 @@ func main() {
 	database.ConnectDb(dsn)
 
 	// Setting auth to google servers
-	sheetsapi.Start()
+	googleapis.Start()
 
 	// This is the main overall the app_api
 	app := fiber.New()
