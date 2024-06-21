@@ -32,6 +32,9 @@ github.com/gofiber/fiber/v2 v2.52.4 h1:P+T+4iK7VaqUsq2PALYEfBBo6bJZ4q3FP8cZ84Egg
 github.com/gofiber/fiber/v2 v2.52.4/go.mod h1:KEOE+cXMhXG0zHc9d8+E38hoX+ZN7bhOtgeF2oT6jrQ=
 github.com/gofiber/jwt/v3 v3.3.10 h1:0bpWtFKaGepjwYTU4efHfy0o+matSqZwTxGMo5a+uuc=
 github.com/gofiber/jwt/v3 v3.3.10/go.mod h1:GJorFVaDyfMPSK9RB8RG4NQ3s1oXKTmYaoL/ny08O1A=
+github.com/gofiber/storage/memory v1.3.4 h1:VxTq8Vrdvk73VsfvtTgc3LjXClbBrHXanzEo+w0cpgo=
+github.com/gofiber/storage/memory v1.3.4/go.mod h1:pYsCUle/+4exGfsG7IlpmFYBVmNntP8OIDBvmABU8PE=
+github.com/gofiber/utils v1.0.1/go.mod h1:pacRFtghAE3UoknMOUiXh2Io/nLWSUHtQCi/3QASsOc=
 github.com/golang-jwt/jwt/v4 v4.5.0 h1:7cYmW1XlMY7h7ii7UhUyChSgS5wUJEnm9uZVTGqOWzg=
 github.com/golang-jwt/jwt/v4 v4.5.0/go.mod h1:m21LjoU+eqJr34lmDMbreY2eSTRJ1cv77w39/MY0Ch0=
 github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b/go.mod h1:SBH7ygxi8pfUlaOkMMuAQtPIUF8ecWP5IEl/CR7VP2Q=

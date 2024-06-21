@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/oauth2"
@@ -49,8 +50,9 @@ func ReadFromFile(file string) (*oauth2.Token, error) {
 	return tok, err
 }
 
-func saveToken(token *oauth2.Token) {
-	f, err := os.Create("token.json")
+func saveToken(token *oauth2.Token, filename string) {
+	path := filepath.Join(".tokens", filename+".json")
+	f, err := os.Create(path)
 	if err != nil {
 		log.Fatalf("Unable to create token file: %v", err)
 	}
@@ -59,6 +61,14 @@ func saveToken(token *oauth2.Token) {
 }
 
 func AuthGoogle(c *fiber.Ctx) error {
+	id := c.Params("uuid")
+	if id == "" {
+		id = c.Query("uuid")
+	}
+
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
 	// Generate the URL for the authorization request.
 	ClientGetter()
 	authURL := config.AuthCodeURL("state-token", oauth2.AccessTypeOffline)

@@ -57,10 +57,13 @@ func DatabaseHandlers(app *fiber.App) {
 }
 
 func SheetsHandler(app *fiber.App) {
+	//jwt := middlewares.NewAuthMiddleware()
 	sheetapi := app.Group("/sheetapi")
-	sheetapi.Get("/auth", sheetsapi.AuthGoogle)
-	sheetapi.Get("/callback", sheetsapi.CreateSheet)
+	sheetapi.Get("/auth/:uuid", sheetsapi.AuthGoogle)
+	sheetapi.Get("/auth/callback", sheetsapi.AuthCallback)
+	sheetapi.Post("/createSheet/:name", sheetsapi.CreateSheet)
 	sheetapi.Get("/sheet/:id", sheetsapi.GetSheet)
+	// Get Values will return  a default of 1500 Cells but it only return the filled cells
 	sheetapi.Get("/getValues/:id", sheetsapi.GetSheetValues)
 }
 

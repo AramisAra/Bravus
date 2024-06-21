@@ -4,15 +4,21 @@ import (
 	"context"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 	"google.golang.org/api/option"
 	"google.golang.org/api/sheets/v4"
 )
 
-func CreateSheet(c *fiber.Ctx) error {
+func isValidUUID(id string) bool {
+	_, err := uuid.Parse(id)
+	return err == nil
+}
+
+func AuthCallback(c *fiber.Ctx) error {
 	ctx := context.Background()
-	name := c.Params("name")
-	if name == "" {
-		name = c.Query("name")
+	id := c.Query("state")
+	if id == "" {
+		return c.Status(fiber.StatusBadRequest).SendString("UUID not found")
 	}
 
 	// Get the authorization code from the URL query parameters
@@ -28,7 +34,23 @@ func CreateSheet(c *fiber.Ctx) error {
 	}
 
 	// Save the token to a file or use it to create a service client
-	saveToken(tok)
+	saveToken(tok, id)
+
+	return c.Status(200).JSON("Auth is complete")
+}
+
+func CreateSheet(c *fiber.Ctx) error {
+	ctx := context.Background()
+	name := c.Params("name")
+	if name == "" {
+		name = c.Query("name")
+	}
+
+	// Read token from the json
+	tok, err := ReadFromFile("token.json")
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{"Error": "No token file"})
+	}
 
 	// Create a new Sheets service client
 	client := config.Client(ctx, tok)
@@ -95,7 +117,7 @@ func GetSheetValues(c *fiber.Ctx) error {
 		return c.Status(400).JSON(fiber.Map{"Error": err.Error()})
 	}
 
-	resp, err := srv.Spreadsheets.Values.BatchGet(sheetid).Ranges("A1:W337").Context(ctx).Do()
+	resp, err := srv.Spreadsheets.Values.BatchGet(sheetid).Ranges("A1:O100").Context(ctx).Do()
 	if err != nil {
 		c.Status(400).JSON(fiber.Map{"Error": err.Error()})
 	}
