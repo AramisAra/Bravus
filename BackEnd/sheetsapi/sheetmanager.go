@@ -41,13 +41,11 @@ func AuthCallback(c *fiber.Ctx) error {
 
 func CreateSheet(c *fiber.Ctx) error {
 	ctx := context.Background()
-	name := c.Params("name")
-	if name == "" {
-		name = c.Query("name")
-	}
+	name := c.Query("name")
+	uuid := c.Query("uuid")
 
 	// Read token from the json
-	tok, err := ReadFromFile("token.json")
+	tok, err := ReadFromFile(uuid + ".json")
 	if err != nil {
 		return c.Status(400).JSON(fiber.Map{"Error": "No token file"})
 	}
@@ -75,12 +73,10 @@ func CreateSheet(c *fiber.Ctx) error {
 
 func GetSheet(c *fiber.Ctx) error {
 	ctx := context.Background()
-	sheetid := c.Params("id")
-	if sheetid == "" {
-		sheetid = c.Query("id")
-	}
+	sheetid := c.Query("id")
+	uuid := c.Query("uuid")
 
-	tok, err := ReadFromFile("token.json")
+	tok, err := ReadFromFile(uuid + ".json")
 	if err != nil {
 		return c.Status(400).JSON(fiber.Map{"Error": "No token file"})
 	}
@@ -101,12 +97,10 @@ func GetSheet(c *fiber.Ctx) error {
 
 func GetSheetValues(c *fiber.Ctx) error {
 	ctx := context.Background()
-	sheetid := c.Params("id")
-	if sheetid == "" {
-		sheetid = c.Query("id")
-	}
+	sheetid := c.Query("id")
+	uuid := c.Query("uuid")
 
-	tok, err := ReadFromFile("token.json")
+	tok, err := ReadFromFile(uuid + ".json")
 	if err != nil {
 		return c.Status(400).JSON(fiber.Map{"Error": "No token file"})
 	}

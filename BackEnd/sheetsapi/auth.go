@@ -2,7 +2,6 @@ package sheetsapi
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -39,8 +38,9 @@ func ClientGetter() {
 	}
 }
 
-func ReadFromFile(file string) (*oauth2.Token, error) {
-	f, err := os.Open(file)
+func ReadFromFile(filename string) (*oauth2.Token, error) {
+	path := filepath.Join(".tokens", filename)
+	f, err := os.Open(path)
 	if err != nil {
 		return nil, err
 	}
@@ -61,16 +61,14 @@ func saveToken(token *oauth2.Token, filename string) {
 }
 
 func AuthGoogle(c *fiber.Ctx) error {
-	id := c.Params("uuid")
-	if id == "" {
-		id = c.Query("uuid")
-	}
+	id := c.Query("uuid")
 
 	if !isValidUUID(id) {
+		println(id)
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
 	// Generate the URL for the authorization request.
 	ClientGetter()
-	authURL := config.AuthCodeURL("state-token", oauth2.AccessTypeOffline)
-	return c.SendString(fmt.Sprintf("Go to the following link in your browser: \n%v\n", authURL))
+	authURL := config.AuthCodeURL(id, oauth2.AccessTypeOffline)
+	return c.Redirect(authURL)
 }
