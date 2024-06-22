@@ -1,3 +1,11 @@
+/* src/index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import './Styles/components/fonts.css'; 
+@import './Styles/components/home.css';  
+@import './Styles/components/login.css';
+@import './Styles/components/signup.css'; 
+@import './Styles/components/footer.css';
+@import './Styles/components/header.css';

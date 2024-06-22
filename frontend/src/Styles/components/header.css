@@ -1,0 +1,25 @@
+/* src/styles/header.css */
+
+body {
+  background-color: #333;
+  color: white;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.btn-hover-effect {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: medium;
+  background-color: transparent;
+  color: white;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-hover-effect:hover {
+  background-color: #1a1a1a;
+  color: white;
+}
