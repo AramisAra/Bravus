@@ -1,6 +1,7 @@
 package googleapis
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 	"os"
@@ -22,6 +23,31 @@ var (
 
 func Start() {
 	ClientGetter()
+}
+
+func AuthCallback(c *fiber.Ctx) error {
+	ctx := context.Background()
+	id := c.Query("state")
+	if id == "" {
+		return c.Status(fiber.StatusBadRequest).SendString("UUID not found")
+	}
+
+	// Get the authorization code from the URL query parameters
+	code := c.Query("code")
+	if code == "" {
+		return c.Status(fiber.StatusBadRequest).SendString("Authorization code not found")
+	}
+
+	// Exchange the authorization code for an access token
+	tok, err := config.Exchange(ctx, code)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("Unable to exchange code for token: " + err.Error())
+	}
+
+	// Save the token to a file or use it to create a service client
+	saveToken(tok, id)
+
+	return c.Status(200).JSON("Auth is complete")
 }
 
 func ClientGetter() {
@@ -70,5 +96,5 @@ func AuthGoogle(c *fiber.Ctx) error {
 	// Generate the URL for the authorization request.
 	ClientGetter()
 	authURL := config.AuthCodeURL(id, oauth2.AccessTypeOffline)
-	return c.Redirect(authURL)
+	return c.Status(200).JSON(authURL)
 }

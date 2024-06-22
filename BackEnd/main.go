@@ -58,8 +58,8 @@ func DatabaseHandlers(app *fiber.App) {
 }
 
 func SheetsHandler(app *fiber.App) {
-	//jwt := middlewares.NewAuthMiddleware()
-	sheetapi := app.Group("/sheetapi")
+	jwt := middlewares.NewAuthMiddleware()
+	sheetapi := app.Group("/sheetapi", jwt)
 	sheetapi.Get("/auth", googleapis.AuthGoogle)
 	sheetapi.Get("/auth/callback", googleapis.AuthCallback)
 	sheetapi.Post("/createSheet", googleapis.CreateSheet)

@@ -85,7 +85,7 @@ func LoginClient(c *fiber.Ctx) error {
 	}
 
 	// Return the token
-	return c.JSON(dbmodels.LoginResponse{Token: t})
+	return c.JSON(dbmodels.LoginResponse{ID: client.ID, Token: t})
 
 }
 

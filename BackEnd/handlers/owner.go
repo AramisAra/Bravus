@@ -80,7 +80,7 @@ func LoginOwner(c *fiber.Ctx) error {
 	}
 
 	// Return the token
-	return c.JSON(dbmodels.LoginResponse{Token: t})
+	return c.JSON(dbmodels.LoginResponse{ID: owner.ID, Token: t})
 }
 
 // List all owners
