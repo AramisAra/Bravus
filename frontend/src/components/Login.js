@@ -16,6 +16,7 @@ function Login() {
     try {
       const response = await loginOwner(requestData);
       console.log('Response Data:', response.data);
+      localStorage.setItem('uuid', response.data.id)
       localStorage.setItem('token', response.data.token);
       navigate('/main');
     } catch (err) {

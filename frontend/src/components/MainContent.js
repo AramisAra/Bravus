@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getProtectedData } from '../services/api';
+import { redirect, useNavigate } from 'react-router-dom';
+import api, { getProtectedData } from '../services/api';
 
 function MainContent() {
   const [data, setData] = useState(null);
   const navigate = useNavigate();
+  const uuid = localStorage.getItem('uuid')
 
   useEffect(() => {
     const token = localStorage.getItem('token');
