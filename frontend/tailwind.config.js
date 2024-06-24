@@ -12,6 +12,8 @@ module.exports = {
         'gray-600': '#4a4a4a',
         'blue-500': '#3b82f6',
         'blue-400': '#60a5fa',
+        'blue-600': '#2563eb',
+        'indigo-600': '#4f46e5',
       },
     },
   },
