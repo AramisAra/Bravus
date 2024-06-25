@@ -16,7 +16,7 @@ function SignUp() {
     const requestData = { name, email, phone, career, password };
 
     try {
-      const response = await registerOwner(requestData);
+      await registerOwner(requestData);
       navigate('/login');
     } catch (err) {
       console.error('Error response:', err.response);
