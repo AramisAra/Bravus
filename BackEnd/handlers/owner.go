@@ -20,7 +20,11 @@ func RegisterOwner(c *fiber.Ctx) error {
 
 	// Check if the email already exists
 	var existingOwner dbmodels.Owner
+	var existingClient dbmodels.Client
 	if err := database.Database.Db.Where("email = ?", registration.Email).First(&existingOwner).Error; err == nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "email already registered"})
+	}
+	if err := database.Database.Db.Where("email = ?", registration.Email).First(&existingClient).Error; err == nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "email already registered"})
 	}
 
