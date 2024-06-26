@@ -1,28 +1,42 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { registerOwner } from '../services/api';
+import { registerClient, registerOwner } from '../services/api';
+
 
 function SignUp() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [career, setCareer] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+const [name, setName] = useState('');
+const [email, setEmail] = useState('');
+const [phone, setPhone] = useState('');
+const [career, setCareer] = useState('');
+const [password, setPassword] = useState('');
+const [isOwner, setIsOwner] = useState(false);
+const [error, setError] = useState('');
+const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const requestData = { name, email, phone, career, password };
 
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const requestData = { name, email, phone, career, password };
+  console.log('Request Data:', requestData);
+  if (!isOwner)
     try {
-      const response = await registerOwner(requestData);
+      const response = await registerClient(requestData);
+      console.log('Response Data:', response.data);
       navigate('/login');
     } catch (err) {
-      console.error('Error response:', err.response);
-      setError(err.response?.data?.error || 'Registration failed. Please try again.');
+      console.error('Error Response:', err.response ? err.response.data : err.message);
+      setError('Registration failed. Please try again.');
     }
-  };
+  if (isOwner)
+    try {
+      const response = await registerClient(requestData);
+      console.log('Response Data:', response.data);
+      navigate('/login');
+    } catch (err) {
+      console.error('Error Response:', err.response ? err.response.data : err.message);
+      setError('Registration failed. Please try again.');
+    }
+};
 
   return (
     <section className="bg-gray-900 min-h-screen flex items-center justify-center">
@@ -69,18 +83,6 @@ function SignUp() {
               />
             </div>
             <div>
-              <label htmlFor="career" className="block mb-2 text-sm font-medium text-white">Your career</label>
-              <input 
-                type="text" 
-                name="career" 
-                id="career" 
-                className="bg-gray-700 border border-gray-600 text-white sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
-                required 
-                value={career} 
-                onChange={(e) => setCareer(e.target.value)} 
-              />
-            </div>
-            <div>
               <label htmlFor="password" className="block mb-2 text-sm font-medium text-white">Password</label>
               <input 
                 type="password" 
@@ -92,6 +94,18 @@ function SignUp() {
                 onChange={(e) => setPassword(e.target.value)} 
               />
             </div>
+          <div>
+              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <input type="checkbox" name="owner" id="owner" className="mr-2 rounded dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500" checked={isOwner} onChange={(e) => setIsOwner(e.target.checked)} />
+                  I am an owner
+              </label>
+            </div>
+            {isOwner && (
+              <div>
+                <label htmlFor="career" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your career</label>
+                <input type="text" name="career" id="career" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value={career} onChange={(e) => setCareer(e.target.value)} />
+              </div>
+            )}
             <button type="submit" className="relative flex h-[50px] w-full items-center justify-center overflow-hidden bg-gray-800 text-white shadow-2xl transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-blue-600 before:duration-500 before:ease-out hover:shadow-blue-600 hover:before:h-full hover:before:w-full">
               <span className="relative z-10">Sign up</span>
             </button>
