@@ -3,16 +3,28 @@ import { Link } from 'react-router-dom';
 
 function Home() {
   return (
-    <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
-      <h1 className="text-4xl font-bold mb-4">Welcome to the Grooming Scheduler</h1>
-      <p className="text-xl mb-6">Do you have an account?</p>
-      <div>
-        <Link to="/login" className="text-blue-500 hover:underline text-lg mr-4">
-          Yes, I have an account
-        </Link>
-        <Link to="/signup" className="text-blue-500 hover:underline text-lg">
-          No, I need to sign up
-        </Link>
+    <div className="flex flex-col justify-center items-center h-screen bg-gray-900 text-white">
+      <div className="text-center p-8">
+        <h1 className="text-4xl font-bold mb-4">Welcome to Bravo</h1>
+        <p className="text-lg mb-6">
+          A grooming scheduler web app to make appointments for business owners. [insert more description here]
+        </p>
+        <div className="mb-4">
+          <p className="text-lg">
+            Already a Bravo user?{' '}
+            <Link to="/login" className="btn-hover-effect px-4 py-1.5">
+              Login
+            </Link>
+          </p>
+        </div>
+        <div>
+          <p className="text-lg">
+            New here?{' '}
+            <Link to="/signup" className="btn-register">
+              Register
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
