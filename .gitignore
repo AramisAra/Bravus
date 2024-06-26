@@ -1,2 +1,4 @@
 BackEnd/.env
+BackEnd/client_secret.json
+BackEnd/.tokens
 /ReferenceBackend/

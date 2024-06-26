@@ -5,8 +5,11 @@ import (
 	"os"
 
 	database "github.com/AramisAra/BravusBackend/database"
+	"github.com/AramisAra/BravusBackend/googleapis"
 	"github.com/AramisAra/BravusBackend/handlers"
+	middlewares "github.com/AramisAra/BravusBackend/middleware"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 )
 
@@ -14,7 +17,7 @@ func HealthCheck(c *fiber.Ctx) error {
 	return c.SendString("OK")
 }
 
-func loginSystem(app *fiber.App) {
+func LoginSystem(app *fiber.App) {
 	// login system
 	login := app.Group("/login")
 	login.Post("/Rowner", handlers.RegisterOwner)
@@ -54,6 +57,17 @@ func DatabaseHandlers(app *fiber.App) {
 	owner.Delete("/delete/:uuid", handlers.DeleteOwner)
 }
 
+func SheetsHandler(app *fiber.App) {
+	jwt := middlewares.NewAuthMiddleware()
+	sheetapi := app.Group("/sheetapi", jwt)
+	sheetapi.Get("/auth", googleapis.AuthGoogle)
+	sheetapi.Get("/auth/callback", googleapis.AuthCallback)
+	sheetapi.Post("/createSheet", googleapis.CreateSheet)
+	sheetapi.Get("/sheet", googleapis.GetSheet)
+	// Get Values will return  a default of 1500 Cells but it only return the filled cells
+	sheetapi.Get("/getValues", googleapis.GetSheetValues)
+}
+
 func main() {
 	err := godotenv.Load()
 	if err != nil {
@@ -63,10 +77,20 @@ func main() {
 	dsn := os.Getenv("DSN")
 	database.ConnectDb(dsn)
 
+	// Setting auth to google servers
+	googleapis.Start()
+
 	// This is the main overall the app_api
 	app := fiber.New()
-	loginSystem(app)
-	DatabaseHandlers(app)
 
-	app.Listen(":8000")
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "http://localhost:3000",
+		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
+	}))
+	jwt := middlewares.NewAuthMiddleware()
+	LoginSystem(app)
+	DatabaseHandlers(app)
+	SheetsHandler(app)
+	app.Get("/protected", jwt, handlers.Protected)
+	log.Fatal(app.Listen(":8000"))
 }
