@@ -19,4 +19,6 @@ export const getClient = (uuid, token) =>
     },
   });
 
+export const listOwner = api.get('owner/get')
+
 export default api;

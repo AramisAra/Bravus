@@ -7,7 +7,9 @@ import Home from './components/Home';
 import Dashboard from './components/Dashboard';
 import Sheet from './components/Sheet';
 import SidebarLayout from './components/SidebarLayout';
+import appointment from './components/appointment'
 import HeaderLayout from './components/HeaderLayout';  // Asegúrate de que esta línea sea correcta
+import AppointmentForm from './components/appointment';
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
           <Route path="/login" element={<HeaderLayout><Login /></HeaderLayout>} />
           <Route path="/dashboard" element={<SidebarLayout><Dashboard /></SidebarLayout>} />
           <Route path="/sheet" element={<SidebarLayout><Sheet /></SidebarLayout>} />
+          <Route path="/appointment" element={<SidebarLayout><AppointmentForm /></SidebarLayout>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Sidebar = () => {
   return (
     <div className="bg-gray-800 h-screen p-6 text-white w-64">
-      <h1 className="text-2xl font-bold mb-8">Bravo</h1>
+      <h1 className="text-2xl font-bold mb-8">Bravus<span className="text-blue-500">.</span></h1>
       <nav>
         <ul className="space-y-4">
           <li>
