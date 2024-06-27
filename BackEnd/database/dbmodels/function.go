@@ -25,6 +25,6 @@ func CreateAnimalResponse(animal Animal) AnimalSerializer {
 }
 
 func CreateAppointmentResponse(appointment Appointment) AppointmentSerializer {
-	return AppointmentSerializer{ClientID: appointment.ClientID, OwnerID: appointment.OwnerID, AnimalID: appointment.AnimalID,
+	return AppointmentSerializer{ClientID: appointment.ClientID, OwnerID: appointment.OwnerID,
 		Date: appointment.Date, Time: appointment.Time}
 }

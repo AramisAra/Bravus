@@ -22,28 +22,18 @@ func CreateAppointment(c *fiber.Ctx) error {
 	if !isValidUUID(ownerid) {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
-	animalid := c.Params("uuidAnimal")
-	if animalid == "" {
-		animalid = c.Query("uuidAnimal")
-	}
-	if !isValidUUID(animalid) {
-		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
-	}
 
 	// Data Management
 	var client dbmodels.Client
 	var owner dbmodels.Owner
-	var animal dbmodels.Animal
 
 	database.Database.Db.Find(&client, "id = ?", userid)
 	database.Database.Db.Find(&owner, "id = ?", ownerid)
-	database.Database.Db.Find(&animal, "id = ?", animalid)
 
 	var appointment dbmodels.Appointment
 
 	appointment.ClientID = client.ID
 	appointment.OwnerID = owner.ID
-	appointment.AnimalID = animal.ID
 
 	if err := c.BodyParser(&appointment); err != nil {
 		return c.Status(400).JSON(err.Error())
