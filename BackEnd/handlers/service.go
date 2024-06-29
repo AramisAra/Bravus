@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"fmt"
+
 	database "github.com/AramisAra/BravusBackend/database"
 	"github.com/AramisAra/BravusBackend/database/dbmodels"
 	"github.com/gofiber/fiber/v2"
@@ -23,6 +25,9 @@ func CreateService(c *fiber.Ctx) error {
 	database.Database.Db.Find(&owner, "id = ?", id)
 
 	var service dbmodels.Service
+
+	rawBody := c.Body()
+	fmt.Println("Raw request body:", string(rawBody))
 
 	if err := c.BodyParser(&service); err != nil {
 		return c.Status(400).JSON(err.Error())
