@@ -1,0 +1,13 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '../styles/fonts.css'; 
+@import '../styles/home.css';  
+@import '../styles/login.css';
+@import '../styles/signup.css'; 
+@import '../styles/footer.css';
+@import '../styles/header.css';
+@import '../styles/dashboard.css';
+@import '../styles/appointment.css';

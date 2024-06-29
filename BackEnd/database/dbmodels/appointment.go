@@ -11,5 +11,4 @@ type Appointment struct {
 	Time     string    `json:"time" gorm:"TIME"`
 	OwnerID  uuid.UUID `json:"ownerid"`
 	ClientID uuid.UUID `json:"clientid"`
-	AnimalID uuid.UUID `json:"animalid"`
 }

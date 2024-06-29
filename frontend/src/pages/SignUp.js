@@ -30,7 +30,7 @@ const handleSubmit = async (e) => {
     }
   if (isOwner)
     try {
-      const response = await registerClient(requestData);
+      const response = await registerOwner(requestData);
       console.log('Response Data:', response.data);
       navigate('/login');
     } catch (err) {

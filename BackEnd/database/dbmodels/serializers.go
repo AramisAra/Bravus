@@ -44,6 +44,7 @@ type OwnerSerializer struct {
 	Phone        string        `json:"phone"`
 	Email        string        `json:"email"`
 	Career       string        `json:"career"`
+	Services     []Service     `json:"services"`
 	Appointments []Appointment `json:"appointments"`
 }
 
