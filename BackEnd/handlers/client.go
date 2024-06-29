@@ -112,7 +112,7 @@ func LoginClient(c *fiber.Ctx) error {
 }
 
 // Get Client related appointments
-func GetAppointment(c *fiber.Ctx) error {
+func GetAppointmentClient(c *fiber.Ctx) error {
 	id := c.Query("uuid")
 	if !isValidUUID(id) {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")

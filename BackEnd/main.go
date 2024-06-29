@@ -40,7 +40,8 @@ func DatabaseHandlers(app *fiber.App) {
 	// Appointment Routes
 	appointment := app.Group("/appointment")
 	appointment.Post("/create", handlers.CreateAppointment)
-	appointment.Get("/get", handlers.GetAppointment)
+	appointment.Get("/getforclient", handlers.GetAppointmentClient)
+	appointment.Get("/getforowner", handlers.GetAppointmentOwner)
 	appointment.Delete("/delete", handlers.DeleteAppointment)
 	appointment.Put("/update", handlers.UpdateAppointment)
 	// Service Routes
@@ -58,8 +59,7 @@ func DatabaseHandlers(app *fiber.App) {
 }
 
 func SheetsHandler(app *fiber.App) {
-	jwt := middlewares.NewAuthMiddleware()
-	sheetapi := app.Group("/sheetapi", jwt)
+	sheetapi := app.Group("/sheetapi")
 	sheetapi.Get("/auth", googleapis.AuthGoogle)
 	sheetapi.Get("/auth/callback", googleapis.AuthCallback)
 	sheetapi.Post("/createSheet", googleapis.CreateSheet)

@@ -104,7 +104,7 @@ func LoginOwner(c *fiber.Ctx) error {
 func ListOwners(c *fiber.Ctx) error {
 	owners := []dbmodels.Owner{}
 
-	database.Database.Db.Find(&owners)
+	database.Database.Db.Preload("Services").Find(&owners)
 	responseOwner := []dbmodels.OwnerSerializer{}
 
 	for _, owner := range owners {
@@ -115,11 +115,7 @@ func ListOwners(c *fiber.Ctx) error {
 }
 
 func GetOwner(c *fiber.Ctx) error {
-	id := c.Params("uuid")
-	if id == "" {
-		id = c.Query("uuid")
-	}
-
+	id := c.Query("uuid")
 	if !isValidUUID(id) {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid UUID"})
 	}
@@ -130,6 +126,18 @@ func GetOwner(c *fiber.Ctx) error {
 
 	response := dbmodels.CreateOwnerResponse(owner)
 
+	return c.Status(200).JSON(response)
+}
+
+func GetAppointmentOwner(c *fiber.Ctx) error {
+	id := c.Query("uuid")
+	if !isValidUUID(id) {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
+	}
+
+	var owner dbmodels.Owner
+	database.Database.Db.Preload("Appointments").Find(&owner, "id = ?", id)
+	response := dbmodels.CreateOwnerResponse(owner)
 	return c.Status(200).JSON(response)
 }
 
@@ -151,7 +159,7 @@ func UpdateOwner(c *fiber.Ctx) error {
 
 	owner := dbmodels.Owner{}
 
-	database.Database.Db.Joins("Animals").Find(&owner, "id = ?", id)
+	database.Database.Db.Joins("Services").Find(&owner, "id = ?", id)
 
 	var updateowner dbmodels.UpdateOwnerInput
 

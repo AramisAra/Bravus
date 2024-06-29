@@ -47,7 +47,7 @@ func AuthCallback(c *fiber.Ctx) error {
 	// Save the token to a file or use it to create a service client
 	saveToken(tok, id)
 
-	return c.Status(200).JSON("Auth is complete")
+	return c.Status(200).Redirect("http://localhost:3000/dashboard")
 }
 
 func ClientGetter() {
@@ -95,6 +95,6 @@ func AuthGoogle(c *fiber.Ctx) error {
 	}
 	// Generate the URL for the authorization request.
 	ClientGetter()
-	authURL := config.AuthCodeURL(id, oauth2.AccessTypeOffline)
-	return c.Status(200).JSON(authURL)
+	authURL := config.AuthCodeURL(id, oauth2.AccessTypeOffline, oauth2.ApprovalForce)
+	return c.Status(200).JSON(fiber.Map{"url": authURL})
 }
