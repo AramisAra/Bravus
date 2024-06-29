@@ -28,33 +28,33 @@ func LoginSystem(app *fiber.App) {
 func DatabaseHandlers(app *fiber.App) {
 	// Client Routes
 	client := app.Group("/client")
-	client.Get("/get/:uuid", handlers.GetClient)
+	client.Get("/get", handlers.GetClient)
 	client.Get("/get", handlers.ListClients)
-	client.Put("/update/:uuid", handlers.UpdateClient)
-	client.Delete("/delete/:uuid", handlers.DeleteClient)
+	client.Put("/update", handlers.UpdateClient)
+	client.Delete("/delete", handlers.DeleteClient)
 	// Animal Routes
 	animal := app.Group("/animal")
-	animal.Post("/create/:uuid", handlers.CreateAnimal)
-	animal.Delete("/delete/:uuid", handlers.DeleteAnimal)
-	animal.Put("/update/:uuid", handlers.UpdateAnimal)
+	animal.Post("/create", handlers.CreateAnimal)
+	animal.Delete("/delete", handlers.DeleteAnimal)
+	animal.Put("/update", handlers.UpdateAnimal)
 	// Appointment Routes
 	appointment := app.Group("/appointment")
-	appointment.Post("/create/:uuid/:uuid/uuid", handlers.CreateAppointment)
-	appointment.Get("/get/:uuid", handlers.GetAppointment)
-	appointment.Delete("/delete/:uuid", handlers.DeleteAppointment)
-	appointment.Put("/update/:uuid", handlers.UpdateAppointment)
+	appointment.Post("/create", handlers.CreateAppointment)
+	appointment.Get("/get", handlers.GetAppointment)
+	appointment.Delete("/delete", handlers.DeleteAppointment)
+	appointment.Put("/update", handlers.UpdateAppointment)
 	// Service Routes
 	service := app.Group("/service")
-	service.Post("/create/:uuid", handlers.CreateService)
+	service.Post("/create", handlers.CreateService)
 	service.Get("/get", handlers.ListService)
-	service.Put("/update/:uuid", handlers.UpdateService)
-	service.Delete("/delete/:uuid", handlers.DeleteService)
+	service.Put("/update", handlers.UpdateService)
+	service.Delete("/delete", handlers.DeleteService)
 	// Owner Routes
 	owner := app.Group("/owner")
 	owner.Get("/get", handlers.ListOwners)
-	owner.Get("/get/:uuid", handlers.GetOwner)
-	owner.Put("/update/:uuid", handlers.UpdateOwner)
-	owner.Delete("/delete/:uuid", handlers.DeleteOwner)
+	owner.Get("/get", handlers.GetOwner)
+	owner.Put("/update", handlers.UpdateOwner)
+	owner.Delete("/delete", handlers.DeleteOwner)
 }
 
 func SheetsHandler(app *fiber.App) {
@@ -84,7 +84,7 @@ func main() {
 	app := fiber.New()
 
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "http://localhost:3000",
+		AllowOrigins: "http://localhost:3000, http://172.24.195.132:3000",
 		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 	}))
 	jwt := middlewares.NewAuthMiddleware()

@@ -21,7 +21,15 @@ func isValidUUID(id string) bool {
 	All client call return animal back with the client\
 	the data of animal will be hide and shown as needed
 */
-// handles Register and Client creation
+
+// RegisterClient registers a new client in the system.
+// It takes a fiber.Ctx object as a parameter and returns an error.
+// The function parses the request body to retrieve the registration details.
+// It checks if the email already exists in the database for either a client or an owner.
+// If the email already exists, it returns an error response.
+// The function hashes the password using bcrypt.
+// It creates a new client object with the registration details.
+// The function saves the client in the database and returns the created client object as a JSON response.
 func RegisterClient(c *fiber.Ctx) error {
 	registration := new(dbmodels.RegisterRequestClient)
 	if err := c.BodyParser(registration); err != nil {
@@ -61,6 +69,16 @@ func RegisterClient(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(client)
 }
 
+// LoginClient handles the login request for a client.
+// It parses the request body to retrieve the login credentials,
+// checks if the email and password are valid,
+// generates a JWT token with the client's ID and email,
+// and returns the token along with the client's ID in the response.
+// If any error occurs during the process, it returns an appropriate error response.
+// Parameters:
+// - c: The fiber.Ctx object representing the HTTP request context.
+// Returns:
+// - An error if any error occurs during the login process, otherwise nil.
 func LoginClient(c *fiber.Ctx) error {
 	login := dbmodels.Login{}
 	if err := c.BodyParser(&login); err != nil {
@@ -95,31 +113,20 @@ func LoginClient(c *fiber.Ctx) error {
 
 // Get Client related appointments
 func GetAppointment(c *fiber.Ctx) error {
-	id := c.Params("uuid")
-	if id == "" {
-		id = c.Query("uuid")
-	}
-
+	id := c.Query("uuid")
 	if !isValidUUID(id) {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
 
 	var client dbmodels.Client
-
 	database.Database.Db.Preload("Appointments").Preload("Animals").Find(&client)
-
 	response := dbmodels.CreateClientResponse(client)
-
 	return c.Status(200).JSON(response)
 }
 
 // Get Clients
 func GetClient(c *fiber.Ctx) error {
-	id := c.Params("uuid")
-	if id == "" {
-		id = c.Query("uuid")
-	}
-
+	id := c.Query("uuid")
 	if !isValidUUID(id) {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
@@ -149,21 +156,14 @@ func ListClients(c *fiber.Ctx) error {
 
 // Update client personal info
 func UpdateClient(c *fiber.Ctx) error {
-	id := c.Params("uuid")
-	if id == "" {
-		id = c.Query("uuid")
-	}
-
+	id := c.Query("uuid")
 	if !isValidUUID(id) {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
 
 	client := dbmodels.Client{}
-
 	database.Database.Db.Joins("Animals").Find(&client, "id = ?", id)
-
 	var updateClient dbmodels.UpdateClientInput
-
 	if err := c.BodyParser(&updateClient); err != nil {
 		return c.Status(400).JSON(err.Error())
 	}

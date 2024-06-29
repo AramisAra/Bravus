@@ -17,7 +17,7 @@ func CreateServiceResponse(service Service) ServiceSerializer {
 
 func CreateOwnerResponse(owner Owner) OwnerSerializer {
 	return OwnerSerializer{ID: owner.ID, Full_Name: owner.Full_Name, Phone: owner.Phone, Email: owner.Email,
-		Career: owner.Career, Appointments: owner.Appointments}
+		Career: owner.Career, Services: owner.Services, Appointments: owner.Appointments}
 }
 
 func CreateAnimalResponse(animal Animal) AnimalSerializer {

@@ -11,7 +11,14 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// Register Owner func
+// RegisterOwner registers a new owner in the system.
+// It takes a fiber.Ctx object as a parameter and returns an error.
+// The function parses the request body to retrieve the registration details.
+// It checks if the email already exists in the database for either an owner or a client.
+// If the email already exists, it returns an error response.
+// The function then hashes the password using bcrypt.
+// It creates a new owner object with the registration details.
+// Finally, it saves the owner in the database and returns the created owner as a JSON response.
 func RegisterOwner(c *fiber.Ctx) error {
 	registration := new(dbmodels.RegisterRequestOwner)
 	if err := c.BodyParser(registration); err != nil {
@@ -52,7 +59,13 @@ func RegisterOwner(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(owner)
 }
 
-// Login Owner Func
+// LoginOwner handles the login request for an owner.
+// It receives a fiber.Ctx object representing the HTTP request context.
+// The function parses the request body to retrieve the login credentials.
+// It checks if the email exists in the database and verifies the password.
+// If the credentials are valid, it generates a JWT token with the owner's ID and email.
+// The token is signed using the secret key from the configuration.
+// Finally, it returns the owner's ID and the generated token as a JSON response.
 func LoginOwner(c *fiber.Ctx) error {
 	login := dbmodels.Login{}
 	if err := c.BodyParser(&login); err != nil {
@@ -87,7 +100,7 @@ func LoginOwner(c *fiber.Ctx) error {
 	return c.JSON(dbmodels.LoginResponse{ID: owner.ID, Token: t})
 }
 
-// List all owners
+// ListOwners retrieves a list of owners from the database and returns them as a JSON response.
 func ListOwners(c *fiber.Ctx) error {
 	owners := []dbmodels.Owner{}
 
@@ -120,13 +133,18 @@ func GetOwner(c *fiber.Ctx) error {
 	return c.Status(200).JSON(response)
 }
 
-// Update owner personal info
+// UpdateOwner updates the information of an owner in the database.
+// It takes a fiber.Ctx object as a parameter and returns an error.
+// The function first checks if the provided UUID is valid.
+// If the UUID is invalid, it returns a fiber.StatusBadRequest response with the message "Invalid UUID".
+// It then retrieves the owner from the database based on the provided UUID.
+// The function parses the request body into a dbmodels.UpdateOwnerInput object.
+// If there is an error while parsing the request body, it returns a fiber.StatusBadRequest response with the error message.
+// The function updates the owner's information with the values from the parsed request body.
+// It saves the updated owner to the database, omitting the "Animals" association.
+// Finally, it creates a dbmodels.CreateOwnerResponse object from the updated owner and returns a fiber.StatusOK response with the JSON representation of the response object.
 func UpdateOwner(c *fiber.Ctx) error {
-	id := c.Params("uuid")
-	if id == "" {
-		id = c.Query("uuid")
-	}
-
+	id := c.Query("uuid")
 	if !isValidUUID(id) {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
@@ -152,13 +170,11 @@ func UpdateOwner(c *fiber.Ctx) error {
 	return c.Status(200).JSON(responseowner)
 }
 
-// Delete owners
+// DeleteOwner deletes an owner from the database based on the provided UUID.
+// It returns an error if the UUID is invalid or if there was an issue deleting the owner.
+// If the owner is successfully deleted, it returns a JSON response with a status of 200.
 func DeleteOwner(c *fiber.Ctx) error {
-	id := c.Params("uuid")
-	if id == "" {
-		id = c.Query("uuid")
-	}
-
+	id := c.Query("uuid")
 	if !isValidUUID(id) {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}

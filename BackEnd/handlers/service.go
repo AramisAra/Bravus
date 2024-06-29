@@ -6,31 +6,27 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// Creates Service
+// CreateService is a handler function that creates a new service.
+// It expects a valid UUID as a query parameter and a JSON payload representing the service.
+// The function retrieves the owner associated with the UUID from the database,
+// parses the JSON payload into a service object, assigns the owner ID to the service,
+// and creates the service in the database.
+// Finally, it returns a JSON response containing the created service.
 func CreateService(c *fiber.Ctx) error {
-	// Var == to link param UUID
-	id := c.Params("uuid")
-	if id == "" {
-		id = c.Query("uuid")
-	}
-
-	// Checks if its a uuid
+	id := c.Query("uuid")
 	if !isValidUUID(id) {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
 
-	// database query for the owner how making the service
 	var owner dbmodels.Owner
 
 	database.Database.Db.Find(&owner, "id = ?", id)
 
 	var service dbmodels.Service
 
-	// Start of creating the service
 	if err := c.BodyParser(&service); err != nil {
 		return c.Status(400).JSON(err.Error())
 	}
-	// The Creates the service with the owner id foreign key
 	service.OwnerID = owner.ID
 	database.Database.Db.Create(&service)
 	responseService := dbmodels.CreateServiceResponse(service)
@@ -38,7 +34,12 @@ func CreateService(c *fiber.Ctx) error {
 	return c.Status(200).JSON(responseService)
 }
 
-// List all the service alone
+// ListService retrieves a list of services from the database and returns them as a JSON response.
+// It uses the fiber.Ctx parameter to handle the HTTP request and response.
+// The function queries the database for all services, serializes them using the ServiceSerializer,
+// and returns the serialized services as a JSON response.
+// The function returns an error if there is an issue with the database or the JSON serialization.
+// FILEPATH: /home/ara/Bravus/BackEnd/handlers/service.go
 func ListService(c *fiber.Ctx) error {
 	var services []dbmodels.Service
 
@@ -52,13 +53,11 @@ func ListService(c *fiber.Ctx) error {
 	return c.Status(200).JSON(responseService)
 }
 
-// Updates service
+// UpdateService updates a service based on the provided UUID.
+// It retrieves the service from the database, updates its properties with the values from the request body,
+// and saves the updated service back to the database. Finally, it returns the updated service as a JSON response.
 func UpdateService(c *fiber.Ctx) error {
-	id := c.Params("uuid")
-	if id == "" {
-		id = c.Query("uuid")
-	}
-
+	id := c.Query("uuid")
 	if !isValidUUID(id) {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid UUID"})
 	}
@@ -84,12 +83,10 @@ func UpdateService(c *fiber.Ctx) error {
 	return c.Status(200).JSON(responseService)
 }
 
-// Delete service
+// DeleteService deletes a service from the database based on the provided UUID.
+// It returns an error if the UUID is invalid or if the service cannot be deleted.
 func DeleteService(c *fiber.Ctx) error {
-	id := c.Params("uuid")
-	if id == "" {
-		id = c.Query("uuid")
-	}
+	id := c.Query("uuid")
 
 	if !isValidUUID(id) {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid UUID"})
