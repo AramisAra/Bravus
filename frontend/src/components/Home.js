@@ -14,7 +14,7 @@ function Home() {
           </p>
           <div className="mb-4">
             <p className="text-lg">
-              Already a Bravo user?{' '}
+              Already a Bravus user?{' '}
               <Link to="/login" className="text-blue-500 hover:underline">
                 Login
               </Link>
