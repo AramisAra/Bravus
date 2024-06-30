@@ -19,6 +19,7 @@ export const getClient = (uuid, token) =>
     },
   });
 
-export const listOwner = api.get('owner/get')
+// Submit Appointments
+export const makeAppointment = (data, uuid, owner) => api.post(`appointment/create?iduser=${uuid}&idowner=${owner}`, data)
 
 export default api;

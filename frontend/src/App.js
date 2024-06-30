@@ -5,11 +5,12 @@ import SignUp from './components/SignUp';
 import Login from './components/Login';
 import Home from './components/Home';
 import Dashboard from './components/Dashboard';
-import Sheet from './components/Sheet';
+import { Auth } from './services/auth';
 import SidebarLayout from './components/SidebarLayout';
-import appointment from './components/appointment'
 import HeaderLayout from './components/HeaderLayout';  // Asegúrate de que esta línea sea correcta
-import AppointmentForm from './components/appointment';
+import AppointmentForm from './components/Appointment';
+import ImportSheet from './components/SheetManage/ImportSheet';
+import CreateSheet from './components/SheetManage/CreateSheet';
 
 function App() {
   return (
@@ -21,7 +22,9 @@ function App() {
           <Route path="/signup" element={<HeaderLayout><SignUp /></HeaderLayout>} />
           <Route path="/login" element={<HeaderLayout><Login /></HeaderLayout>} />
           <Route path="/dashboard" element={<SidebarLayout><Dashboard /></SidebarLayout>} />
-          <Route path="/sheet" element={<SidebarLayout><Sheet /></SidebarLayout>} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path='/importsheet' element={<SidebarLayout><ImportSheet/></SidebarLayout>}/>
+          <Route path='/createsheet' element={<SidebarLayout><CreateSheet/></SidebarLayout>}/>
           <Route path="/appointment" element={<SidebarLayout><AppointmentForm /></SidebarLayout>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
