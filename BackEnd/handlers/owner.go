@@ -135,10 +135,14 @@ func GetAppointmentOwner(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
 
-	var owner dbmodels.Owner
-	database.Database.Db.Preload("Appointments").Find(&owner, "id = ?", id)
-	response := dbmodels.CreateOwnerResponse(owner)
-	return c.Status(200).JSON(response)
+	var appointments []dbmodels.Appointment
+	database.Database.Db.Find(&appointments, "owner_id = ?", id)
+
+	responseAppointment := []dbmodels.AppointmentSerializer{}
+	for _, appointment := range appointments {
+		responseAppointment = append(responseAppointment, dbmodels.CreateAppointmentResponse(appointment))
+	}
+	return c.Status(200).JSON(responseAppointment)
 }
 
 // UpdateOwner updates the information of an owner in the database.
