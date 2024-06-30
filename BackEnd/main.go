@@ -63,7 +63,7 @@ func SheetsHandler(app *fiber.App) {
 	sheetapi.Get("/auth", googleapis.AuthGoogle)
 	sheetapi.Get("/auth/callback", googleapis.AuthCallback)
 	sheetapi.Post("/createSheet", googleapis.CreateSheet)
-	sheetapi.Get("/sheet", googleapis.GetSheet)
+	sheetapi.Get("/getSheet", googleapis.GetSheet)
 	// Get Values will return  a default of 1500 Cells but it only return the filled cells
 	sheetapi.Get("/getValues", googleapis.GetSheetValues)
 }
