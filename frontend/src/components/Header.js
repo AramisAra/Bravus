@@ -1,7 +1,7 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
-const HeaderLayout = ({ children }) => {
+const Header = () => {
   return (
     <header className="bg-gray-900 text-white p-4 flex justify-between items-center">
       <div className="flex items-center space-x-4">
@@ -21,4 +21,4 @@ const HeaderLayout = ({ children }) => {
   );
 };
 
-export default HeaderLayout;
+export default Header;

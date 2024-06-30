@@ -1,4 +1,5 @@
 import React from 'react';
+<<<<<<< HEAD
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Footer from './components/Footer';
 import SignUp from './components/SignUp';
@@ -11,10 +12,15 @@ import HeaderLayout from './components/HeaderLayout';  // Asegúrate de que esta
 import AppointmentForm from './components/Appointment';
 import ImportSheet from './components/SheetManage/ImportSheet';
 import CreateSheet from './components/SheetManage/CreateSheet';
+=======
+import AppRouter from './router/AppRouter';
+import './styles/index.css';
+>>>>>>> Yeneishla
 
 function App() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-white">
+<<<<<<< HEAD
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -30,6 +36,9 @@ function App() {
         </Routes>
       </main>
       <Footer />
+=======
+      <AppRouter />
+>>>>>>> Yeneishla
     </div>
   );
 }
