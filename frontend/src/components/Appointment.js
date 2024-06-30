@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import '../Styles/components/appointment.css';
 import {  makeAppointment } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 function AppointmentForm() {
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
     const [owner, setOwner] = useState('');
     const [owners, setOwners] = useState([]);
-    const [service, setService] = useState('');
+    const [ServiceID, setServiceID] = useState('');
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const [popupVisible, setPopupVisible] = useState(false);
-    const [clientUUID, setClientUUID] = useState(localStorage.getItem('uuid')); 
+    const [clientUUID, setClientUUID] = useState(localStorage.getItem('uuid'));
+    const navigate = useNavigate();
     
-
     useEffect(() => {
         const fetchOwners = async () => {
             try {
@@ -28,7 +29,6 @@ function AppointmentForm() {
         };
         fetchOwners();
     }, []);
-
     useEffect(() => {
         if (owner) {
             const selectedOwner = owners.find((o) => o.id === owner);
@@ -41,17 +41,16 @@ function AppointmentForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const requestData = {date, time};
+        const requestData = {date, time, ServiceID};
         console.log(requestData);
         const response = await makeAppointment(requestData, clientUUID, owner)
         console.log('Response Data:', response.data)
-
-        // Add your form submission logic here
-
+        navigate('/profile');
         setLoading(false);
+        
     };
     console.log(owners)
-    console.log(service)
+    console.log(ServiceID)
 
     return (
         <div className="formbold-main-wrapper">
@@ -82,8 +81,8 @@ function AppointmentForm() {
                             id="service"
                             className="formbold-form-select"
                             required
-                            value={service}
-                            onChange={(e) => setService(e.target.value)}
+                            value={ServiceID}
+                            onChange={(e) => setServiceID(e.target.value)}
                         >
                             <option value="">Select Service</option>
                         {services
