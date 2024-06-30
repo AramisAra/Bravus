@@ -80,7 +80,6 @@ func UpdateService(c *fiber.Ctx) error {
 	service.NameService = UpdateService.ServiceName
 	service.ServiceDesc = UpdateService.ServiceDesc
 	service.Price = UpdateService.Price
-	service.ServiceCode = UpdateService.ServiceCode
 
 	database.Database.Db.Save(&service)
 

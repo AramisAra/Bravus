@@ -12,7 +12,7 @@ func CreateClientResponse(client Client) ClientSerializer {
 }
 
 func CreateServiceResponse(service Service) ServiceSerializer {
-	return ServiceSerializer{ID: service.ID, ServiceName: service.NameService, ServiceDesc: service.ServiceDesc, ServiceCode: service.ServiceCode}
+	return ServiceSerializer{ID: service.ID, ServiceName: service.NameService, ServiceDesc: service.ServiceDesc}
 }
 
 func CreateOwnerResponse(owner Owner) OwnerSerializer {
@@ -25,6 +25,6 @@ func CreateAnimalResponse(animal Animal) AnimalSerializer {
 }
 
 func CreateAppointmentResponse(appointment Appointment) AppointmentSerializer {
-	return AppointmentSerializer{ClientID: appointment.ClientID, OwnerID: appointment.OwnerID,
+	return AppointmentSerializer{ClientID: appointment.ClientID, OwnerID: appointment.OwnerID, ServiceID: appointment.ServiceID,
 		Date: appointment.Date, Time: appointment.Time}
 }

@@ -70,11 +70,11 @@ type UpdateAnimalInput struct {
 }
 
 type AppointmentSerializer struct {
-	ClientID uuid.UUID `json:"client"`
-	OwnerID  uuid.UUID `json:"owner"`
-	AnimalID uuid.UUID `json:"animal"`
-	Date     string    `json:"date"`
-	Time     string    `json:"time"`
+	ClientID  uuid.UUID `json:"client"`
+	OwnerID   uuid.UUID `json:"owner"`
+	ServiceID string    `json:"service"`
+	Date      string    `json:"date"`
+	Time      string    `json:"time"`
 }
 
 type AppointmentUpdater struct {
