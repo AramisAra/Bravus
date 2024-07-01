@@ -23,10 +23,10 @@ export const getClient = (uuid, token) =>
     },
   });
 
-<<<<<<< HEAD
-// Submit Appointments
-export const makeAppointment = (data, uuid, owner) => api.post(`appointment/create?iduser=${uuid}&idowner=${owner}`, data)
-=======
+
+
+export const makeAppointment = (data, client, owner) => 
+  api.post(`${APPOINTMENTS}/create?iduser=${client}&idowner=${owner}`, data);
 // Owner Endpoints
 export const listOwner = async () => {
   try {
@@ -37,12 +37,11 @@ export const listOwner = async () => {
     throw error;
   }
 };
->>>>>>> Yeneishla
 
 // Service Endpoints
 export const listServicesByOwner = async (ownerId) => {
   try {
-    const response = await api.get(`/service/getbyowner/${ownerId}`);
+    const response = await api.get(`/service/getbyowner?uuid=${ownerId}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching services', error);
