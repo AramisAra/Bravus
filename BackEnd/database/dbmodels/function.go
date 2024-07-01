@@ -12,7 +12,7 @@ func CreateClientResponse(client Client) ClientSerializer {
 }
 
 func CreateServiceResponse(service Service) ServiceSerializer {
-	return ServiceSerializer{ID: service.ID, ServiceName: service.NameService, ServiceDesc: service.ServiceDesc}
+	return ServiceSerializer{ID: service.ID, ServiceName: service.NameService, ServiceDesc: service.ServiceDesc, Price: service.Price}
 }
 
 func CreateOwnerResponse(owner Owner) OwnerSerializer {
