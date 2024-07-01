@@ -45,15 +45,14 @@ function Appointment() {
   }, [owner, owners]);
 
  const handleSubmit = async (e) => {
-     e.preventDefault();
-     setLoading(true);
-     const requestData = {date, time, ServiceID};
-     console.log(requestData);
-     const response = await makeAppointment(requestData, clientUUID, owner)
-     console.log('Response Data:', response.data)
-     navigate('/profile');
-     setLoading(false);
-    
+    e.preventDefault();
+    setLoading(true);
+    const requestData = {date, time, ServiceID};
+    console.log(requestData);
+    const response = await makeAppointment(requestData, clientUUID, owner)
+    console.log('Response Data:', response.data)
+    navigate('/profile');
+    setLoading(false);
 };
 console.log(owners)
 console.log(ServiceID)
@@ -91,7 +90,7 @@ console.log(ServiceID)
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <button onClick={() => navigate(-1)} className="bg-blue-500 text-white py-2 px-4 rounded-lg mb-4">Back</button>
         <form id="appointment-form" onSubmit={handleSubmit}>
-          <div className="mb-5">
+          {/* <div className="mb-5">
             <label htmlFor="name" className="block mb-2 text-sm font-medium text-black">Full Name</label>
             <input
               type="text"
@@ -129,7 +128,7 @@ console.log(ServiceID)
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </div>
+          </div> */}
           <div className="mb-5">
             <label htmlFor="owner" className="block mb-2 text-sm font-medium text-black">Select Owner</label>
             <select
@@ -162,7 +161,7 @@ console.log(ServiceID)
               <option value="">Select Service</option>
               {services
                 ? services.map((service) => {
-                    return <option key={service.id} value={service.id}>{service.nameservice}</option>
+                    return <option key={service.id} value={service.id}>{service.nameservice} - ${service.price}</option>
                 }) : (
                 <option disabled>No services found for this owner</option>
               )}
