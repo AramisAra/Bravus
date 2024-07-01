@@ -1,5 +1,27 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
+
+// Define the LogoutButton component
+const LogoutButton = () => {
+  const navigate = useNavigate();
+  const uuid = localStorage.getItem('uuid');
+
+  const handleClick = () => {
+    if (uuid) {
+      localStorage.removeItem('uuid');
+      console.log('Logged out successfully.');
+      navigate('/');
+    } else {
+      navigate('/login');
+    }
+  };
+
+  return (
+    <button onClick={handleClick} className="block py-2 px-4 rounded hover:bg-gray-700 w-full text-left">
+      {uuid ? 'Logout' : 'Login'}
+    </button>
+  );
+};
 
 const Sidebar = () => {
   return (
@@ -15,6 +37,9 @@ const Sidebar = () => {
           </li>
           <li>
             <Link to="/mainsheet" className="block py-2 px-4 rounded hover:bg-gray-700">Sheet</Link>
+          </li>
+          <li>
+            <LogoutButton />
           </li>
         </ul>
       </nav>

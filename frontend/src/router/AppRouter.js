@@ -26,7 +26,8 @@ function AppRouter() {
           <Route path="/dashboard" element={<SidebarLayout><Dashboard /></SidebarLayout>} />
           <Route path="/sheet" element={<SidebarLayout><Sheet /></SidebarLayout>} />
           <Route path="/auth" element={<Auth/>} />
-          <Route path="/mainsheet" element={<MainSheet/>}/>
+          <Route path="/mainsheet" element={
+            <SidebarLayout><MainSheet/></SidebarLayout>}/>
           <Route path="/importsheet" element={<ImportSheet/>} />
           <Route path="/createsheet" element={<CreateSheet/>} />
           <Route path="/appointment" element={<SidebarLayout><Appointment /></SidebarLayout>} />
