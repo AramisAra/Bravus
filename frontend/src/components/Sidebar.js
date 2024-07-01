@@ -14,7 +14,7 @@ const Sidebar = () => {
             <Link to="/dashboard" className="block py-2 px-4 rounded hover:bg-gray-700">Dashboard</Link>
           </li>
           <li>
-            <Link to="/sheet" className="block py-2 px-4 rounded hover:bg-gray-700">Sheet</Link>
+            <Link to="/mainsheet" className="block py-2 px-4 rounded hover:bg-gray-700">Sheet</Link>
           </li>
         </ul>
       </nav>
