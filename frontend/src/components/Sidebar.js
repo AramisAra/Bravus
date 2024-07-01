@@ -1,9 +1,10 @@
+// src/components/Sidebar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Sidebar = () => {
+const Sidebar = ({ user }) => {
   return (
-    <div className="bg-gray-800 h-screen p-6 text-white w-64">
+    <div className="bg-gray-800 h-screen p-6 text-white w-38">
       <h1 className="text-2xl font-bold mb-8">Bravus<span className="text-blue-500">.</span></h1>
       <nav>
         <ul className="space-y-4">
@@ -18,6 +19,16 @@ const Sidebar = () => {
           </li>
         </ul>
       </nav>
+      {user && (
+        <div className="mt-8 flex flex-col items-center">
+          <img
+            src={user.picture}
+            alt="Profile"
+            className="w-20 h-20 rounded-full mb-2"
+          />
+          <span className="text-sm">{user.name}</span>
+        </div>
+      )}
     </div>
   );
 };
