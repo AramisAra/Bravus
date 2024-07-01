@@ -38,7 +38,7 @@ const Dashboard = () => {
       <header className="bg-gray-800 shadow-md p-4 rounded-lg flex justify-between items-center">
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <div className="flex items-center space-x-4">
-          <Link to="/sheet" className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Go to Sheet</Link>
+          <Link to="/mainsheet" className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Go to Sheet</Link>
           <Link to="/appointment" className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Appointments</Link>
         </div>
       </header>
