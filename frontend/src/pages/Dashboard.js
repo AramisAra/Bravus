@@ -5,7 +5,7 @@ import { getAppointmentsForOwner } from '../services/api';
 const Dashboard = () => {
   const [appointmentsToday, setAppointmentsToday] = useState(0);
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);
-  const ownerUuid = localStorage.getItem('ownerUuid'); // Ensure this is correctly set on login
+  const ownerUuid = localStorage.getItem('uuid'); // Ensure this is correctly set on login
 
   useEffect(() => {
     const fetchAppointments = async () => {
