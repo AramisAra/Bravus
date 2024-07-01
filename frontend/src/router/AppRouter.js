@@ -9,6 +9,10 @@ import Sheet from '../pages/Sheet';
 import Appointment from '../pages/Appointment';
 import SidebarLayout from '../components/SidebarLayout';
 import HeaderLayout from '../components/HeaderLayout';
+import MainSheet from '../components/SheetManage/MainSheet';
+import ImportSheet from '../components/SheetManage/ImportSheet';
+import CreateSheet from '../components/SheetManage/CreateSheet';
+import { Auth } from '../services/auth';
 
 function AppRouter() {
   return (
@@ -21,6 +25,10 @@ function AppRouter() {
           <Route path="/login" element={<HeaderLayout><Login /></HeaderLayout>} />
           <Route path="/dashboard" element={<SidebarLayout><Dashboard /></SidebarLayout>} />
           <Route path="/sheet" element={<SidebarLayout><Sheet /></SidebarLayout>} />
+          <Route path="/auth" element={<Auth/>} />
+          <Route path="/mainsheet" element={<MainSheet/>}/>
+          <Route path="/importsheet" element={<ImportSheet/>} />
+          <Route path="/createsheet" element={<CreateSheet/>} />
           <Route path="/appointment" element={<SidebarLayout><Appointment /></SidebarLayout>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
