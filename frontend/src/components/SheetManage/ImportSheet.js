@@ -9,26 +9,34 @@ const ImportSheet = () => {
   const navigate = useNavigate();
   
   const handleSubmit = async (e) => {
-      e.preventDefault();
-      const requestData = { sheetnumid };
-      console.log('Request Data:', requestData);
-      try {
-          const response = await fetch(`http://localhost:8000/sheetapi/getSheet?id=${sheetnumid}&uuid=${ownerid}`)
-          const data = await response.json();
-          localStorage.setItem('sheetid', data.spreadsheetId)
-          console.log(response)
-          navigate('/sheet')
-        } catch (error) {
-          console.error('Unable to get data', error)
-          navigate('/auth')
+    e.preventDefault();
+    const requestData = { sheetnumid };
+    console.log('Request Data:', requestData);
+    
+    try {
+        const response = await fetch(`http://localhost:8000/sheetapi/getSheet?id=${sheetnumid}&uuid=${ownerid}`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
-      }
+
+        const data = await response.json();
+        localStorage.setItem('sheetid', data.spreadsheetId);
+        console.log(response);
+    } catch (error) {
+        console.error('Unable to get data', error);
+        navigate('/auth');
+    }
+  };
   return (
     <div>
       <div>
         <h1 className='text-xl font-bold leading-tight tracking-tight text-white md:text-2xl dark:text-white"'>Import your google sheet</h1>
         <p>If you have a google sheet put the id of you sheet here</p>
         <img src={sheetid} alt="Example of how the id look on the bar"/>
+        <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+          Click here to return to <a href='/dashboard' className="font-medium text-indigo-600 hover:underline dark:text-indigo-500">dashboard</a>
+        </p>
       </div>
       <form onSubmit={handleSubmit}>
       <div>

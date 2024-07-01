@@ -14,9 +14,12 @@ const CreateSheet = () => {
       try {
           const response = await fetch(`http://localhost:8000/sheetapi/createSheet?name=${name}&uuid=${ownerid}`)
           const data = await response.json();
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
           localStorage.setItem('sheetid', data.spreadsheetId);
           console.log(response);
-          navigate('/sheet');
+          navigate('/mainsheet');
         } catch (error) {
           console.error('Unable to get data', error)
           navigate('/auth');
