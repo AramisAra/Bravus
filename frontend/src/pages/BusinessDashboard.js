@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getAppointmentsForOwner } from '../services/api';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { FaExpandAlt } from "react-icons/fa";
+import { getAppointmentsForOwner } from '../services/api';
 import '../styles/modal.css';
+
+// Register the necessary components with Chart.js
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const BusinessDashboard = () => {
   const [appointmentsToday, setAppointmentsToday] = useState(0);
@@ -55,7 +59,7 @@ const BusinessDashboard = () => {
   }, [ownerUuid]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-4 flex-grow">
+    <div className={`min-h-screen bg-gray-900 text-white p-4 flex-grow relative`}>
       <header className="bg-gray-800 shadow-md p-4 rounded-lg flex justify-between items-center">
         <h1 className="text-2xl font-bold">Business Owner Dashboard</h1>
         <div className="flex items-center space-x-4">
@@ -63,7 +67,7 @@ const BusinessDashboard = () => {
           <Link to="/appointment" className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Go to Appointments</Link>
         </div>
       </header>
-      
+
       <main className="mt-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
           <div className="bg-gray-800 p-6 rounded-lg shadow-md">
@@ -83,7 +87,7 @@ const BusinessDashboard = () => {
             <p className="text-2xl text-blue-400">4.5</p>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-gray-800 p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-4">Upcoming appointments</h2>
@@ -105,7 +109,7 @@ const BusinessDashboard = () => {
               )}
             </div>
           </div>
-          
+
           <div className="bg-gray-800 p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-4 flex items-center">Notifications</h2>
             <div className="space-y-4">
@@ -123,19 +127,21 @@ const BusinessDashboard = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-gray-800 p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-4 flex items-center">Monthly Appointments <FaExpandAlt className="ml-2 cursor-pointer" onClick={() => setShowModal(true)} /></h2>
-            {showModal && (
-              <div className="modal">
-                <div className="modal-content">
-                  <span className="close" onClick={() => setShowModal(false)}>&times;</span>
-                  <Bar data={chartData} />
-                </div>
-              </div>
-            )}
           </div>
         </div>
+        {showModal && (
+          <div className="modal">
+            <div className="modal-content">
+              <span className="close" onClick={() => setShowModal(false)}>&times;</span>
+              <div className="w-full flex justify-center items-center">
+                <Bar data={chartData} />
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

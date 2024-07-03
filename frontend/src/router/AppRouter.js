@@ -1,3 +1,4 @@
+// src/AppRouter.js
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Footer from '../components/Footer';
@@ -12,8 +13,6 @@ import SidebarLayout from '../components/SidebarLayout';
 import HeaderLayout from '../components/HeaderLayout';
 
 function AppRouter() {
-  const userType = localStorage.getItem('userType'); // This should be set on login
-
   return (
     <>
       <main className="flex-grow">
@@ -22,12 +21,8 @@ function AppRouter() {
           <Route path="/home" element={<Home />} />
           <Route path="/signup" element={<HeaderLayout><SignUp /></HeaderLayout>} />
           <Route path="/login" element={<HeaderLayout><Login /></HeaderLayout>} />
-          {userType === 'business' && (
-            <Route path="/dashboard" element={<SidebarLayout><BusinessDashboard /></SidebarLayout>} />
-          )}
-          {userType === 'regular' && (
-            <Route path="/dashboard" element={<SidebarLayout><RegularDashboard /></SidebarLayout>} />
-          )}
+          <Route path="/businessdashboard" element={<SidebarLayout><BusinessDashboard /></SidebarLayout>} />  
+          <Route path="/dashboard" element={<SidebarLayout><RegularDashboard /></SidebarLayout>} />
           <Route path="/sheet" element={<SidebarLayout><Sheet /></SidebarLayout>} />
           <Route path="/appointment" element={<SidebarLayout><Appointment /></SidebarLayout>} />
           <Route path="*" element={<Navigate to="/" />} />
