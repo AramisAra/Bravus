@@ -21,7 +21,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative; /* Added to position the close button */
+  position: relative; 
 }
 
 .close {

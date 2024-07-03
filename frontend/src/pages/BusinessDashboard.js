@@ -6,7 +6,6 @@ import { FaExpandAlt } from "react-icons/fa";
 import { getAppointmentsForOwner } from '../services/api';
 import '../styles/modal.css';
 
-// Register the necessary components with Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const BusinessDashboard = () => {
@@ -14,7 +13,7 @@ const BusinessDashboard = () => {
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [chartData, setChartData] = useState({});
-  const ownerUuid = localStorage.getItem('ownerUuid'); // Ensure this is correctly set on login
+  const ownerUuid = localStorage.getItem('ownerUuid'); 
 
   useEffect(() => {
     const fetchAppointments = async () => {
