@@ -28,14 +28,13 @@ type ServiceSerializer struct {
 	ID          uuid.UUID `json:"id"`
 	ServiceName string    `json:"service_name"`
 	ServiceDesc string    `json:"service_desc"`
-	ServiceCode string    `json:"service_code"`
+	Price       float64   `json:"price"`
 }
 
 type UpdateServiceInput struct {
 	ServiceName string  `json:"service_name"`
 	ServiceDesc string  `json:"service_desc"`
 	Price       float64 `json:"price"`
-	ServiceCode string  `json:"service_code"`
 }
 
 type OwnerSerializer struct {

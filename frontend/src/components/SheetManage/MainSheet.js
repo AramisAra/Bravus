@@ -1,29 +1,24 @@
-import { useMemo, useEffect, useState } from 'react';
+import React from 'react';
+import { useMemo } from 'react';
+import {MaterialReactTable} from 'material-react-table';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
+import { Box, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import sheetid from '../sheetid.png'
+import InventorySheet from './InventorySheet';
+import FinancialSheet from './FinancialSheet';
 
-function MainSheet(){
-    const sheetid = localStorage.getItem('sheetid');
-    const ownerid = localStorage.getItem('uuid');
-    const [sheetData, setSheetData] = useState([])
-    useEffect(() => {
-        const fetchSheet = async () => {
-            try {
-                const response = await fetch(`http://localhost:8000/sheetapi/getValues?sheetid=${sheetid}&uuid=${ownerid}`);
-                const data = response.json();
-                setSheetData(data);
-                console.log(data);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-    })
-    const Sheet = () => {
-        return (
-          <div className="min-h-screen bg-gray-900 text-white p-4 flex-grow">
-            <h1 className="text-2xl font-bold">Sheet</h1>
-            <p className="mt-4">This is the Sheet page.</p>
-          </div>
-        );
-      };
-}
+
+const queryClient = new QueryClient();
+
+const MainSheet = () => (
+  <QueryClientProvider client={queryClient}>1
+  <div>
+    <FinancialSheet/>
+  </div>
+  <dvi>
+    <InventorySheet />
+  </dvi>
+  </QueryClientProvider>
+);
+
+export default MainSheet;

@@ -1,72 +1,96 @@
 import React, { useEffect, useState } from 'react';
-import { listOwner, createAppointment, listServicesByOwner } from '../services/api';
+import { listOwner, createAppointment, listServicesByOwner, makeAppointment } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
 function Appointment() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [service, setService] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState(new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }));
+  const [owner, setOwner] = useState('');
   const [owners, setOwners] = useState([]);
+  const [ServiceID, setServiceID] = useState('');
   const [services, setServices] = useState([]);
-  const [formData, setFormData] = useState({ owner: '', duration: '' });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [popupVisible, setPopupVisible] = useState(false);
+  const clientUUID = localStorage.getItem('uuid')
   const navigate = useNavigate();
 
-  const handleChange = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-  };
+  // const handleChange = (event) => {
+  //   setFormData({ ...formData, [event.target.name]: event.target.value });
+  // };
 
   useEffect(() => {
     const fetchOwners = async () => {
-      try {
-        const data = await listOwner();
-        setOwners(data);
-      } catch (error) {
-        console.error('Unable to fetch owners', error);
-      }
+        try {
+            const response = await fetch('http://localhost:8000/owner/get');  // Ensure this is a function call
+            const data = await response.json();
+            setOwners(data);
+            setServices(data.services)
+        } catch (error) {
+            console.error('Unable to fetch owners', error);
+        }
     };
-
     fetchOwners();
   }, []);
-
-  const handleOwnerChange = async (event) => {
-    const ownerId = event.target.value;
-    setFormData({ ...formData, owner: ownerId });
-    try {
-      const services = await listServicesByOwner(ownerId);
-      setServices(services);
-    } catch (error) {
-      console.error('Unable to fetch services', error);
+  useEffect(() => {
+    if (owner) {
+        const selectedOwner = owners.find((o) => o.id === owner);
+        setServices(selectedOwner ? selectedOwner.services : []);
+    } else {
+        setServices([]);
     }
-  };
+  }, [owner, owners]);
 
-  const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const appointmentData = { name, email, phone, service, date, time, owner: formData.owner, duration: formData.duration };
+    const requestData = {date, time, ServiceID};
+    console.log(requestData);
+    const response = await makeAppointment(requestData, clientUUID, owner)
+    console.log('Response Data:', response.data)
+    navigate('/profile');
+    setLoading(false);
+};
+console.log(owners)
+console.log(ServiceID)
 
-    try {
-      await createAppointment(appointmentData);
-      setMessage('Appointment booked successfully');
-      setPopupVisible(true);
-    } catch (error) {
-      setMessage('Failed to book appointment. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
+
+  // const handleOwnerChange = async (event) => {
+  //   const ownerId = event.target.value;
+  //   setFormData({ ...formData, owner: ownerId });
+  //   try {
+  //     const services = await listServicesByOwner(ownerId);
+  //     setServices(services);
+  //   } catch (error) {
+  //     console.error('Unable to fetch services', error);
+  //   }
+  // };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   const appointmentData = { name, email, phone, service, date, time, owner: formData.owner, duration: formData.duration };
+
+  //   try {
+  //     await createAppointment(appointmentData);
+  //     setMessage('Appointment booked successfully');
+  //     setPopupVisible(true);
+  //   } catch (error) {
+  //     setMessage('Failed to book appointment. Please try again.');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-900">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <button onClick={() => navigate(-1)} className="bg-blue-500 text-white py-2 px-4 rounded-lg mb-4">Back</button>
         <form id="appointment-form" onSubmit={handleSubmit}>
-          <div className="mb-5">
+          {/* <div className="mb-5">
             <label htmlFor="name" className="block mb-2 text-sm font-medium text-black">Full Name</label>
             <input
               type="text"
@@ -104,23 +128,22 @@ function Appointment() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </div>
+          </div> */}
           <div className="mb-5">
             <label htmlFor="owner" className="block mb-2 text-sm font-medium text-black">Select Owner</label>
             <select
               name="owner"
               id="owner"
-              className="w-full p-2.5 border border-gray-300 rounded-lg"
+              className="w-full p-2.5 border border-gray-300 rounded-lg text-black"
               required
-              value={formData.owner}
-              onChange={handleOwnerChange}
+              value={owner}
+              onChange={(e) => setOwner(e.target.value)}
             >
               <option value="">Select Owner</option>
-              {owners.length > 0 ? (
-                owners.map(owner => (
-                  <option key={owner.id} value={owner.id}>{owner.full_name}</option>
-                ))
-              ) : (
+              {owners
+                ? owners.map((owner) => {
+                    return <option key={owner.id} value={owner.id}>{owner.full_name} - {owner.career}</option>
+                }) : (
                 <option disabled>No owners found</option>
               )}
             </select>
@@ -130,17 +153,16 @@ function Appointment() {
             <select
               name="service"
               id="service"
-              className="w-full p-2.5 border border-gray-300 rounded-lg"
+              className="w-full p-2.5 border border-gray-300 rounded-lg text-black"
               required
-              value={service}
-              onChange={(e) => setService(e.target.value)}
+              value={ServiceID}
+              onChange={(e) => setServiceID(e.target.value)}
             >
               <option value="">Select Service</option>
-              {services.length > 0 ? (
-                services.map(service => (
-                  <option key={service.id} value={service.id}>{service.nameservice}</option>
-                ))
-              ) : (
+              {services
+                ? services.map((service) => {
+                    return <option key={service.id} value={service.id}>{service.nameservice} - ${service.price}</option>
+                }) : (
                 <option disabled>No services found for this owner</option>
               )}
             </select>
@@ -178,22 +200,6 @@ function Appointment() {
               value={time}
               onChange={(e) => setTime(e.target.value)}
             />
-          </div>
-          <div className="mb-5">
-            <label htmlFor="duration" className="block mb-2 text-sm font-medium text-black">Duration</label>
-            <select
-              name="duration"
-              id="duration"
-              className="w-full p-2.5 border border-gray-300 rounded-lg text-black"
-              required
-              value={formData.duration}
-              onChange={handleChange}
-            >
-              <option value="">Select Duration</option>
-              <option value="30">30 minutes</option>
-              <option value="60">1 hour</option>
-              <option value="120">2 hours</option>
-            </select>
           </div>
           <div className="flex justify-center">
             <button type="submit" className="bg-green-500 text-white py-2 px-4 rounded-lg">

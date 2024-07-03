@@ -13,7 +13,7 @@ const BusinessDashboard = () => {
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [chartData, setChartData] = useState({});
-  const ownerUuid = localStorage.getItem('ownerUuid'); 
+  const ownerUuid = localStorage.getItem('uuid');
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -64,6 +64,8 @@ const BusinessDashboard = () => {
         <div className="flex items-center space-x-4">
           <Link to="/sheet" className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Go to Sheet</Link>
           <Link to="/appointment" className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Go to Appointments</Link>
+          <Link to="/mainsheet" className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Go to Sheet</Link>
+          <Link to="/appointment" className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Appointments</Link>
         </div>
       </header>
 
