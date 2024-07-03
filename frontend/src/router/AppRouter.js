@@ -1,10 +1,12 @@
+// src/AppRouter.js
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import SignUp from '../pages/SignUp';
 import Login from '../pages/Login';
 import Home from '../pages/Home';
-import Dashboard from '../pages/Dashboard';
+import BusinessDashboard from '../pages/BusinessDashboard';
+import RegularDashboard from '../pages/RegularDashboard';
 import Sheet from '../pages/Sheet';
 import Appointment from '../pages/Appointment';
 import SidebarLayout from '../components/SidebarLayout';
@@ -19,7 +21,8 @@ function AppRouter() {
           <Route path="/home" element={<Home />} />
           <Route path="/signup" element={<HeaderLayout><SignUp /></HeaderLayout>} />
           <Route path="/login" element={<HeaderLayout><Login /></HeaderLayout>} />
-          <Route path="/dashboard" element={<SidebarLayout><Dashboard /></SidebarLayout>} />
+          <Route path="/businessdashboard" element={<SidebarLayout><BusinessDashboard /></SidebarLayout>} />  
+          <Route path="/dashboard" element={<SidebarLayout><RegularDashboard /></SidebarLayout>} />
           <Route path="/sheet" element={<SidebarLayout><Sheet /></SidebarLayout>} />
           <Route path="/appointment" element={<SidebarLayout><Appointment /></SidebarLayout>} />
           <Route path="*" element={<Navigate to="/" />} />

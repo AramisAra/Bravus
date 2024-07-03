@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginOwner } from '../services/api';
-import {loginClient} from '../services/api'
+import { loginOwner, loginClient } from '../services/api';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -14,28 +13,31 @@ function Login() {
     e.preventDefault();
     const requestData = { email, password };
     console.log('Request Data:', requestData);
-    if (!isOwner)
+    if (!isOwner) {
       try {
         const response = await loginClient(requestData);
         console.log('Response Data:', response.data);
-        localStorage.setItem('uuid', response.data.id)
+        localStorage.setItem('uuid', response.data.id);
         localStorage.setItem('token', response.data.token);
-        navigate('/main');
+        localStorage.setItem('userType', 'regular');
+        navigate('/dashboard');
       } catch (err) {
         console.error('Error Response:', err.response ? err.response.data : err.message);
         setError('Login failed. Please try again.');
       }
-    if (isOwner)
+    } else {
       try {
         const response = await loginOwner(requestData);
         console.log('Response Data:', response.data);
-        localStorage.setItem('uuid', response.data.id)
+        localStorage.setItem('uuid', response.data.id);
         localStorage.setItem('token', response.data.token);
-        navigate('/main');
+        localStorage.setItem('userType', 'business');
+        navigate('/dashboard');
       } catch (err) {
         console.error('Error Response:', err.response ? err.response.data : err.message);
         setError('Login failed. Please try again.');
       }
+    }
   };
 
   return (
