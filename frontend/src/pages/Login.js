@@ -77,7 +77,7 @@ function Login() {
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 <input type="checkbox" name="owner" id="owner" className="mr-2 rounded dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500" checked={isOwner} onChange={(e) => setIsOwner(e.target.checked)} />
-                  I am an owner
+                  I am a bus owner
               </label>
             </div>
             <button type="submit" className="relative flex h-12 w-full items-center justify-center overflow-hidden border border-indigo-600 text-indigo-600 shadow-2xl transition-all duration-200 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:m-auto before:h-0 before:w-0 before:rounded-sm before:bg-indigo-600 before:duration-300 before:ease-out hover:text-white hover:shadow-indigo-600 hover:before:h-full hover:before:w-full hover:before:opacity-80">

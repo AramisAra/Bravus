@@ -1,6 +1,5 @@
-// src/components/Sidebar.js
 import React from 'react';
-import { Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Define the LogoutButton component
 const LogoutButton = () => {
@@ -31,26 +30,19 @@ const Sidebar = ({ user }) => {
       <nav>
         <ul className="space-y-4">
           <li>
-            <Link to="/" className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-              <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">Home</span>
+            <Link to="/" className="relative text-white inline-flex items-center justify-center mb-2 overflow-hidden text-sm font-medium rounded-lg transition-all ease-in-out cursor-pointer hover:text-gray-400 before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-purple-500 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-purple-500 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
+              <span className="px-5 py-2.5">Home</span>
             </Link>
           </li>
           <li>
-            <Link to="/businessdashboard" className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-              <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">Dashboard</span>
+            <Link to="/businessdashboard" className="relative text-white inline-flex items-center justify-center mb-2 overflow-hidden text-sm font-medium rounded-lg transition-all ease-in-out cursor-pointer hover:text-gray-400 before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-purple-500 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-purple-500 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
+              <span className="px-5 py-2.5">Dashboard</span>
             </Link>
           </li>
           <li>
-<<<<<<< HEAD
-            <Link to="/sheet" className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-              <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">Sheet</span>
+            <Link to="/sheet" className="relative text-white inline-flex items-center justify-center mb-2 overflow-hidden text-sm font-medium rounded-lg transition-all ease-in-out cursor-pointer hover:text-gray-400 before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-purple-500 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-purple-500 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
+              <span className="px-5 py-2.5">Sheet</span>
             </Link>
-=======
-            <Link to="/mainsheet" className="block py-2 px-4 rounded hover:bg-gray-700">Sheet</Link>
-          </li>
-          <li>
-            <LogoutButton />
->>>>>>> c0a3debb3ee03d53ba4ec6de42bd68a60f8bc659
           </li>
         </ul>
       </nav>

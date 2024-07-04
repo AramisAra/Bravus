@@ -39,7 +39,6 @@ const BusinessDashboard = () => {
     };
 
     const fetchData = () => {
-      // Dummy data for chart
       const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
       const values = [12, 19, 3, 5, 2, 3, 9, 10, 15, 13, 11, 7];
 
@@ -58,18 +57,16 @@ const BusinessDashboard = () => {
   }, [ownerUuid]);
 
   return (
-    <div className={`min-h-screen bg-gray-900 text-white p-4 flex-grow relative`}>
+    <div className="min-h-screen bg-gray-900 text-white p-4 flex flex-col justify-between">
       <header className="bg-gray-800 shadow-md p-4 rounded-lg flex justify-between items-center">
         <h1 className="text-2xl font-bold">Business Owner Dashboard</h1>
         <div className="flex items-center space-x-4">
-          <Link to="/sheet" className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Go to Sheet</Link>
-          <Link to="/appointment" className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Go to Appointments</Link>
-          <Link to="/mainsheet" className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Go to Sheet</Link>
-          <Link to="/appointment" className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Appointments</Link>
+          <Link to="/sheet" className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow">Go to Sheet</Link>
+          <Link to="/appointment" className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 hover:shadow-lg hover:shadow-green-500/50 transition-shadow">Go to Appointments</Link>
         </div>
       </header>
 
-      <main className="mt-6">
+      <main className="mt-6 flex-grow">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
           <div className="bg-gray-800 p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-4">Appointments today</h2>
@@ -131,18 +128,18 @@ const BusinessDashboard = () => {
 
           <div className="bg-gray-800 p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-4 flex items-center">Monthly Appointments <FaExpandAlt className="ml-2 cursor-pointer" onClick={() => setShowModal(true)} /></h2>
+            {showModal && (
+              <div className="modal">
+                <div className="modal-content">
+                  <span className="close" onClick={() => setShowModal(false)}>&times;</span>
+                  <div className="w-full flex justify-center items-center">
+                    <Bar data={chartData} />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-        {showModal && (
-          <div className="modal">
-            <div className="modal-content">
-              <span className="close" onClick={() => setShowModal(false)}>&times;</span>
-              <div className="w-full flex justify-center items-center">
-                <Bar data={chartData} />
-              </div>
-            </div>
-          </div>
-        )}
       </main>
     </div>
   );
