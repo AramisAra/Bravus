@@ -15,6 +15,9 @@ import Licensing from '../pages/Licensing';
 import Contact from '../pages/Contact';
 import SidebarLayout from '../components/SidebarLayout';
 import HeaderLayout from '../components/HeaderLayout';
+import MainSheet from '../components/SheetManage/MainSheet';
+import ImportSheet from '../components/SheetManage/ImportSheet';
+import CreateSheet from '../components/SheetManage/CreateSheet';
 
 function AppRouter() {
   //const userType = localStorage.getItem('userType'); // This should be set on login
@@ -29,7 +32,9 @@ function AppRouter() {
           <Route path="/login" element={<HeaderLayout><Login /></HeaderLayout>} />
           <Route path="/businessdashboard" element={<SidebarLayout><BusinessDashboard /></SidebarLayout>} />  
           <Route path="/dashboard" element={<SidebarLayout><RegularDashboard /></SidebarLayout>} />
-          <Route path="/sheet" element={<SidebarLayout><Sheet /></SidebarLayout>} />
+          <Route path="/sheet" element={<SidebarLayout><MainSheet /></SidebarLayout>} />
+          <Route path="/importsheet" element={<ImportSheet/>} />
+          <Route path="/createsheet" element={<CreateSheet/>} />
           <Route path="/appointment" element={<SidebarLayout><Appointment /></SidebarLayout>} />
           <Route path="/about" element={<HeaderLayout><About /></HeaderLayout>} />
           <Route path="/privacy-policy" element={<HeaderLayout><PrivacyPolicy /></HeaderLayout>} />
