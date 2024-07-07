@@ -11,7 +11,7 @@ function Home() {
           <div className="text-center p-8">
             <h1 className="text-4xl font-bold mb-4">Welcome to Bravus</h1>
             <p className="text-lg mb-6">
-              A grooming scheduler web app to make appointments for business owners. [insert more description here]
+              A grooming scheduler website to make appointments for business owners. This grooming scheduler website helps business owners keep track of their appointments throughout the day using Google Sheets and Google Calendar. Regular users can book and see availability in the upcoming weeks.
             </p>
             <div className="mb-4">
               <p className="text-lg">
