@@ -8,14 +8,14 @@ BackEnd/.tokens
 /node_modules
 /.pnp
 .pnp.js
-frontend/.env
+.env
 
 # testing
 /coverage
 
 # production
 /build
-frontend/node_modules
+node_modules
 
 # misc
 .DS_Store
