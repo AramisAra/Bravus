@@ -87,3 +87,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
    ```sh
    git clone https://github.com/yourusername/bravus.git
    cd bravus
+
+## Collaborators
+
+- Aramis Martinez - [Project Lead/Back-End Developer]
+- Yeneishla Santiago - [Project Designer/Front-End Developer]
+- Sean Cardona - [Project Manager/Front-End Developer]
