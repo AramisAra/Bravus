@@ -67,7 +67,12 @@ func GetSheet(c *fiber.Ctx) error {
 		c.Status(400).JSON(fiber.Map{"Error": err.Error()})
 	}
 
-	return c.Status(200).JSON(resp)
+	response := fiber.Map{
+		"Title":         resp.Properties.Title,
+		"spreadsheetId": resp.SpreadsheetId,
+	}
+
+	return c.Status(200).JSON(response)
 }
 
 func GetSheetValues(c *fiber.Ctx) error {
