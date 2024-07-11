@@ -47,7 +47,7 @@ func AuthCallback(c *fiber.Ctx) error {
 	// Save the token to a file or use it to create a service client
 	saveToken(tok, id)
 
-	return c.Status(200).Redirect("http://localhost:3000/dashboard")
+	return c.Status(200).Redirect("http://34.204.43.154:3000/dashboard")
 }
 
 func ClientGetter() {
