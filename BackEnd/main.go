@@ -86,7 +86,7 @@ func main() {
 
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "http://localhost:3000, http://172.24.195.132:3000, https://aramisara.github.io, http://34.204.43.154:3000",
-		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
+		AllowHeaders: "Origin, Content-Type, Accept, Authorization, Access-Control-Allow-Origin",
 	}))
 
 	LoginSystem(app)
