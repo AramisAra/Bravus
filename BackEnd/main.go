@@ -84,7 +84,7 @@ func main() {
 	app := fiber.New()
 
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "http://localhost:3000, http://172.24.195.132:3000, http://AramisAra.github.io",
+		AllowOrigins: "http://localhost:3000, http://172.24.195.132:3000, http://AramisAra.github.io/*",
 		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 	}))
 	jwt := middlewares.NewAuthMiddleware()
