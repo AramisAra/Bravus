@@ -1,16 +1,17 @@
 package main
 
 import (
+	"crypto/tls"
 	"log"
 	"os"
 
 	database "github.com/AramisAra/BravusBackend/database"
 	"github.com/AramisAra/BravusBackend/googleapis"
 	"github.com/AramisAra/BravusBackend/handlers"
-	middlewares "github.com/AramisAra/BravusBackend/middleware"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
+	"golang.org/x/crypto/acme/autocert"
 )
 
 func HealthCheck(c *fiber.Ctx) error {
@@ -87,10 +88,36 @@ func main() {
 		AllowOrigins: "http://localhost:3000, http://172.24.195.132:3000, https://aramisara.github.io",
 		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 	}))
-	jwt := middlewares.NewAuthMiddleware()
+
 	LoginSystem(app)
 	DatabaseHandlers(app)
 	SheetsHandler(app)
-	app.Get("/protected", jwt, handlers.Protected)
-	log.Fatal(app.Listen(":8000"))
+	// Certificate manager
+	m := &autocert.Manager{
+		Prompt: autocert.AcceptTOS,
+		// Replace with your domain
+		HostPolicy: autocert.HostWhitelist("aramisara.github.io/"),
+		// Folder to store the certificates
+		Cache: autocert.DirCache("./certs"),
+	}
+
+	// TLS Config
+	cfg := &tls.Config{
+		// Get Certificate from Let's Encrypt
+		GetCertificate: m.GetCertificate,
+		// By default NextProtos contains the "h2"
+		// This has to be removed since Fasthttp does not support HTTP/2
+		// Or it will cause a flood of PRI method logs
+		// http://webconcepts.info/concepts/http-method/PRI
+		NextProtos: []string{
+			"http/1.1", "acme-tls/1",
+		},
+	}
+	ln, err := tls.Listen("tcp", ":443", cfg)
+	if err != nil {
+		panic(err)
+	}
+
+	// Start server
+	log.Fatal(app.Listener(ln))
 }
