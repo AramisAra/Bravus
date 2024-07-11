@@ -83,8 +83,10 @@ func main() {
 	app := fiber.New()
 
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "http://localhost:3000, http://172.24.195.132:3000, https://aramisara.github.io, http://34.204.43.154:3000",
-		AllowHeaders: "Origin, Content-Type, Accept, Authorization, Access-Control-Allow-Origin, Access-Control-Allow-Methods",
+		AllowOrigins:     "http://localhost:3000, http://172.24.195.132:3000, https://aramisara.github.io, http://34.204.43.154:3000",
+		AllowHeaders:     "Origin, Content-Type, Accept, Authorization",
+		AllowMethods:     "GET, POST, PUT, DELETE, OPTIONS",
+		AllowCredentials: true,
 	}))
 
 	LoginSystem(app)
