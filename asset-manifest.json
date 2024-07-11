@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/Bravus/static/css/main.9dd3a275.css",
-    "main.js": "/Bravus/static/js/main.0e28a40e.js",
+    "main.js": "/Bravus/static/js/main.eaee7ce1.js",
     "static/media/sheetid.png": "/Bravus/static/media/sheetid.44f5467804bed57aa3ee.png",
     "index.html": "/Bravus/index.html",
     "main.9dd3a275.css.map": "/Bravus/static/css/main.9dd3a275.css.map",
-    "main.0e28a40e.js.map": "/Bravus/static/js/main.0e28a40e.js.map"
+    "main.eaee7ce1.js.map": "/Bravus/static/js/main.eaee7ce1.js.map"
   },
   "entrypoints": [
     "static/css/main.9dd3a275.css",
-    "static/js/main.0e28a40e.js"
+    "static/js/main.eaee7ce1.js"
   ]
 }
