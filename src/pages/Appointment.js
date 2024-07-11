@@ -25,7 +25,7 @@ function Appointment() {
   useEffect(() => {
     const fetchOwners = async () => {
         try {
-            const response = await fetch('https://3.89.162.4:8000/owner/get');  // Ensure this is a function call
+            const response = await fetch('http://3.89.162.4:8000/owner/get');  // Ensure this is a function call
             const data = await response.json();
             setOwners(data);
             setServices(data.services)
