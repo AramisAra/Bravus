@@ -9,7 +9,7 @@ export const Auth = () => {
         // Replace with your backend URL
         const uuid = localStorage.getItem('uuid');
         // Generate this on the backend or frontend
-        axios.get(`http://localhost:8000/sheetapi/auth?uuid=${uuid}`)
+        axios.get(`http://3.89.162.4:8000/sheetapi/auth?uuid=${uuid}`)
             .then(response => {
                 window.location.href = response.data.url;
             })

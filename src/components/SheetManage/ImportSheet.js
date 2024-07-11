@@ -30,7 +30,7 @@ const ImportSheet = () => {
           navigate('/auth');
       }
       try {
-          const response = await fetch(`http://localhost:8000/sheetapi/getSheet?id=${financialsheetid}&uuid=${ownerid}`);
+          const response = await fetch(`http://3.89.162.4:8000/sheetapi/getSheet?id=${financialsheetid}&uuid=${ownerid}`);
           
           if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);

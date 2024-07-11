@@ -10,7 +10,7 @@ function useGetInventory() {
   return useQuery({
     queryKey: ['inventoryValues', inventoryid, ownerid],
       queryFn: async () => {
-      const response = await fetch(`http://localhost:8000/sheetapi/getValues?id=${inventoryid}&uuid=${ownerid}`);
+      const response = await fetch(`http://3.89.162.4:8000/sheetapi/getValues?id=${inventoryid}&uuid=${ownerid}`);
       if (!response.ok) {
           throw new Error('Network response was not ok');
       }
