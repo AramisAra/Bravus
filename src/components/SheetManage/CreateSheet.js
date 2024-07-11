@@ -12,7 +12,7 @@ const CreateSheet = () => {
       const requestData = { name };
       console.log('Request Data:', requestData);
       try {
-          const response = await fetch(`http://3.89.162.4:8000/sheetapi/createSheet?name=${name}&uuid=${ownerid}`)
+          const response = await fetch(`https://3.89.162.4:8000/sheetapi/createSheet?name=${name}&uuid=${ownerid}`)
           const data = await response.json();
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
