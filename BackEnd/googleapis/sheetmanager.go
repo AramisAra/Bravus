@@ -64,7 +64,7 @@ func GetSheet(c *fiber.Ctx) error {
 
 	resp, err := srv.Spreadsheets.Get(sheetid).Context(ctx).Do()
 	if err != nil {
-		c.Status(400).JSON(fiber.Map{"Error": err.Error()})
+		return c.Status(400).JSON(fiber.Map{"Error": err.Error()})
 	}
 
 	response := fiber.Map{

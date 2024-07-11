@@ -118,10 +118,14 @@ func GetAppointmentClient(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid UUID")
 	}
 
-	var client dbmodels.Client
-	database.Database.Db.Preload("Appointments").Preload("Animals").Find(&client)
-	response := dbmodels.CreateClientResponse(client)
-	return c.Status(200).JSON(response)
+	var appointments []dbmodels.Appointment
+	database.Database.Db.Find(&appointments, "client_id = ?", id)
+
+	responseAppointment := []dbmodels.AppointmentSerializer{}
+	for _, appointment := range appointments {
+		responseAppointment = append(responseAppointment, dbmodels.CreateAppointmentResponse(appointment))
+	}
+	return c.Status(200).JSON(responseAppointment)
 }
 
 // Get Clients

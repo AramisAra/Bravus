@@ -18,6 +18,7 @@ import HeaderLayout from '../components/HeaderLayout';
 import MainSheet from '../components/SheetManage/MainSheet';
 import ImportSheet from '../components/SheetManage/ImportSheet';
 import CreateSheet from '../components/SheetManage/CreateSheet';
+import { Auth } from '../services/auth';
 
 function AppRouter() {
   //const userType = localStorage.getItem('userType'); // This should be set on login
@@ -26,16 +27,17 @@ function AppRouter() {
     <>
       <main className="flex-grow">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<HeaderLayout><Home /></HeaderLayout>} />
+          <Route path="/home" element={<HeaderLayout><Home /></HeaderLayout>} />
           <Route path="/signup" element={<HeaderLayout><SignUp /></HeaderLayout>} />
           <Route path="/login" element={<HeaderLayout><Login /></HeaderLayout>} />
-          <Route path="/businessdashboard" element={<SidebarLayout><BusinessDashboard /></SidebarLayout>} />  
-          <Route path="/dashboard" element={<SidebarLayout><RegularDashboard /></SidebarLayout>} />
-          <Route path="/sheet" element={<SidebarLayout><MainSheet /></SidebarLayout>} />
+          <Route path="/businessdashboard" element={<HeaderLayout><BusinessDashboard /></HeaderLayout>} />  
+          <Route path="/dashboard" element={<HeaderLayout><RegularDashboard /></HeaderLayout>} />
+          <Route path="/sheet" element={<HeaderLayout><MainSheet /></HeaderLayout>} />
           <Route path="/importsheet" element={<ImportSheet/>} />
           <Route path="/createsheet" element={<CreateSheet/>} />
-          <Route path="/appointment" element={<SidebarLayout><Appointment /></SidebarLayout>} />
+          <Route path="/auth" element={<Auth/>} />
+          <Route path="/appointment" element={<HeaderLayout><Appointment /></HeaderLayout>} />
           <Route path="/about" element={<HeaderLayout><About /></HeaderLayout>} />
           <Route path="/privacy-policy" element={<HeaderLayout><PrivacyPolicy /></HeaderLayout>} />
           <Route path="/licensing" element={<HeaderLayout><Licensing /></HeaderLayout>} />
@@ -43,7 +45,6 @@ function AppRouter() {
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
-      <Footer />
     </>
   );
 }

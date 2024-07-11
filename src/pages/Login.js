@@ -20,7 +20,7 @@ function Login() {
         localStorage.setItem('uuid', response.data.id);
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userType', 'regular');
-        navigate('/dashboard');
+        navigate('/Home');
       } catch (err) {
         console.error('Error Response:', err.response ? err.response.data : err.message);
         setError('Login failed. Please try again.');
@@ -32,7 +32,7 @@ function Login() {
         localStorage.setItem('uuid', response.data.id);
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('userType', 'business');
-        navigate('/dashboard');
+        navigate('/Home');
       } catch (err) {
         console.error('Error Response:', err.response ? err.response.data : err.message);
         setError('Login failed. Please try again.');

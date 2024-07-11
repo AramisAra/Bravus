@@ -20,7 +20,6 @@ const handleSubmit = async (e) => {
   console.log('Request Data:', requestData);
   if (!isOwner)
     try {
-      await registerOwner(requestData);
       const response = await registerClient(requestData);
       console.log('Response Data:', response.data);
       navigate('/login');

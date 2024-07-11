@@ -6,12 +6,13 @@ function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <div className="flex flex-grow">
-        <Sidebar />
         <div className="flex flex-col justify-center items-center min-h-screen bg-gray-900 text-white flex-grow">
           <div className="text-center p-8">
             <h1 className="text-4xl font-bold mb-4">Welcome to Bravus</h1>
             <p className="text-lg mb-6">
-              A grooming scheduler website to make appointments for business owners. This grooming scheduler website helps business owners keep track of their appointments throughout the day using Google Sheets and Google Calendar. Regular users can book and see availability in the upcoming weeks.
+              A Bravus is a booking website that help making appointments for business owners simple.
+               Bravus also help business owners keep track of their Inventory and Financial throughout the day using Google Sheets. 
+              Regular users can book and see availability in the upcoming weeks.
             </p>
             <div className="mb-4">
               <p className="text-lg">

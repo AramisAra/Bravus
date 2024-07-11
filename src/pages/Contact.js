@@ -38,7 +38,7 @@ function Contact() {
         <h1 className="text-2xl font-bold mb-4 text-white">Contact Us</h1>
         <p className="text-white mb-4">You can reach us via email:</p>
         <ul className="list-disc list-inside mb-4 text-white">
-          <li>Aramis: aramis@example.com</li>
+          <li>Aramis: martinezcruzaj@gmail.com</li>
           <li>Sean: sean@example.com</li>
           <li>Yeneishla: yeneishla@example.com</li>
         </ul>

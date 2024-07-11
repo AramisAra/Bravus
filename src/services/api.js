@@ -16,12 +16,8 @@ export const loginClient = (data) => api.post(`${LOGIN}/Lclient`, data);
 export const loginOwner = (data) => api.post(`${LOGIN}/Lowner`, data);
 
 // Client Endpoints
-export const getClient = (uuid, token) =>
-  api.get(`/client/get/${uuid}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export const getClient = (uuid) =>
+  api.get(`/client/get?uuid=${uuid}`);
 
 
 
@@ -63,6 +59,18 @@ export const createAppointment = async (appointmentData) => {
 export const getAppointmentsForOwner = async (uuid) => {
   try {
     const response = await api.get(`${APPOINTMENTS}/getforowner`, {
+      params: { uuid },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching appointments', error);
+    throw error;
+  }
+};
+
+export const getAppointmentsForClient = async (uuid) => {
+  try {
+    const response = await api.get(`${APPOINTMENTS}/getforclient`, {
       params: { uuid },
     });
     return response.data;

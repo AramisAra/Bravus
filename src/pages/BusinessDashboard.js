@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { FaExpandAlt } from "react-icons/fa";
-import { getAppointmentsForOwner } from '../services/api';
+import { getAppointmentsForOwner, getClient } from '../services/api';
 import '../styles/modal.css';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -51,7 +51,6 @@ const BusinessDashboard = () => {
         }],
       });
     };
-
     fetchAppointments();
     fetchData();
   }, [ownerUuid]);
@@ -62,7 +61,6 @@ const BusinessDashboard = () => {
         <h1 className="text-2xl font-bold">Business Owner Dashboard</h1>
         <div className="flex items-center space-x-4">
           <Link to="/sheet" className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow">Go to Sheet</Link>
-          <Link to="/appointment" className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 hover:shadow-lg hover:shadow-green-500/50 transition-shadow">Go to Appointments</Link>
         </div>
       </header>
 
