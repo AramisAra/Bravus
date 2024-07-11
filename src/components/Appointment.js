@@ -19,7 +19,7 @@ function AppointmentForm() {
     useEffect(() => {
         const fetchOwners = async () => {
             try {
-                const response = await fetch('http://localhost:8000/owner/get');  // Ensure this is a function call
+                const response = await fetch('http://br-avus.com:8000/owner/get');  // Ensure this is a function call
                 const data = await response.json();
                 setOwners(data);
                 setServices(data.services)

@@ -14,7 +14,7 @@ const ImportSheet = () => {
     const requestData = { inventorysheetid, financialsheetid };
     console.log('Request Data:', requestData);
       try {
-          const response = await fetch(`http://localhost:8000/sheetapi/getSheet?id=${inventorysheetid}&uuid=${ownerid}`);
+          const response = await fetch(`http://br-avus.com:8000/sheetapi/getSheet?id=${inventorysheetid}&uuid=${ownerid}`);
           
           if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);

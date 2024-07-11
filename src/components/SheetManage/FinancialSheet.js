@@ -11,7 +11,7 @@ function useGetFinancial() {
   return useQuery({
       queryKey: ['financialValues', financialid, ownerid],
       queryFn: async () => {
-      const response = await fetch(`http://3.89.162.4:8000/sheetapi/getValues?id=${financialid}&uuid=${ownerid}`);
+      const response = await fetch(`http://br-avus.com:8000/sheetapi/getValues?id=${financialid}&uuid=${ownerid}`);
       if (!response.ok) {
           throw new Error('Network response was not ok');
       }
