@@ -25,16 +25,6 @@
   transform: scale(1.1);
 }
 
-.team-member-photo .peel-effect {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.5) 100%);
-  clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
-  transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
-}
 
 .team-member-photo:hover .peel-effect {
   width: 100%;
