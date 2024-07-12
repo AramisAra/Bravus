@@ -22,7 +22,7 @@
 }
 
 .team-member-photo:hover img {
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
 
 .team-member-photo .peel-effect {
@@ -42,7 +42,10 @@
 }
 
 .team-member-name {
-  margin-top: 1rem;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 1.25rem;
   color: #fff;
   opacity: 0;

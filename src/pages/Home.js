@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import CountUp from 'react-countup';
 import Sidebar from '../components/Sidebar';
 import image0 from '../assets/image0.png';
-import IMG_3755 from '../assets/IMG_3755.png'
-import IMG_5524 from '../assets/IMG_5524.png'
-import unnamed from '../assets/unnamed.png' // Ensure the logo path is correct
+import IMG_3755 from '../assets/IMG_3755.png';
+import IMG_5524 from '../assets/IMG_5524.png';
+import unnamed from '../assets/unnamed.png'; // Ensure the logo path is correct
 
 import '../styles/home.css'; // Ensure you have this CSS file
 
@@ -56,22 +56,56 @@ function Home() {
                                     <div className="team-member-photo">
                                         <img src={IMG_5524} alt="Sean A. Cardona" />
                                         <div className="peel-effect"></div>
+                                        <p className="team-member-name">Sean A. Cardona</p>
                                     </div>
-                                    <p className="team-member-name">Sean A. Cardona</p>
                                 </div>
                                 <div className="team-member">
                                     <div className="team-member-photo">
                                         <img src={unnamed} alt="Aramis Martinez" />
                                         <div className="peel-effect"></div>
+                                        <p className="team-member-name">Aramis Martinez</p>
                                     </div>
-                                    <p className="team-member-name">Aramis Martinez</p>
                                 </div>
                                 <div className="team-member">
                                     <div className="team-member-photo">
                                         <img src={IMG_3755} alt="Yeneishla Santiago" />
                                         <div className="peel-effect"></div>
+                                        <p className="team-member-name">Yeneishla Santiago</p>
                                     </div>
-                                    <p className="team-member-name">Yeneishla Santiago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="app-inner-work" className="relative md:py-24 py-16 text-center">
+                    <div className="container mx-auto">
+                        <div className="grid grid-cols-1">
+                            <h2 className="lg:text-[48px] font-bold mb-4 text-purple-500">App Inner Work</h2>
+                            <p className="text-gray-400 max-w-xl mx-auto mb-8 lg:text-[20px]">
+                                Discover how the Bravus app works seamlessly to provide the best user experience for appointment scheduling.
+                            </p>
+                            <div className="grid md:grid-cols-3 gap-8">
+                                <div className="team-member">
+                                    <div className="team-member-photo">
+                                        <img src="https://via.placeholder.com/300" alt="Feature 1" />
+                                        <div className="peel-effect"></div>
+                                        <p className="team-member-name">Feature 1</p>
+                                    </div>
+                                </div>
+                                <div className="team-member">
+                                    <div className="team-member-photo">
+                                        <img src="https://via.placeholder.com/300" alt="Feature 2" />
+                                        <div className="peel-effect"></div>
+                                        <p className="team-member-name">Feature 2</p>
+                                    </div>
+                                </div>
+                                <div className="team-member">
+                                    <div className="team-member-photo">
+                                        <img src="https://via.placeholder.com/300" alt="Feature 3" />
+                                        <div className="peel-effect"></div>
+                                        <p className="team-member-name">Feature 3</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
