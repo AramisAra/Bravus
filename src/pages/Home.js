@@ -39,7 +39,7 @@ function Home() {
                     </div>
                 </section>
 
-                <section id="Team" className="relative md:py-24 py-16 bg-gray-800 text-center">
+                <section id="Team" className="relative md:py-24 py-16 text-center">
                     <div className="container mx-auto">
                         <div className="grid grid-cols-1">
                             <h2 className="lg:text-[48px] font-bold mb-4 text-purple-500">The Team</h2>
