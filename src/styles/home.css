@@ -1,49 +1,48 @@
-/* src/styles/home.css */
-
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #333;
-  color: white;
-  font-family: 'Nunito Sans', sans-serif;
-}
-
-.home {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.home .content {
+.team-member {
+  position: relative;
   text-align: center;
-  padding: 2rem;
 }
 
-.home .content h1 {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
+.team-member-photo {
+  position: relative;
+  overflow: hidden;
 }
 
-.home .content p {
+.team-member-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+.team-member-photo:hover img {
+  transform: scale(1.2);
+}
+
+.team-member-photo .peel-effect {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 60px;
+  height: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.5) 100%);
+  clip-path: polygon(0% 0%, 50% 0%, 0% 100%);
+  transition: width 0.6s ease-in-out, height 0.6s ease-in-out;
+}
+
+.team-member-photo:hover .peel-effect {
+  width: 100%;
+  height: 100%;
+}
+
+.team-member-name {
+  margin-top: 1rem;
   font-size: 1.25rem;
-  margin-bottom: 1rem;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
 }
 
-.home .links a {
-  display: inline-block;
-  margin: 0 0.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #007BFF;
-  color: white;
-  border-radius: 0.25rem;
-  text-decoration: none;
-  transition: background-color 0.2s, transform 0.2s;
-}
-
-.home .links a:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
+.team-member-photo:hover .team-member-name {
+  opacity: 1;
 }

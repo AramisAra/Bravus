@@ -106,7 +106,7 @@ const handleSubmit = async (e) => {
                 <input type="text" name="career" id="career" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required value={career} onChange={(e) => setCareer(e.target.value)} />
               </div>
             )}
-            <button type="submit" className="relative flex h-[50px] w-full items-center justify-center overflow-hidden bg-gray-800 text-white shadow-2xl transition-all before:absolute before:h-0 before:w-0 before:rounded-full before:bg-blue-600 before:duration-500 before:ease-out hover:shadow-blue-600 hover:before:h-full hover:before:w-full">
+            <button type="submit" className="relative flex h-[50px] w-full items-center justify-center overflow-hidden bg-gray-800 text-white shadow-2xl transition-all before:absolute before:bg-green-600 before:bottom-0 before:left-0 before:h-full before:w-full before:rounded before:scale-y-[0.35] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500">
               <span className="relative z-10">Sign up</span>
             </button>
             {error && <p className="text-sm font-light text-red-500">{error}</p>}

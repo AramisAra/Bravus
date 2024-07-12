@@ -45,7 +45,7 @@ function AppointmentForm() {
         console.log(requestData);
         const response = await makeAppointment(requestData, clientUUID, owner)
         console.log('Response Data:', response.data)
-        navigate('/profile');
+        navigate('/dashboard');
         setLoading(false);
         
     };
