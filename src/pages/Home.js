@@ -2,7 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import CountUp from 'react-countup';
 import Sidebar from '../components/Sidebar';
-import image0 from '../assets/image0.png'; // Ensure the logo path is correct
+import image0 from '../assets/image0.png';
+import IMG_3755 from '../assets/IMG_3755.png'
+import IMG_5524 from '../assets/IMG_5524.png'
+import unnamed from '../assets/unnamed.png' // Ensure the logo path is correct
 
 import '../styles/home.css'; // Ensure you have this CSS file
 
@@ -51,21 +54,21 @@ function Home() {
                             <div className="grid md:grid-cols-3 gap-8">
                                 <div className="team-member">
                                     <div className="team-member-photo">
-                                        <img src="https://via.placeholder.com/300" alt="Sean A. Cardona" />
+                                        <img src={IMG_5524} alt="Sean A. Cardona" />
                                         <div className="peel-effect"></div>
                                     </div>
                                     <p className="team-member-name">Sean A. Cardona</p>
                                 </div>
                                 <div className="team-member">
                                     <div className="team-member-photo">
-                                        <img src="https://via.placeholder.com/300" alt="Aramis Martinez" />
+                                        <img src={unnamed} alt="Aramis Martinez" />
                                         <div className="peel-effect"></div>
                                     </div>
                                     <p className="team-member-name">Aramis Martinez</p>
                                 </div>
                                 <div className="team-member">
                                     <div className="team-member-photo">
-                                        <img src="https://via.placeholder.com/300" alt="Yeneishla Santiago" />
+                                        <img src={IMG_3755} alt="Yeneishla Santiago" />
                                         <div className="peel-effect"></div>
                                     </div>
                                     <p className="team-member-name">Yeneishla Santiago</p>
