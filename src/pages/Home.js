@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import CountUp from 'react-countup';
-import Sidebar from '../components/Sidebar';
 import image0 from '../assets/image0.png';
 import IMG_3755 from '../assets/IMG_3755.png';
 import IMG_5524 from '../assets/IMG_5524.png';
@@ -22,11 +20,8 @@ function Home() {
                                 <span className="index-module_type__E-SaG typewrite"> Bravus</span>
                             </h4>
                             <p className="text-gray-400 max-w-xl mx-auto lg:text-[20px]">
-                                Your premier seamless appointment scheduling.
+                                Your premier seamless appointment scheduler.
                             </p>
-                            <div className="mt-6">
-                                <button className="btn bg-purple-500 hover:bg-purple-600 border-purple-500 hover:border-purple-600 text-white rounded-md" onClick={() => document.getElementById('about').scrollIntoView({ behavior: 'smooth' })}>Learn More</button>
-                            </div>
                         </div>
                     </div>
                 </section>
