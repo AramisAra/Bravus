@@ -49,21 +49,27 @@ function Home() {
                             <div className="grid md:grid-cols-3 gap-8">
                                 <div className="team-member">
                                     <div className="team-member-photo">
-                                        <img src={IMG_5524} alt="Sean A. Cardona" />
+                                        <Link to="https://www.linkedin.com/in/sean-cardona-bb1594166?trk=contact-info">
+                                            <img src={IMG_5524} alt="Sean A. Cardona" />
+                                        </Link>
                                         <div className="peel-effect"></div>
                                         <p className="team-member-name">Sean A. Cardona</p>
                                     </div>
                                 </div>
                                 <div className="team-member">
                                     <div className="team-member-photo">
-                                        <img src={unnamed} alt="Aramis Martinez" />
+                                        <Link to="https://www.linkedin.com/in/aramis-martinez-a1a507296/">
+                                            <img src={unnamed} alt="Aramis Martinez" />
+                                        </Link>
                                         <div className="peel-effect"></div>
                                         <p className="team-member-name">Aramis Martinez</p>
                                     </div>
                                 </div>
                                 <div className="team-member">
                                     <div className="team-member-photo">
-                                        <img src={IMG_3755} alt="Yeneishla Santiago" />
+                                        <Link to="/sheet">
+                                            <img src={IMG_3755} alt="Yeneishla Santiago" />
+                                        </Link>
                                         <div className="peel-effect"></div>
                                         <p className="team-member-name">Yeneishla Santiago</p>
                                     </div>
