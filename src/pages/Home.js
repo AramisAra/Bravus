@@ -67,7 +67,7 @@ function Home() {
                                 </div>
                                 <div className="team-member">
                                     <div className="team-member-photo">
-                                        <Link to="/sheet">
+                                        <Link to="https://www.linkedin.com/in/yeneishla-santiago-958b63254/">
                                             <img src={IMG_3755} alt="Yeneishla Santiago" />
                                         </Link>
                                         <div className="peel-effect"></div>
