@@ -1,97 +1,80 @@
 package main
 
 import (
-	"log"
-	"os"
-
-	database "github.com/AramisAra/BravusBackend/database"
-	"github.com/AramisAra/BravusBackend/googleapis"
-	"github.com/AramisAra/BravusBackend/handlers"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/joho/godotenv"
+	"github.com/surrealdb/surrealdb.go"
 )
 
-func HealthCheck(c *fiber.Ctx) error {
-	return c.SendString("OK")
-}
-
-func LoginSystem(app *fiber.App) {
-	// login system
-	login := app.Group("/login")
-	login.Post("/Rowner", handlers.RegisterOwner)
-	login.Post("/Rclient", handlers.RegisterClient)
-	login.Post("/Lowner", handlers.LoginOwner)
-	login.Post("/Lclient", handlers.LoginClient)
-}
-func DatabaseHandlers(app *fiber.App) {
-	// Client Routes
-	client := app.Group("/client")
-	client.Get("/get", handlers.GetClient)
-	client.Get("/get", handlers.ListClients)
-	client.Put("/update", handlers.UpdateClient)
-	client.Delete("/delete", handlers.DeleteClient)
-	// Animal Routes
-	animal := app.Group("/animal")
-	animal.Post("/create", handlers.CreateAnimal)
-	animal.Delete("/delete", handlers.DeleteAnimal)
-	animal.Put("/update", handlers.UpdateAnimal)
-	// Appointment Routes
-	appointment := app.Group("/appointment")
-	appointment.Post("/create", handlers.CreateAppointment)
-	appointment.Get("/getforclient", handlers.GetAppointmentClient)
-	appointment.Get("/getforowner", handlers.GetAppointmentOwner)
-	appointment.Delete("/delete", handlers.DeleteAppointment)
-	appointment.Put("/update", handlers.UpdateAppointment)
-	// Service Routes
-	service := app.Group("/service")
-	service.Post("/create", handlers.CreateService)
-	service.Get("/get", handlers.ListService)
-	service.Put("/update", handlers.UpdateService)
-	service.Delete("/delete", handlers.DeleteService)
-	// Owner Routes
-	owner := app.Group("/owner")
-	owner.Get("/get", handlers.ListOwners)
-	owner.Get("/get", handlers.GetOwner)
-	owner.Put("/update", handlers.UpdateOwner)
-	owner.Delete("/delete", handlers.DeleteOwner)
-}
-
-func SheetsHandler(app *fiber.App) {
-	sheetapi := app.Group("/sheetapi")
-	sheetapi.Get("/auth", googleapis.AuthGoogle)
-	sheetapi.Get("/auth/callback", googleapis.AuthCallback)
-	sheetapi.Post("/createSheet", googleapis.CreateSheet)
-	sheetapi.Get("/getSheet", googleapis.GetSheet)
-	// Get Values will return  a default of 1500 Cells but it only return the filled cells
-	sheetapi.Get("/getValues", googleapis.GetSheetValues)
+type User struct {
+	ID      string `json:"id,omitempty"`
+	Name    string `json:"name"`
+	Surname string `json:"surname"`
 }
 
 func main() {
-	err := godotenv.Load()
+	db, err := surrealdb.New("ws://0.0.0.0:8000/rpc")
 	if err != nil {
-		log.Fatal("Error loading the Env: ", err)
+		panic(err)
 	}
-	// This is how the database connects
-	dsn := os.Getenv("DSN")
-	database.ConnectDb(dsn)
 
-	// Setting auth to google servers
-	googleapis.Start()
+	if _, err = db.Signin(map[string]interface{}{
+		"user": "root",
+		"pass": "root",
+	}); err != nil {
+		panic(err)
+	}
 
-	// This is the main overall the app_api
-	app := fiber.New()
+	if _, err = db.Use("test", "test"); err != nil {
+		panic(err)
+	}
 
-	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:3000, http://172.24.195.132:3000, https://aramisara.github.io, http://34.204.43.154:3000, http://bravus.me:3000",
-		AllowHeaders:     "Origin, Content-Type, Accept, Authorization, Access-Control-Allow-Origin",
-		AllowCredentials: true,
-	}))
+	// Create user
+	user := User{
+		Name:    "John",
+		Surname: "Doe",
+	}
 
-	LoginSystem(app)
-	DatabaseHandlers(app)
-	SheetsHandler(app)
+	// Insert user
+	data, err := db.Create("user", user)
+	if err != nil {
+		panic(err)
+	}
 
-	// Start server
-	log.Fatal(app.Listen(":8000"))
+	// Unmarshal data
+	createdUser := make([]User, 1)
+	err = surrealdb.Unmarshal(data, &createdUser)
+	if err != nil {
+		panic(err)
+	}
+
+	// Get user by ID
+	data, err = db.Select(createdUser[0].ID)
+	if err != nil {
+		panic(err)
+	}
+
+	// Unmarshal data
+	selectedUser := new(User)
+	err = surrealdb.Unmarshal(data, &selectedUser)
+	if err != nil {
+		panic(err)
+	}
+
+	// Change part/parts of user
+	changes := map[string]string{"name": "Jane"}
+	// Update user
+	if _, err = db.Update(selectedUser.ID, changes); err != nil {
+		panic(err)
+	}
+
+	if _, err = db.Query("SELECT * FROM $record", map[string]interface{}{
+		"record": createdUser[0].ID,
+	}); err != nil {
+		panic(err)
+	}
+
+	// Delete user by ID
+	if _, err = db.Delete(selectedUser.ID); err != nil {
+		panic(err)
+	}
+
 }
