@@ -3,9 +3,11 @@ package handlers
 import (
 	"time"
 
+	"github.com/AramisAra/BravusServer/config"
 	"github.com/AramisAra/BravusServer/database"
 	"github.com/AramisAra/BravusServer/database/models"
 	"github.com/AramisAra/BravusServer/utils"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 	"github.com/surrealdb/surrealdb.go"
 )
@@ -67,7 +69,7 @@ func LoginClient(c *fiber.Ctx) error {
 	defer db.Close() // Ensure the database connection is closed after the query
 
 	// Query for the client by email
-	query := `SELECT password FROM client WHERE email = $email`
+	query := `SELECT * FROM Client WHERE email = $email`
 	params := map[string]interface{}{
 		"email": input.Email,
 	}
@@ -77,20 +79,51 @@ func LoginClient(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	var result string
-	if err := surrealdb.Unmarshal(response, &result); err != nil {
+	// Assuming response is a JSON array, unmarshal into a slice of maps
+	var results []map[string]interface{}
+	if err := surrealdb.Unmarshal(response, &results); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	if len(result) == 0 {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid Email or Password"})
+	// Check if the results slice is empty
+	if len(results) == 0 {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid email or password"})
 	}
 
-	if err := utils.ComparePasswords(result, input.Password); err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid Password"})
+	// Extract the password from the nested structure
+	data, ok := results[0]["result"].([]interface{})
+	if !ok || len(data) == 0 {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid email or password"})
 	}
 
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Login successful"})
+	clientData, ok := data[0].(map[string]interface{})
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "password retrieval error"})
+	}
+
+	storedPassword, ok := clientData["password"].(string)
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "password retrieval error"})
+	}
+	if err := utils.ComparePasswords(storedPassword, input.Password); err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid email or password"})
+	}
+
+	clientid := clientData["id"].(string)
+	clientemail := clientData["email"].(string)
+	claims := jwt.MapClaims{
+		"ID":    clientid,
+		"email": clientemail,
+		"exp":   time.Now().Add(time.Hour * 24).Unix(),
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	t, err := token.SignedString([]byte(config.Secret))
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "could not login"})
+	}
+
+	// Return the token
+	return c.JSON(models.LoginResponse{ID: clientid, Token: t})
 }
 
 // ListClient handles the request to list all clients.
