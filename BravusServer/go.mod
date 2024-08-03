@@ -3,7 +3,9 @@ module github.com/AramisAra/BravusServer
 go 1.22.5
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gofiber/fiber/v2 v2.52.5
+	github.com/gofiber/jwt/v3 v3.3.10
 	github.com/joho/godotenv v1.5.1
 	github.com/surrealdb/surrealdb.go v0.2.1
 	golang.org/x/crypto v0.14.0
@@ -11,6 +13,7 @@ require (
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/google/uuid v1.5.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/klauspost/compress v1.17.0 // indirect
