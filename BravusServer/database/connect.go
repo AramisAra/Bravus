@@ -9,7 +9,7 @@ func ConnectDb() surrealdb.DB {
 	}
 
 	db.Signin(map[string]interface{}{
-		"user": "Ara",
+		"user": "ara",
 		"pass": "ara2454",
 	})
 

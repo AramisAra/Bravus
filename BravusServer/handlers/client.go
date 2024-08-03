@@ -7,6 +7,7 @@ import (
 	"github.com/AramisAra/BravusServer/database/models"
 	"github.com/AramisAra/BravusServer/utils"
 	"github.com/gofiber/fiber/v2"
+	"github.com/surrealdb/surrealdb.go"
 )
 
 // CreateClient creates a new client in the database.
@@ -66,7 +67,7 @@ func LoginClient(c *fiber.Ctx) error {
 	defer db.Close() // Ensure the database connection is closed after the query
 
 	// Query for the client by email
-	query := `SELECT * FROM client WHERE email = $email`
+	query := `SELECT password FROM client WHERE email = $email`
 	params := map[string]interface{}{
 		"email": input.Email,
 	}
@@ -76,7 +77,20 @@ func LoginClient(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	return c.Status(fiber.StatusOK).JSON(response)
+	var result string
+	if err := surrealdb.Unmarshal(response, &result); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	if len(result) == 0 {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid Email or Password"})
+	}
+
+	if err := utils.ComparePasswords(result, input.Password); err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid Password"})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Login successful"})
 }
 
 // ListClient handles the request to list all clients.
@@ -102,7 +116,7 @@ func GetClient(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "No ID"})
 	} else {
 		checker := utils.IsValidClientString(id)
-		if checker == false {
+		if !checker {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Not a valid id"})
 		}
 	}

@@ -34,20 +34,24 @@ func HashPassword(password string) (string, error) {
 }
 
 // This Compares the passwords
-func ComparePasswords(hashedPassword, plainPassword string) (bool, error) {
+func ComparePasswords(hashedPassword, plainPassword string) error {
 	parts := strings.Split(hashedPassword, "$")
 	if len(parts) != 2 {
-		return false, errors.New("invalid hash format")
+		return errors.New("invalid hash format")
 	}
 
 	salt, err := base64.RawStdEncoding.DecodeString(parts[0])
 	if err != nil {
-		return false, err
+		return err
 	}
 
 	hash := argon2.IDKey([]byte(plainPassword), salt, 2, 64*1024, 2, 64)
 	expectedHash := parts[1]
 	actualHash := base64.RawStdEncoding.EncodeToString(hash)
 
-	return actualHash == expectedHash, nil
+	if actualHash != expectedHash {
+		return errors.New("not password")
+	}
+
+	return nil
 }
