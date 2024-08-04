@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/AramisAra/BravusServer/config"
@@ -84,8 +85,6 @@ func LoginClient(c *fiber.Ctx) error {
 	if err := surrealdb.Unmarshal(response, &results); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-
-	// Check if the results slice is empty
 	if len(results) == 0 {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid email or password"})
 	}
@@ -105,6 +104,7 @@ func LoginClient(c *fiber.Ctx) error {
 	if !ok {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "password retrieval error"})
 	}
+
 	if err := utils.ComparePasswords(storedPassword, input.Password); err != nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid email or password"})
 	}
@@ -132,7 +132,7 @@ func LoginClient(c *fiber.Ctx) error {
 func ListClient(c *fiber.Ctx) error {
 	db := database.ConnectDb()
 	defer db.Close()
-	// query database
+
 	response, err := db.Query("SELECT * FROM Client", map[string]interface{}{
 		"tb": "Client",
 	})
@@ -153,6 +153,7 @@ func GetClient(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Not a valid id"})
 		}
 	}
+
 	db := database.ConnectDb()
 	defer db.Close()
 
@@ -173,36 +174,108 @@ func GetClient(c *fiber.Ctx) error {
 // It returns the updated client information as a JSON response.
 func UpdateClient(c *fiber.Ctx) error {
 	id := c.Query("id")
+	if id == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "No ID"})
+	} else {
+		checker := utils.IsValidClientString(id)
+		if !checker {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Not a valid id"})
+		}
+	}
 
 	db := database.ConnectDb()
 	defer db.Close()
 
-	var client models.Client
+	// Fetch the existing client data from the database
+	query := `SELECT * FROM Client WHERE id = $id`
+	params := map[string]interface{}{
+		"id": id,
+	}
 
+	response, err := db.Query(query, params)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	// Assuming response is a JSON array, unmarshal into a slice of maps
+	var results []map[string]interface{}
+	if err := surrealdb.Unmarshal(response, &results); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	if len(results) == 0 {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Client not found"})
+	}
+
+	// Extract the existing client data from the nested structure
+	existingData, ok := results[0]["result"].([]interface{})
+	fmt.Print(results)
+	if !ok || len(existingData) == 0 {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Invalid client data format"})
+	}
+	existingClientData, ok := existingData[0].(map[string]interface{})
+	fmt.Print(existingClientData)
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Invalid client data format"})
+	}
+
+	// Parse the request body into the client struct
+	var client models.Client
 	if err := c.BodyParser(&client); err != nil {
 		return c.Status(fiber.StatusBadGateway).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	updateAt := time.Now().Format(time.RFC3339)
-
-	query := "UPDATE Client:$id CONTENT {name: $name, email: $email, phone: $phone, createdAt: $createdAt, updateAt: $updateAt, animals: $animals, appointments: $appointments}"
-	values := map[string]interface{}{
-		"id":           id,
-		"name":         client.Name,
-		"email":        client.Email,
-		"phone":        client.Phone,
-		"updateAt":     updateAt,
-		"animals":      client.Animals,
-		"appointments": client.Appointments,
+	// Only update the fields that are provided in the request body
+	if client.Name != "" {
+		existingClientData["name"] = client.Name
+	}
+	if client.Email != "" {
+		existingClientData["email"] = client.Email
+	}
+	if client.Phone != "" {
+		existingClientData["phone"] = client.Phone
+	}
+	if client.Animals != nil {
+		existingClientData["animals"] = client.Animals
+	}
+	if client.Appointments != nil {
+		existingClientData["appointments"] = client.Appointments
 	}
 
-	db.Query(query, values)
+	// Update the updateAt field
+	updateAt := time.Now().Format(time.RFC3339)
 
-	return c.Status(200).JSON(client)
+	// Build the update query
+	updateQuery := "UPDATE $id CONTENT {name: $name, email: $email, phone: $phone, password: $password, createdAt: $createdAt, updateAt: $updateAt, animals: $animals, appointments: $appointments}"
+	values := map[string]interface{}{
+		"name":         existingClientData["name"],
+		"email":        existingClientData["email"],
+		"phone":        existingClientData["phone"],
+		"password":     existingClientData["password"],
+		"createdAt":    existingClientData["createdAt"],
+		"updateAt":     updateAt,
+		"animals":      existingClientData["animals"],
+		"appointments": existingClientData["appointments"],
+		"id":           id,
+	}
+
+	// Execute the update query
+	if _, err := db.Query(updateQuery, values); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(200).JSON(existingClientData)
 }
 
 func DeleteClient(c *fiber.Ctx) error {
 	id := c.Query("id")
+	if id == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "No ID"})
+	} else {
+		checker := utils.IsValidClientString(id)
+		if !checker {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Not a valid id"})
+		}
+	}
 
 	db := database.ConnectDb()
 	defer db.Close()
