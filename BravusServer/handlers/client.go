@@ -38,12 +38,12 @@ func RegisterClient(c *fiber.Ctx) error {
 	// Construct and execute the query with placeholders and a map for the values
 	query := "CREATE Client CONTENT {name: $name, email: $email, password: $password, phone: $phone, createdAt: $createdAt, updateAt: $updateAt, animals: $animals, appointments: $appointments}"
 	values := map[string]interface{}{
-		"name":         client.Name,
-		"email":        client.Email,
-		"password":     client.Password,
-		"phone":        client.Phone,
 		"createdAt":    createdAt,
 		"updateAt":     createdAt,
+		"name":         client.Name,
+		"phone":        client.Phone,
+		"email":        client.Email,
+		"password":     client.Password,
 		"animals":      client.Animals,
 		"appointments": client.Appointments,
 	}
@@ -56,6 +56,18 @@ func RegisterClient(c *fiber.Ctx) error {
 	return c.Status(200).JSON(client)
 }
 
+// LoginClient handles the login request for a client.
+// It expects a JSON payload with the following structure:
+//
+//	{
+//	  "email": "user@example.com",
+//	  "password": "password123"
+//	}
+//
+// It retrieves the client from the database based on the provided email,
+// verifies the password, and generates a JWT token if the login is successful.
+// The token is returned in the response along with the client ID.
+// If the email or password is invalid, it returns an error response.
 func LoginClient(c *fiber.Ctx) error {
 	var input struct {
 		Email    string `json:"email"`
@@ -168,10 +180,15 @@ func GetClient(c *fiber.Ctx) error {
 	return c.Status(200).JSON(response)
 }
 
-// UpdateClient updates a client's information in the database based on the provided ID.
-// It expects a JSON payload containing the updated client information in the request body.
-// The updated client information includes the name, email, and phone number.
-// It returns the updated client information as a JSON response.
+// UpdateClient updates the client information in the database based on the provided ID.
+// It expects a query parameter 'id' to be passed in the request URL.
+// If the 'id' is empty or not a valid ID, it returns a JSON response with an error message.
+// It fetches the existing client data from the database using the provided ID.
+// If the client is not found, it returns a JSON response with an error message.
+// It parses the request body into a client struct and updates the corresponding fields in the existing client data.
+// It updates the 'updateAt' field with the current timestamp.
+// It builds an update query and executes it to update the client information in the database.
+// Finally, it returns a JSON response with the updated client data.
 func UpdateClient(c *fiber.Ctx) error {
 	id := c.Query("id")
 	if id == "" {
@@ -247,15 +264,15 @@ func UpdateClient(c *fiber.Ctx) error {
 	// Build the update query
 	updateQuery := "UPDATE $id CONTENT {name: $name, email: $email, phone: $phone, password: $password, createdAt: $createdAt, updateAt: $updateAt, animals: $animals, appointments: $appointments}"
 	values := map[string]interface{}{
-		"name":         existingClientData["name"],
-		"email":        existingClientData["email"],
-		"phone":        existingClientData["phone"],
-		"password":     existingClientData["password"],
+		"id":           id,
 		"createdAt":    existingClientData["createdAt"],
 		"updateAt":     updateAt,
+		"name":         existingClientData["name"],
+		"phone":        existingClientData["phone"],
+		"email":        existingClientData["email"],
+		"password":     existingClientData["password"],
 		"animals":      existingClientData["animals"],
 		"appointments": existingClientData["appointments"],
-		"id":           id,
 	}
 
 	// Execute the update query
