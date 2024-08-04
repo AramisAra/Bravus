@@ -21,6 +21,7 @@ func RegisterClient(c *fiber.Ctx) error {
 
 	db := database.ConnectDb()
 	defer db.Close()
+
 	var client models.Client
 	createdAt := time.Now().Format(time.RFC3339)
 
@@ -78,7 +79,7 @@ func LoginClient(c *fiber.Ctx) error {
 	}
 
 	db := database.ConnectDb()
-	defer db.Close() // Ensure the database connection is closed after the query
+	defer db.Close()
 
 	// Query for the client by email
 	query := `SELECT * FROM Client WHERE email = $email`
