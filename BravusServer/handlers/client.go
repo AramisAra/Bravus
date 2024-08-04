@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/AramisAra/BravusServer/config"
@@ -225,12 +224,10 @@ func UpdateClient(c *fiber.Ctx) error {
 
 	// Extract the existing client data from the nested structure
 	existingData, ok := results[0]["result"].([]interface{})
-	fmt.Print(results)
 	if !ok || len(existingData) == 0 {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Invalid client data format"})
 	}
 	existingClientData, ok := existingData[0].(map[string]interface{})
-	fmt.Print(existingClientData)
 	if !ok {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Invalid client data format"})
 	}
