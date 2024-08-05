@@ -22,82 +22,103 @@ func RegisterOwner(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"Error": err.Error()})
 	}
 
-	hashedPassword, err := utils.HashPassword(owner.Password)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"Error": "Failed to crypt"})
+	// Check if the email is already in use
+	emailCheckQuery := `SELECT * FROM Client, Owner WHERE email = $email`
+	emailCheckValues := map[string]interface{}{
+		"email": owner.Email,
 	}
 
-	owner.Password = hashedPassword
-
-	query := "CREATE Owner CONTENT {createdAt: $createdAt, updateAt: $updateAt name: $name, phone: $phone, email: $email, password, $password, carrer: $carrer, appointments: $appointments}"
-	params := map[string]interface{}{
-		"createdAt":    createdAt,
-		"updateAt":     createdAt,
-		"name":         owner.Name,
-		"phone":        owner.Phone,
-		"email":        owner.Email,
-		"password":     owner.Password,
-		"carrer":       owner.Career,
-		"appointments": owner.Appointments,
-	}
-
-	_, err = db.Query(query, params)
+	emailCheckResponse, err := db.Query(emailCheckQuery, emailCheckValues)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	return c.Status(200).JSON(owner)
-}
-
-func LoginOwner(c *fiber.Ctx) error {
-	var input struct {
-		Email    string `json:"email"`
-		Password string `json:"password"`
-	}
-
-	if err := c.BodyParser(&input); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
-	}
-
-	db := database.ConnectDb()
-	defer db.Close()
-
-	query := "SELECT * FROM Owner WHERE email: $email"
-	params := map[string]interface{}{
-		"email": input.Email,
-	}
-
-	response, err := db.Query(query, params)
-	if err != nil {
+	// Assuming response is a JSON array, unmarshal into a slice of maps
+	var emailCheckResult []map[string]interface{}
+	if err := surrealdb.Unmarshal(emailCheckResponse, &emailCheckResult); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	var results []map[string]interface{}
-	if err := surrealdb.Unmarshal(response, &results); err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": err.Error()})
-	}
+	resultData, ok := emailCheckResult[0]["result"].([]interface{})
+	if !ok || len(resultData) == 0 {
+		hashedPassword, err := utils.HashPassword(owner.Password)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"Error": "Failed to crypt"})
+		}
 
-	if len(results) == 0 {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid email or password"})
-	}
+		owner.Password = hashedPassword
 
-	// Extract the password from the nested structure
-	data, ok := results[0]["result"].([]interface{})
-	if !ok || len(data) == 0 {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid email or password"})
-	}
+		query := "CREATE Owner CONTENT {createdAt: $createdAt, updateAt: $updateAt, name: $name, phone: $phone, email: $email, password: $password, career: $career, appointments: $appointments}"
+		params := map[string]interface{}{
+			"createdAt":    createdAt,
+			"updateAt":     createdAt,
+			"name":         owner.Name,
+			"phone":        owner.Phone,
+			"email":        owner.Email,
+			"password":     owner.Password,
+			"carrer":       owner.Career,
+			"appointments": owner.Appointments,
+		}
 
-	ownerData, ok := data[0].(map[string]interface{})
-	if !ok {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "password retrieval error"})
-	}
+		_, err = db.Query(query, params)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		}
 
-	storedPassword, ok := ownerData["password"].(string)
-	if !ok {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "password retrieval error"})
+		return c.Status(200).JSON(owner)
 	}
-
-	if err := utils.ComparePasswords(storedPassword, input.Password); err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid email or password"})
-	}
+	return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "email already exist"})
 }
+
+// func LoginOwner(c *fiber.Ctx) error {
+// 	var input struct {
+// 		Email    string `json:"email"`
+// 		Password string `json:"password"`
+// 	}
+
+// 	if err := c.BodyParser(&input); err != nil {
+// 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+// 	}
+
+// 	db := database.ConnectDb()
+// 	defer db.Close()
+
+// 	query := "SELECT * FROM Owner WHERE email: $email"
+// 	params := map[string]interface{}{
+// 		"email": input.Email,
+// 	}
+
+// 	response, err := db.Query(query, params)
+// 	if err != nil {
+// 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+// 	}
+
+// 	var results []map[string]interface{}
+// 	if err := surrealdb.Unmarshal(response, &results); err != nil {
+// 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": err.Error()})
+// 	}
+
+// 	if len(results) == 0 {
+// 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid email or password"})
+// 	}
+
+// 	// Extract the password from the nested structure
+// 	data, ok := results[0]["result"].([]interface{})
+// 	if !ok || len(data) == 0 {
+// 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid email or password"})
+// 	}
+
+// 	ownerData, ok := data[0].(map[string]interface{})
+// 	if !ok {
+// 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "password retrieval error"})
+// 	}
+
+// 	storedPassword, ok := ownerData["password"].(string)
+// 	if !ok {
+// 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "password retrieval error"})
+// 	}
+
+// 	if err := utils.ComparePasswords(storedPassword, input.Password); err != nil {
+// 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid email or password"})
+// 	}
+// }
