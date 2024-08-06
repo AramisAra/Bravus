@@ -11,3 +11,9 @@ func IsValidClientString(id string) bool {
 	rege := regexp.MustCompile(pattern)
 	return rege.MatchString(id)
 }
+
+func IsValidOwnerString(id string) bool {
+	pattern := os.Getenv("ClientIDPattern")
+	rege := regexp.MustCompile(pattern)
+	return rege.MatchString(id)
+}

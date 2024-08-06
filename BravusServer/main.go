@@ -2,9 +2,15 @@ package main
 
 import (
 	handlers "github.com/AramisAra/BravusServer/handlers"
+	middlewares "github.com/AramisAra/BravusServer/middleware"
 	"github.com/AramisAra/BravusServer/utils"
 	"github.com/gofiber/fiber/v2"
 )
+
+func testRoutes(app *fiber.App) {
+	test := app.Group("/test", middlewares.NewAuthMiddleware())
+	test.Get("/protected", handlers.Protected)
+}
 
 func databaseRoutes(app *fiber.App) {
 	// Client Routes
@@ -21,6 +27,11 @@ func databaseRoutes(app *fiber.App) {
 	// Owner Routes
 	owner := app.Group("/owner")
 	owner.Post("/create", handlers.RegisterOwner)
+	owner.Post("/login", handlers.LoginOwner)
+	owner.Get("/Get", handlers.ListOwner)
+	owner.Get("/get", handlers.GetOwner)
+	owner.Put("/update", handlers.UpdateOwner)
+	owner.Delete("/delete", handlers.DeleteOwner)
 }
 
 func main() {
@@ -35,6 +46,7 @@ func main() {
 	})
 
 	databaseRoutes(server)
+	testRoutes(server)
 
 	server.Listen(":8010")
 }

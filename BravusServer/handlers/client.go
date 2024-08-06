@@ -218,9 +218,6 @@ func UpdateClient(c *fiber.Ctx) error {
 	if err := surrealdb.Unmarshal(response, &results); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-	if len(results) == 0 {
-		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Client not found"})
-	}
 
 	// Extract the existing client data from the nested structure
 	existingData, ok := results[0]["result"].([]interface{})
