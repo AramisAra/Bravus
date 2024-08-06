@@ -85,7 +85,7 @@ func LoginOwner(c *fiber.Ctx) error {
 	db := database.ConnectDb()
 	defer db.Close()
 
-	query := "SELECT * FROM Owner WHERE email: $email"
+	query := "SELECT * FROM Owner WHERE email = $email"
 	params := map[string]interface{}{
 		"email": input.Email,
 	}
