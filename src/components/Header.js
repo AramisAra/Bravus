@@ -71,7 +71,7 @@ const Header = () => {
           Contact Us
         </Link>
       </div> 
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center">
         {isLoggedIn ? (
           <button 
           onClick={handleLogout} 
@@ -94,32 +94,28 @@ const Header = () => {
             <Link 
             to="/signup" 
             className="
-            relative flex right-8 rounded-3xl h-[50px] sm:w-[50px] md:w-[100px] lg:w-[150px] xl:w-[200px]] 2xl:w-[200px] items-center justify-center overflow-visible bg-gray-800 text-white shadow-2xl transition-all duration-500 
-            before:absolute before:bg-purple-800 before:bottom-0 before:left-0 before:h-full before:w-full before:rounded before:scale-y-[0.35] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500
+              relative flex items-center justify-center h-[50px] sm:w-[50px] md:w-[100px] lg:w-[150px] xl:w-[150px] 2xl:w-[150px] text-lg group right-8 rounded-3xl overflow-visible transition-all duration-500
             "
             >
-              <span 
-              className="
-              relative z-10
-              "
-              >
-              Register
+              <span className="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-white transition-colors duration-300 ease-out border-1 border-black rounded-lg group-hover:text-white">
+                <span className="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-gray-800"></span>
+                <span className="absolute left-0 w-48 h-48 -ml-2 transition-all duration-300 origin-top-right -rotate-90 -translate-x-full translate-y-12 bg-Purple group-hover:-rotate-180 ease"></span>
+                <span className="relative">Register</span>
               </span>
+              <span className="absolute bottom-[2px] right-4 w-[110px] h-10 -mb-1 -mr-1 transition-all duration-200 ease-linear bg-Purple rounded-lg group-hover:mb-1 group-hover:mr-1"></span>
             </Link>
             <Link
             to="/login" 
             className="
-            relative flex right-8 rounded-3xl h-[50px] sm:w-[50px] md:w-[100px] lg:w-[150px] xl:w-[200px] 2xl:w-[200px] items-center justify-center overflow-visible bg-gray-800 text-white shadow-2xl transition-all duration-500 
-            before:absolute before:bg-purple-800 before:bottom-0 before:left-0 before:h-full before:w-full before:rounded before:scale-y-[0.35] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500
+            relative flex items-center justify-center h-[50px] sm:w-[50px] md:w-[100px] lg:w-[150px] xl:w-[200px] 2xl:w-[200px] text-lg group right-8 rounded-3xl overflow-visible transition-all duration-500
             "
             >
-              <span 
-              className="
-              relative z-10
-              "
-              >
-              Login
+              <span className="relative w-[110px] z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-white transition-colors duration-300 ease-out border-1 border-black rounded-lg group-hover:text-white">
+                <span className="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-gray-800"></span>
+                <span className="absolute left-0 w-48 h-48 -ml-2 transition-all duration-300 origin-top-right -rotate-90 -translate-x-full translate-y-12 bg-Purple group-hover:-rotate-180 ease"></span>
+                <span className="relative left-2">Login</span>
               </span>
+              <span className="absolute bottom-[2px] right-10 w-[110px] h-10 -mb-1 -mr-1 transition-all duration-200 ease-linear bg-Purple rounded-lg group-hover:mb-1 group-hover:mr-1"></span>
             </Link>
           </>
         )}
