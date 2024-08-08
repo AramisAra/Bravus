@@ -10,6 +10,7 @@ const HeaderLayout = ({ children }) => {
         
         {children}
       </main>
+      <Footer/>
       </div>
   );
 };
