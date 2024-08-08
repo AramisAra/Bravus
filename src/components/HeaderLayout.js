@@ -5,12 +5,11 @@ import Footer from './Footer';
 const HeaderLayout = ({ children }) => {
   return (
       <div>
-      <Header />
-      <main className="relative z-10">
-        
-        {children}
-      </main>
-      <Footer/>
+        <Header />
+        <main className="relative z-10">
+          {children}
+        </main>
+        <Footer/>
       </div>
   );
 };
