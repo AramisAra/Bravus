@@ -8,21 +8,27 @@ import '../styles/home.css'; // Ensure you have this CSS file
 
 function Home() {
     return (
-        <body className="font-kanit text-lg text-white bg-gray-800 dark:bg-gray-900">
+        <body className="font-kanit text-lg text-white bg-gray-800">
             <main>
-                <section className="relative pt-20 pb-8 personal-wrapper overflow-hidden bg-purple-500/5 text-center" id="home">
-                    <div className="container mx-auto">
-                        <div className="flex flex-col items-center">
-                            <h4 className="font-bold lg:text-[48px] text-4xl lg:leading-normal leading-normal mb-4 text-purple-500">
-                                Welcome to
-                                <span className="index-module_type__E-SaG typewrite"> Bravus</span>
-                            </h4>
-                            <p className="text-gray-400 max-w-xl mx-auto lg:text-[20px]">
-                                Your premier seamless appointment scheduler.
-                            </p>
+                <section class="relative overflow-hidden md:py-48 py-40 bg-Purple/5" id="home">
+                    <div class="container relative mt-8">
+                        <div class="flex space-x-4 justify-between">
+                            <div class="">
+                                <h1 class="font-semibold lg:leading-normal leading-normal tracking-wide text-4xl lg:text-5xl mb-5">Get Creative &amp; Modern With Upcover</h1>
+                                <p class="text-slate-400 text-lg max-w-xl">This is just a simple text made for this unique and awesome template, you can replace it with any text.</p>
+                                <div class="mt-6">
+                                    <a href="" class="h-10 px-6 tracking-wide inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white">Contact Us <i class="mdi mdi-chevron-right ms-1"></i></a>
+                                </div>
+                            </div>
+                            <div class="lg:ms-8">
+                                <div class="relative">
+                                    <img src="https://shreethemes.in/upcover/layouts/assets/images/design-team.svg" class="relative top-16" alt=""/>
+                                    <div class="overflow-hidden absolute md:size-[500px] size-[400px] bg-gradient-to-tl to-teal-500/20 via-teal-500/70 from-teal-500 bottom-1/2 translate-y-1/2 md:start-0 start-1/2 ltr:md:translate-x-0 ltr:-translate-x-1/2 rtl:md:translate-x-0 rtl:translate-x-1/2 -z-1 shadow-md shadow-teal-500/10 rounded-full"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </section>
+                </section>sss
 
                 <section id="about" className="relative md:py-24 py-16 bg-gray-700 text-center">
                     <div className="container mx-auto">
