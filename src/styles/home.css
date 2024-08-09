@@ -558,4 +558,7 @@ img {
     content: "\F0142";
 } 
 
+.custom-position {
+  object-position: 0%  0px;
+}
 

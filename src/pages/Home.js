@@ -35,7 +35,7 @@ function Home() {
                             </div>
                             <div class="lg:ms-8">
                                 <div class="relative">
-                                    <img src={ProductPic} class="relative scale-120 border-4 rounded-xl border-Purple shadow-2xl" alt=""/>
+                                    <img src={ProductPic} class="relative scale-120 border-4 rounded-xl border-Purple shadow-2xl object-fit h-[450px] w-[2000px]  m-[5px]" alt=""/>
                                     <div class="overflow-hidden absolute md:size-[500px] size-[400px] bg-gradient-to-tl to-teal-500/20 via-teal-500/70 from-teal-500 bottom-1/2 translate-y-1/2 md:start-0 start-1/2 ltr:md:translate-x-0 ltr:-translate-x-1/2 rtl:md:translate-x-0 rtl:translate-x-1/2 -z-1 shadow-md shadow-teal-500/10 rounded-full"></div>
                                 </div>
                             </div>
