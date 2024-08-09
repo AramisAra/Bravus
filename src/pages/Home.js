@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Yene from '../assets/Yene.png';
 import Sean from '../assets/Sean.png';
-import Aramis from '../assets/Aramis.png'; // Ensure the logo path is correct
+import Aramis from '../assets/Aramis.png';
+import ProductPic from '../assets/ProductPic.png'; // Ensure the logo path is correct
 
 import '../styles/home.css'; // Ensure you have this CSS file
 
@@ -14,23 +15,35 @@ function Home() {
                     <div class="container relative mt-8">
                         <div class="flex space-x-4 justify-between">
                             <div class="">
-                                <h1 class="font-semibold lg:leading-normal leading-normal tracking-wide text-4xl lg:text-5xl mb-5">Get Creative &amp; Modern With Upcover</h1>
-                                <p class="text-slate-400 text-lg max-w-xl">This is just a simple text made for this unique and awesome template, you can replace it with any text.</p>
+                                <h1 class="font-semibold lg:leading-normal leading-normal tracking-wide text-4xl lg:text-5xl mb-5">Use One Modern, Fast, and Easy to Use Tool</h1>
+                                <p class="text-slate-400 text-lg max-w-xl"> Bravus has the ability to oragize appointments, make spreadsheets, make tables and graphics, and all in a simple to use dashboard</p>
                                 <div class="mt-6">
-                                    <a href="" class="h-10 px-6 tracking-wide inline-flex items-center justify-center font-medium rounded-md bg-teal-500 text-white">Contact Us <i class="mdi mdi-chevron-right ms-1"></i></a>
+                                    <Link
+                                    to="/signup" 
+                                    className="
+                                    relative flex items-center justify-center h-[50px] sm:w-[50px] md:w-[100px] lg:w-[150px] xl:w-[200px] 2xl:w-[200px] text-lg group right-8 rounded-3xl overflow-visible transition-all duration-500
+                                    "
+                                    >
+                                    <span className="relative w-[110px] z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-white transition-colors duration-300 ease-out border-1 border-black rounded-lg group-hover:text-white">
+                                        <span className="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-gray-800"></span>
+                                        <span className="absolute left-0 w-48 h-48 -ml-2 transition-all duration-300 origin-top-right -rotate-90 -translate-x-full translate-y-12 bg-Purple group-hover:-rotate-180 ease"></span>
+                                        <span className="relative">Register</span>
+                                    </span>
+                                    <span className="absolute bottom-[2px] right-10 w-[110px] h-10 -mb-1 -mr-1 transition-all duration-200 ease-linear bg-Purple rounded-lg group-hover:mb-1 group-hover:mr-1"></span>
+                                    </Link>
                                 </div>
                             </div>
                             <div class="lg:ms-8">
                                 <div class="relative">
-                                    <img src="https://shreethemes.in/upcover/layouts/assets/images/design-team.svg" class="relative top-16" alt=""/>
+                                    <img src={ProductPic} class="relative scale-120 border-4 rounded-xl border-Purple shadow-2xl" alt=""/>
                                     <div class="overflow-hidden absolute md:size-[500px] size-[400px] bg-gradient-to-tl to-teal-500/20 via-teal-500/70 from-teal-500 bottom-1/2 translate-y-1/2 md:start-0 start-1/2 ltr:md:translate-x-0 ltr:-translate-x-1/2 rtl:md:translate-x-0 rtl:translate-x-1/2 -z-1 shadow-md shadow-teal-500/10 rounded-full"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>sss
+                </section>
 
-                <section id="about" className="relative md:py-24 py-16 bg-gray-700 text-center">
+                <section id="about" className="relative md:py-24 py-16 bg-gray-700 text-center rounded-full">
                     <div className="container mx-auto">
                         <div className="grid md:grid-cols-1 grid-cols-1 items-center gap-[30px]">
                             <div>
