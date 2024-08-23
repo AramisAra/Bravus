@@ -10,30 +10,34 @@ import (
 	"golang.org/x/crypto/argon2"
 )
 
-func generateRandomBytes(n int) ([]byte, error) {
-	slice := make([]byte, n)
-	_, err := rand.Read(slice)
+// This generate a random slice of bytes for encoding use.
+// The numbers of bytes is define by
+// params: n - For the numbers of bytes
+func generateRandomBytes(numbersOfbytes int) ([]byte, error) {
+	byteSlice := make([]byte, numbersOfbytes)
+	_, err := rand.Read(byteSlice)
 	if err != nil {
 		return nil, err
 	}
-	return slice, nil
+	return byteSlice, nil
 }
 
+// This function hashes the password of the user
 func HashPassword(password string) (string, error) {
 	salt, err := generateRandomBytes(32)
 	if err != nil {
 		return "", nil
 	}
 
-	hash := argon2.IDKey([]byte(password), salt, 2, 64*1024, 2, 64)
+	hash := argon2.IDKey([]byte(password), salt, 4, 32*1024, 1, 16)
 	encodedHash := fmt.Sprintf("%s$%s", base64.RawStdEncoding.EncodeToString(salt),
 		base64.RawStdEncoding.EncodeToString(hash))
 
-	fmt.Print(encodedHash)
 	return encodedHash, nil
 }
 
-// This Compares the passwords
+// This Compares the passwords of the user.
+// It use the hash stored in the database and the give password.
 func ComparePasswords(hashedPassword, plainPassword string) error {
 	parts := strings.Split(hashedPassword, "$")
 	if len(parts) != 2 {
@@ -45,7 +49,7 @@ func ComparePasswords(hashedPassword, plainPassword string) error {
 		return err
 	}
 
-	hash := argon2.IDKey([]byte(plainPassword), salt, 2, 64*1024, 2, 64)
+	hash := argon2.IDKey([]byte(plainPassword), salt, 4, 32*1024, 1, 16)
 	expectedHash := parts[1]
 	actualHash := base64.RawStdEncoding.EncodeToString(hash)
 
