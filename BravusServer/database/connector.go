@@ -3,17 +3,17 @@ package database
 import "github.com/surrealdb/surrealdb.go"
 
 func ConnectDb() surrealdb.DB {
-	db, err := surrealdb.New("ws://172.24.195.132:3000/rpc")
+	db, err := surrealdb.New("ws://0.0.0.0:8000/rpc")
 	if err != nil {
 		panic(err)
 	}
 
 	db.Signin(map[string]interface{}{
-		"user": "ara",
-		"pass": "ara2454",
+		"user": "Dev",
+		"pass": "Ara",
 	})
 
-	db.Use("test", "test")
+	db.Use("Build", "Dev")
 
 	return *db
 }
