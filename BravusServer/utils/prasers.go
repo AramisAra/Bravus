@@ -1,19 +1,23 @@
 package utils
 
 import (
-	"os"
 	"regexp"
+
+	"github.com/AramisAra/BravusServer/config"
 )
 
-// This Prasers to insure that the ClientId is a valid Format
+// This function is the Praser for clientID.
+// It uses regexp to parsers the ID to insure
+// it's a valid ID.
 func IsValidClientString(id string) bool {
-	pattern := os.Getenv("ClientIDPattern")
-	rege := regexp.MustCompile(pattern)
+	rege := regexp.MustCompile(config.CPattern)
 	return rege.MatchString(id)
 }
 
+// This function is the Praser for ownerID.
+// It uses regexp to parsers the ID to insure
+// it's a valid ID.
 func IsValidOwnerString(id string) bool {
-	pattern := os.Getenv("ClientIDPattern")
-	rege := regexp.MustCompile(pattern)
+	rege := regexp.MustCompile(config.OPattern)
 	return rege.MatchString(id)
 }
