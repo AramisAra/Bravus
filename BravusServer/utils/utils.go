@@ -6,7 +6,8 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func GetDot(){
+// Will load ".env" file into the server
+func GetDot() {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading the Env: ", err)
