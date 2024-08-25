@@ -12,7 +12,17 @@ import (
 	"github.com/surrealdb/surrealdb.go"
 )
 
-// This function is for making
+// This function register client with the infomation give.
+// the function will check if the user's email is in use.
+/*
+	The infomation needed is the following
+	{
+		"Name": "Example name"
+		"Phone": "123-456-7890"
+		"Email": "example@gmail.com"
+		"Password": "1234pasword"
+	}
+*/
 func RegisterClient(c *fiber.Ctx) error {
 
 	db := database.ConnectDb()
@@ -127,7 +137,7 @@ func LoginClient(c *fiber.Ctx) error {
 	}
 
 	if err := utils.ComparePasswords(storedPassword, input.Password); err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid email or password"})
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "invalid password"})
 	}
 
 	clientid := clientData["id"].(string)
@@ -162,6 +172,7 @@ func ListClient(c *fiber.Ctx) error {
 	return c.Status(200).JSON(response)
 }
 
+// This function gets the client base on the give ID
 func GetClient(c *fiber.Ctx) error {
 	id := c.Query("id")
 	if id == "" {
