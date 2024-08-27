@@ -12,6 +12,18 @@ import (
 	"github.com/surrealdb/surrealdb.go"
 )
 
+// This function register owners with the infomation give.
+// the function will check if the user's email is in use.
+/*
+	The infomation needed is the following
+	{
+		"Name": "Example name"
+		"Career": "grooming"
+		"Phone": "123-456-7890"
+		"Email": "example@gmail.com"
+		"Password": "1234pasword"
+	}
+*/
 func RegisterOwner(c *fiber.Ctx) error {
 
 	db := database.ConnectDb()
@@ -72,6 +84,13 @@ func RegisterOwner(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "email already exist"})
 }
 
+// LoginOwner handles the login request for a owners.
+// It expects a JSON payload with the following structure:
+//
+//	{
+//	  "email": "user@example.com",
+//	  "password": "password123"
+//	}
 func LoginOwner(c *fiber.Ctx) error {
 	var input struct {
 		Email    string `json:"email"`
@@ -150,6 +169,7 @@ func ListOwner(c *fiber.Ctx) error {
 	return c.Status(200).JSON(response)
 }
 
+// Gets the owner base on their ID
 func GetOwner(c *fiber.Ctx) error {
 	id := c.Query("id")
 	if id == "" {
@@ -269,6 +289,7 @@ func UpdateOwner(c *fiber.Ctx) error {
 	return c.Status(200).JSON(existingOwnerData)
 }
 
+// This delete owner base on the give ID
 func DeleteOwner(c *fiber.Ctx) error {
 	id := c.Query("id")
 	if id == "" {
