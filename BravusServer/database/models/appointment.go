@@ -1,6 +1,6 @@
 package models
 
-// Models for the appointment table
+// This struct defines the appointment table
 type Appointment struct {
 	Base
 	ID       string `json:"id,omitempty"`

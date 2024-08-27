@@ -1,5 +1,6 @@
 package models
 
+// This struct defines the service table
 type Service struct {
 	Base
 	ID          string  `json:"id,omitempty"`

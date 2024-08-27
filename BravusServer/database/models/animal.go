@@ -1,5 +1,6 @@
 package models
 
+// This struct defines the animal table
 type Animal struct {
 	Base
 	ID      string `json:"id,omitempty"`
