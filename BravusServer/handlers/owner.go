@@ -37,7 +37,7 @@ func RegisterOwner(c *fiber.Ctx) error {
 	}
 
 	// Check if the email is already in use
-	emailCheckQuery := `SELECT * FROM Owner, Owner WHERE email = $email`
+	emailCheckQuery := `SELECT * FROM Owner, Client WHERE email = $email`
 	emailCheckValues := map[string]interface{}{
 		"email": owner.Email,
 	}
