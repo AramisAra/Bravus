@@ -8,8 +8,7 @@ import (
 )
 
 func testRoutes(app *fiber.App) {
-	test := app.Group("/test", middlewares.NewAuthMiddleware())
-	test.Get("/protected", handlers.Protected)
+	app.Get("/protected", middlewares.Protected(), handlers.Protected)
 }
 
 func databaseRoutes(app *fiber.App) {

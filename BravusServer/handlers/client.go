@@ -7,8 +7,8 @@ import (
 	"github.com/AramisAra/BravusServer/database"
 	"github.com/AramisAra/BravusServer/database/models"
 	"github.com/AramisAra/BravusServer/utils"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/surrealdb/surrealdb.go"
 )
 
@@ -142,12 +142,13 @@ func LoginClient(c *fiber.Ctx) error {
 
 	clientid := clientData["id"].(string)
 	clientemail := clientData["email"].(string)
-	claims := jwt.MapClaims{
-		"ID":    clientid,
-		"email": clientemail,
-		"exp":   time.Now().Add(time.Hour * 24).Unix(),
-	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	token := jwt.New(jwt.SigningMethodHS256)
+
+	claims := token.Claims.(jwt.MapClaims)
+	claims["ID"] = clientid
+	claims["email"] = clientemail
+	claims["expiration"] = time.Now().Add(time.Hour * 24).Unix()
+
 	t, err := token.SignedString([]byte(config.Secret))
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "could not login"})
