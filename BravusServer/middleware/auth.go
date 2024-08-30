@@ -9,6 +9,7 @@ import (
 func Protected() func(*fiber.Ctx) error {
 	return jwtware.New(jwtware.Config{
 		SigningKey:   jwtware.SigningKey{Key: []byte(config.Secret)},
+		ContextKey:   "user",
 		ErrorHandler: jwtError,
 	})
 }
