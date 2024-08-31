@@ -31,6 +31,10 @@ func databaseRoutes(app *fiber.App) {
 	owner.Get("/get", handlers.GetOwner)
 	owner.Put("/update", handlers.UpdateOwner)
 	owner.Delete("/delete", handlers.DeleteOwner)
+
+	// Service Routes
+	service := app.Group("/service")
+	service.Post("/create", handlers.CreateService)
 }
 
 func main() {
