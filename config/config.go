@@ -10,5 +10,8 @@ var CPattern = os.Getenv("CIDPattern")
 // This contains the OwnerIDPattern
 var OPattern = os.Getenv("OIDPattern")
 
+// This contains the ServiceIDPattern
+var SPattern = os.Getenv("SIDPattern")
+
 // This contains JWT_Secret use to sign
 var Secret = os.Getenv("JWT_SECRET")

@@ -35,6 +35,9 @@ func databaseRoutes(app *fiber.App) {
 	// Service Routes
 	service := app.Group("/service")
 	service.Post("/create", handlers.CreateService)
+	service.Get("/Get", handlers.ListService)
+	service.Put("/update", handlers.UpdateService)
+	service.Delete("/delete", handlers.DeleteService)
 }
 
 func main() {
