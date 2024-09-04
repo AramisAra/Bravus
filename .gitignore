@@ -9,6 +9,8 @@ BackEnd/.tokens
 /.pnp
 .pnp.js
 .env
+/tmp
+/bin
 
 # testing
 /coverage
