@@ -54,6 +54,7 @@ func ResponseCreator(dbresp *db.UserModel) ClientResponse {
 		}
 }
 
+// Crypt Function
 //CRUD Endpoints
 
 func CreateUser(c *fiber.Ctx) error {
