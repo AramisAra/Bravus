@@ -1,3 +1,11 @@
 {
-    "git.ignoreLimitWarning": true
+  "git.ignoreLimitWarning": true,
+  "cSpell.words": [
+    "Aramis",
+    "dbmodels",
+    "dbresp",
+    "dgrijalva",
+    "gofiber",
+    "jwtware"
+  ]
 }
